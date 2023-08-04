@@ -1,0 +1,113 @@
+import Breadcrumbs from "@mui/joy/Breadcrumbs";
+import Link from "@mui/joy/Link";
+import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
+import ChevronRightIcon from "@heroicons/react/24/solid/ChevronRightIcon";
+import Typography from "@mui/joy/Typography";
+import ClockIcon from "@heroicons/react/24/outline/ClockIcon";
+import BuildingLibraryIcon from "@heroicons/react/24/outline/BuildingLibraryIcon";
+import DocumentCheckIcon from "@heroicons/react/24/outline/DocumentCheckIcon";
+import UserIcon from "@heroicons/react/24/outline/UserIcon";
+import React, {ReactNode} from "react";
+
+interface EnhancedBreadcrumbsProps {
+    pathname: string;
+}
+
+interface Icons {
+    [key: string]: ReactNode
+}
+
+const icons: Icons = {
+    'home': <HomeIcon className="h-5 w-5 ss-icon"/>,
+    'recent': <ClockIcon className="h-5 w-5 ss-icon"/>,
+    'profile': <UserIcon className="h-5 w-5 ss-icon"/>,
+    'library': <BuildingLibraryIcon className="h-5 w-5 ss-icon" style={{marginBottom: '1px'}}/>,
+    'learning-check': <DocumentCheckIcon className="h-5 w-5 ss-icon"/>
+}
+
+type BreadcrumbsParams = { name: string; url: string; }
+
+export default function EnhancedBreadcrumbs(props: EnhancedBreadcrumbsProps) {
+    const {pathname} = props;
+    let breadcrumbs: BreadcrumbsParams[] = [];
+    const breadcrumbItems = pathname.split('/');
+
+
+    breadcrumbItems.forEach((breadcrumb, index) => {
+        if (breadcrumb !== '') {
+            breadcrumbs.push({
+                name: breadcrumb.replaceAll('%20', ' '),
+                url: `${breadcrumbItems.slice(0, index + 1).join('/')}`
+            })
+        }
+    })
+
+
+    return (
+        <Breadcrumbs
+            size="sm"
+            aria-label="breadcrumbs"
+            separator={
+                <ChevronRightIcon className="h-4 w-4"/>
+            }
+            sx={{
+                '--Breadcrumbs-gap': '1rem',
+                fontWeight: 'lg',
+                color: 'neutral.400',
+                px: 0,
+            }}
+        >
+            <Link
+                underline="none"
+                color="neutral"
+                fontSize="inherit"
+                sx={{
+                    '&:hover': {
+                        color: 'primary.500'
+                    },
+                    '--Link-gap': '15px'
+                }}
+                href="/"
+                aria-label="Home"
+            >
+                <HomeIcon className="h-5 w-5 ss-icon"/>
+            </Link>
+            {
+                breadcrumbs.map((breadcrumb, index) => {
+                    return !(index === breadcrumbs.length - 1) ? (
+                        <Link
+                            key={index}
+                            underline="none"
+                            color="neutral"
+                            fontSize="inherit"
+                            sx={{
+                                textTransform: 'capitalize',
+                                '&:hover': {
+                                    color: 'primary.500'
+                                }
+                            }}
+                            href={breadcrumb.url}
+                            startDecorator={icons[breadcrumb.name] || <></>}
+                            aria-label="Home"
+                        >
+                            {breadcrumb.name}
+                        </Link>) : (
+                        <Typography
+                            key={index}
+                            sx={{
+                                textTransform: 'capitalize',
+                            }}
+                            startDecorator={icons[breadcrumb.name] || <></>}
+                            level="body-sm"
+                            variant="plain"
+                            fontWeight="inherit"
+                            color="primary">
+                            {breadcrumb.name}
+                        </Typography>
+                    )
+                })
+            }
+        </Breadcrumbs>
+
+    )
+}
