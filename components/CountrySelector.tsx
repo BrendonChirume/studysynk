@@ -6,6 +6,7 @@ import FormControl, {FormControlProps} from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import Typography from '@mui/joy/Typography';
+import Image from "next/image";
 
 export default function ContrySelector({sx, ...props}: FormControlProps) {
     return (
@@ -23,11 +24,11 @@ export default function ContrySelector({sx, ...props}: FormControlProps) {
                     <AutocompleteOption {...optionProps}>
                         <ListItemDecorator>
                             <AspectRatio ratio="1" sx={{minWidth: 20, borderRadius: '50%'}}>
-                                <img
+                                <Image
                                     loading="lazy"
-                                    width="20"
+                                    objectFit="contain"
+                                    layout="fill"
                                     src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                                    srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
                                     alt=""
                                 />
                             </AspectRatio>
