@@ -1,7 +1,7 @@
 "use client";
 import Box from '@mui/joy/Box';
 import Sidebar from '@/components/sidebar';
-import Header from '@/components/Header';
+import Header from '@/components/header';
 import {ReactNode} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import EnhancedBreadcrumbs from "@/components/breadcrumbs";
