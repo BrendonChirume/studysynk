@@ -179,7 +179,7 @@ export default function Sidebar({currentRoute, navigate}: SidebarProps) {
                         sx={{
                             display: {xs: 'none', lg: 'inline-block'}
                         }}>
-                        <Image src="/avatar.jpg" alt={'student avatar'} layout="fill" objectFit="contain"/>
+                        <Image src="/avatar.jpg" alt={'student avatar'} width={40} height={40}/>
                     </Avatar>
                     <Stack spacing={0.4}>
                         <Typography fontSize="sm" fontWeight="lg" noWrap>
