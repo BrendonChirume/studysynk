@@ -1,0 +1,220 @@
+{
+  "universities": [
+    {
+      "name": "Africa University",
+      "abbreviation": "AU"
+    },
+    {
+      "name": "Arrupe Jesuit University",
+      "abbreviation": "AJU"
+    },
+    {
+      "name": "Bindura University of Science Education",
+      "abbreviation": "BUSE"
+    },
+    {
+      "name": "Catholic University in Zimbabwe",
+      "abbreviation": "CUZ"
+    },
+    {
+      "name": "Chinhoyi University of Technology",
+      "abbreviation": "CUT"
+    },
+    {
+      "name": "Great Zimbabwe University",
+      "abbreviation": "GZU"
+    },
+    {
+      "name": "Gwanda State University",
+      "abbreviation": "GSU"
+    },
+    {
+      "name": "Harare Institute of Technology",
+      "abbreviation": "HIT"
+    },
+    {
+      "name": "Lupane State University",
+      "abbreviation": "LSU"
+    },
+    {
+      "name": "Manicaland State University of Applied Sciences",
+      "abbreviation": "MSUAS"
+    },
+    {
+      "name": "Marondera University of Agricultural Science & Technology",
+      "abbreviation": "MUAST"
+    },
+    {
+      "name": "Midlands State University",
+      "abbreviation": "MSU"
+    },
+    {
+      "name": "National University of Science and Technology, Zimbabwe",
+      "abbreviation": "NUST"
+    },
+    {
+      "name": "Reformed Church University",
+      "abbreviation": ""
+    },
+    {
+      "name": "Solusi University",
+      "abbreviation": ""
+    },
+    {
+      "name": "Sourthen Africa Methodist University",
+      "abbreviation": "SAMU"
+    },
+    {
+      "name": "University of Zimbabwe",
+      "abbreviation": "UZ"
+    },
+    {
+      "name": "Women's University in Africa",
+      "abbreviation": "WUA"
+    },
+    {
+      "name": "Zimbabwe Ezekiel Guti University",
+      "abbreviation": "ZEGU"
+    },
+    {
+      "name": "Zimbabwe Open University",
+      "abbreviation": "ZOU"
+    }
+  ],
+  "faculties": [
+    {
+      "name": "Faculty of Applied Sciences",
+      "programs": [
+        {
+          "name": "BSc (Hons) Degree in Applied Chemistry"
+        },
+        {
+          "name": "BSc (Hons) Degree in Applied Biology & Biochemistry"
+        },
+        {
+          "name": "BSc (Hons) Degree in Biotechnology"
+        },
+        {
+          "name": "BSc (Hons) Degree in Applied Physics"
+        },
+        {
+          "name": "BSc (Hons) Degree in Applied Mathematics"
+        },
+        {
+          "name": "BSc (Hons) Degree in Radiography"
+        },
+        {
+          "name": "BSc (Hons) Degree in Sport Science and Coaching"
+        },
+        {
+          "name": "BSc (Hons) Degree in Computer Science"
+        },
+        {
+          "name": "BSc (Hons) Degree in Earth Sciences"
+        },
+        {
+          "name": "BSc (Hons) in Operations Research and Statistics"
+        }
+      ]
+    },
+    {
+      "name": "Faculty of The Built Environment",
+      "programs": [
+        {
+          "name": "BSc (Hons) Degree in Architectural Studies"
+        },
+        {
+          "name": "BSc (Hons) Degree in Property Development and Estate Management"
+        },
+        {
+          "name": "BSc (Hons) Degree in Quantity Surveying"
+        }
+      ]
+    },
+    {
+      "name": "Faculty of Communication & Information Science",
+      "programs": [
+        {
+          "name": "BSc (Hons) Degree in Records and Archives Management"
+        },
+        {
+          "name": "BSc (Hons) Degree in Library and Information Science"
+        },
+        {
+          "name": "BSc (Hons) Degree in Publishing Media Studies"
+        },
+        {
+          "name": "BSc (Hons) Degree in Journalism and Media Studies"
+        }
+      ]
+    },
+    {
+      "name": "Faculty of Commerce",
+      "programs": [
+        {
+          "name": "BCom (Hons) Degree in Actuarial Science"
+        },
+        {
+          "name": "BCom (Hons) Degree in Accounting"
+        },
+        {
+          "name": "BCom (Hons) Degree in Banking and Investment Management"
+        },
+        {
+          "name": "BCom (Hons) Degree in Finance"
+        },
+        {
+          "name": "BCom (Hons) Degree in Fiscal Studies "
+        },
+        {
+          "name": "BCom (Hons) Degree in Management"
+        },
+        {
+          "name": "BCom (Hons) Degree in Marketing"
+        },
+        {
+          "name": "BCom (Hons) Degree in Risk Management and Insurance"
+        }
+      ]
+    },
+    {
+      "name": "Faculty of Engineering",
+      "programs": [
+        {
+          "name": "BEng (Hons) Honours Degree In Electronic Engineering"
+        },
+        {
+          "name": "BEng (Hons) Honours Degree In Industrial And Manufacturing Engineering"
+        },
+        {
+          "name": "BEng (Hons) Honours Degree In Civil and Water Engineering"
+        },
+        {
+          "name": "BEng (Hons) Honours Degree in Fibre and Polymer Materials Engineering"
+        }
+      ]
+    },
+    {
+      "name": "Faculty of Medicine",
+      "programs": [
+        {
+          "name": "BSc (Hons) Degree in Medicine and Bachelor of Surgery "
+        }
+      ]
+    },
+    {
+      "name": "Faculty of Science & Technology Education",
+      "programs": [
+        {
+          "name": "BDesEd (Hons) Degree in Art, Design and Technology Education"
+        },
+        {
+          "name": "BScEd (Hons) Degree in Mathematics and Technology Education"
+        },
+        {
+          "name": "BTechEd (Hons) Degree in Technical and Engineering Education "
+        }
+      ]
+    }
+  ]
+}
