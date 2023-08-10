@@ -1,34 +1,41 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Card, {CardProps} from '@mui/joy/Card';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
 import CloudArrowUpIcon from "@heroicons/react/24/outline/CloudArrowUpIcon";
+import { DropzoneArea } from 'material-ui-dropzone';
 
 export default function DropZone({sx, ...props}: CardProps) {
     return (
         <Card
-            variant="outlined"
+            variant="plain"
             {...props}
             sx={[
                 {
-                    borderRadius: 'sm',
+                    borderRadius: 'lg',
                     display: 'flex',
                     flexDirection: 'column',
+                    boxShadow: 'none',
+                    border: (theme) => `2px dashed ${theme.palette.background.level3}`,
+                    '&:hover': {
+                        bgcolor: 'background.level1',
+                        borderColor: 'background.surface'
+                    },
                     gap: 1,
                     alignItems: 'center',
                     px: 3,
+                    py: 4,
                     flexGrow: 1,
                 },
                 ...(Array.isArray(sx) ? sx : [sx]),
             ]}
         >
-            <Box sx={{p: 1, bgcolor: 'background.level1', borderRadius: '50%'}}>
+            <Box sx={{p: 1, bgcolor: 'background.level1', mb: 2, borderRadius: '50%'}}>
                 <Box
                     sx={{
-                        width: 32,
-                        height: 32,
+                        width: 50,
+                        height: 50,
                         borderRadius: '50%',
                         bgcolor: 'background.level2',
                         display: 'flex',
@@ -36,7 +43,7 @@ export default function DropZone({sx, ...props}: CardProps) {
                         justifyContent: 'center',
                     }}
                 >
-                    <CloudArrowUpIcon className="w-6 h-6 ss-icon"/>
+                    <CloudArrowUpIcon className="w-8 h-8 ss-icon"/>
                 </Box>
             </Box>
             <Typography level="body-md" textAlign="center">

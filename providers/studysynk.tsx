@@ -1,55 +1,52 @@
 "use client";
-import Box from '@mui/joy/Box';
-import Sidebar from '@/components/sidebar';
-import Header from '@/components/header';
-import {ReactNode} from "react";
+
+import Layout from "@/components/stracture";
+import Sidebar from "@/components/sidebar";
+import * as React from "react";
+import {store} from '@/redux/store'
+import {Provider} from 'react-redux'
 import {usePathname, useRouter} from "next/navigation";
+import Navbar from "@/components/navbar";
 import EnhancedBreadcrumbs from "@/components/breadcrumbs";
 
 interface StudySynkProps {
-    children: ReactNode;
+    children: React.ReactNode;
 }
 
 export default function Studysynk({children}: StudySynkProps) {
     const currentRoute = usePathname();
     const navigate = useRouter();
-
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [openFilter, setOpenFilter] = React.useState(false)
     return (
-        <>
-            <Box sx={{display: 'flex', minHeight: '100dvh'}}>
-                <Header/>
-                <Sidebar currentRoute={currentRoute} navigate={navigate.push}/>
-                <Box
-                    component="main"
-                    className="MainContent"
-                    sx={(theme) => ({
-                        '--main-paddingTop': {
-                            xs: `calc(${theme.spacing(2)} + var(--Header-height, 0px))`,
-                            md: '32px',
-                        },
-                        px: {
-                            xs: 2,
-                            md: 3,
-                        },
-                        pt: 'var(--main-paddingTop)',
-                        pb: {
-                            xs: 2,
-                            sm: 2,
-                            md: 3,
-                        },
-                        flex: 1,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        minWidth: 0,
-                        height: '100dvh',
-                        gap: 1,
-                        overflow: 'auto',
-                    })}
-                >
+        <Provider store={store}>
+            {drawerOpen && (
+                <Layout.SideDrawer onClose={() => setDrawerOpen(false)}>
+                    <Sidebar navigate={navigate.push} currentRoute={currentRoute}/>
+                </Layout.SideDrawer>
+            )}
+            <Layout.Root
+                sx={{
+                    gridTemplateColumns: openFilter ? "300px 1fr 280px" : "300px 1fr",
+                    ...(drawerOpen && {
+                        height: '100vh',
+                        overflow: 'hidden',
+                    }),
+                }}
+            >
+                <Layout.Header>
+                    <Navbar setDrawerOpen={setDrawerOpen}/>
+                </Layout.Header>
+                {/*<Box sx={{display: 'grid', gridTemplateColumns: {xs: '1fr', sm: '300px 1fr'}}}>*/}
+                <Layout.SideNav>
+                    <Sidebar navigate={navigate.push} currentRoute={currentRoute}/>
+                </Layout.SideNav>
+                <Layout.Main>
                     <EnhancedBreadcrumbs pathname={currentRoute}/>
                     {children}
-                </Box>
-            </Box>
-        </>
+                </Layout.Main>
+                {/*</Box>*/}
+            </Layout.Root>
+        </Provider>
     );
 }

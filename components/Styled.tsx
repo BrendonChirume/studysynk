@@ -8,7 +8,7 @@ const Item = (props: SheetProps) => {
             variant="outlined"
             {...props}
             sx={[{
-                borderRadius: 'sm',
+                borderRadius: 'lg',
                 p: 1,
                 listStyle: 'none',
             }, ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
@@ -43,7 +43,7 @@ const Header = (props: TypographyProps) => {
                 // `Webkit*` properties must come later.
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                my:2,
+                my: 2,
                 mx: 'auto',
             }, ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
             ]}/>

@@ -13,18 +13,6 @@ interface EnhancedBreadcrumbsProps {
     pathname: string;
 }
 
-interface Icons {
-    [key: string]: ReactNode
-}
-
-const icons: Icons = {
-    'home': <HomeIcon className="h-5 w-5 ss-icon"/>,
-    'recent': <ClockIcon className="h-5 w-5 ss-icon"/>,
-    'profile': <UserIcon className="h-5 w-5 ss-icon"/>,
-    'library': <BuildingLibraryIcon className="h-5 w-5 ss-icon" style={{marginBottom: '1px'}}/>,
-    'learning-check': <DocumentCheckIcon className="h-5 w-5 ss-icon"/>
-}
-
 type BreadcrumbsParams = { name: string; url: string; }
 
 export default function EnhancedBreadcrumbs(props: EnhancedBreadcrumbsProps) {
@@ -54,7 +42,7 @@ export default function EnhancedBreadcrumbs(props: EnhancedBreadcrumbsProps) {
                 '--Breadcrumbs-gap': '1rem',
                 fontWeight: 'lg',
                 color: 'neutral.400',
-                px: 0,
+                p: 0
             }}
         >
             <Link
@@ -87,7 +75,6 @@ export default function EnhancedBreadcrumbs(props: EnhancedBreadcrumbsProps) {
                                 }
                             }}
                             href={breadcrumb.url}
-                            startDecorator={icons[breadcrumb.name] || <></>}
                             aria-label="Home"
                         >
                             {breadcrumb.name}
@@ -97,7 +84,6 @@ export default function EnhancedBreadcrumbs(props: EnhancedBreadcrumbsProps) {
                             sx={{
                                 textTransform: 'capitalize',
                             }}
-                            startDecorator={icons[breadcrumb.name] || <></>}
                             level="body-sm"
                             variant="plain"
                             fontWeight="inherit"

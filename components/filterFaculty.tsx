@@ -14,13 +14,15 @@ interface FilterFacultyProps {
 
 export default function FilterFaculty(props: FilterFacultyProps) {
     const [value, setValue] = React.useState<string[]>([]);
+    const {handleSelect} = props
 
     const handleChipDelete = (select: string) => {
         const filtered = value.filter((val) => val !== select);
-        setValue(filtered)
+        setValue(filtered);
+        handleSelect(filtered)
     }
 
-    React.useEffect(() => props.handleSelect(value), [value])
+    console.log(value)
 
     return (
         <Box sx={{mt: 2}}>
@@ -32,6 +34,8 @@ export default function FilterFaculty(props: FilterFacultyProps) {
                 value={value}
                 disableListWrap
                 filterSelectedOptions
+                autoHighlight
+                autoCapitalize={"on"}
                 options={props.options}
                 onChange={(event, newValue, reason) => {
                     if (
@@ -42,6 +46,7 @@ export default function FilterFaculty(props: FilterFacultyProps) {
                         return;
                     }
                     setValue(newValue);
+                    handleSelect(newValue);
                 }}
                 renderTags={() => null}
                 renderOption={(props, option) => {

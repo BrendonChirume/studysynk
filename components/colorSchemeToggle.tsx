@@ -50,6 +50,9 @@ export default function ColorSchemeToggle(
                     '& > *:last-of-type': {
                         display: mode === 'light' ? 'none' : 'initial',
                     },
+                    '--IconButton-radius': '50%',
+                    width: 38,
+                    height: 38,
                 },
                 ...(Array.isArray(sx) ? sx : [sx]),
             ]}

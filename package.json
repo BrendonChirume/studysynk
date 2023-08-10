@@ -16,6 +16,7 @@
     "@mui/joy": "^5.0.0-beta.0",
     "@mui/material": "^5.14.3",
     "@prisma/client": "^5.1.1",
+    "@reduxjs/toolkit": "^1.9.5",
     "@sentry/nextjs": "^7.61.1",
     "@types/node": "20.4.7",
     "@types/react": "18.2.18",
@@ -28,6 +29,7 @@
     "pspdfkit": "^2023.3.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-redux": "^8.1.2",
     "typescript": "5.1.6"
   },
   "devDependencies": {

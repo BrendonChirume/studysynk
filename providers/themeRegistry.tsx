@@ -7,6 +7,11 @@ import {CssVarsProvider} from '@mui/joy/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import {ReactNode, useState} from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
+import theme from "@/utils/theme";
+import {
+    Experimental_CssVarsProvider as MaterialCssVarsProvider,
+    THEME_ID as MATERIAL_THEME_ID,
+} from '@mui/material/styles';
 
 interface ThemeRegistryProps {
     children: ReactNode;
@@ -58,50 +63,61 @@ export default function ThemeRegistry(props: ThemeRegistryProps) {
 
     return (
         <CacheProvider value={cache}>
-            <CssVarsProvider disableTransitionOnChange>
-                <CssBaseline/>
-                <GlobalStyles
-                    styles={(theme) => ({
-                        html: {
-                            // ...
-                        },
-                        body: {
-                            backgroundColor: `var(--Body-background, ${theme.vars.palette.background.body})`,
-                        },
-                        '.w-4': {
-                            width: '1rem',
-                        },
-                        '.w-5': {
-                            width: '1.25rem',
-                        },
-                        '.w-6': {
-                            width: '1.5rem',
-                        },
-                        '.w-7': {
-                            width: '1.75rem',
-                        },
-                        '.h-4': {
-                            height: '1rem',
-                        },
-                        '.h-5': {
-                            height: '1.25rem',
-                        },
-                        '.h-6': {
-                            height: '1.5rem',
-                        },
-                        '.h-7': {
-                            height: '1.75rem',
-                        },
-                        '.ss-icon': {
-                            color: `var(--Icon-color, ${theme.vars.palette.text})`,
-                            margin: 'var(--Icon-margin)',
-                            fontSize: `var(--Icon-fontSize, ${theme.vars.fontSize.xl})`,
-                        },
-                    })}
-                />
-                {/* the custom theme is optional */}
-                {children}
-            </CssVarsProvider>
+            <MaterialCssVarsProvider theme={{[MATERIAL_THEME_ID]: theme.muiTheme}}>
+                <CssVarsProvider disableTransitionOnChange theme={theme.joyTheme}>
+                    <CssBaseline/>
+                    <GlobalStyles
+                        styles={(theme) => ({
+                            '::-webkit-scrollbar': {
+                                width: 8
+                            },
+                            '::-webkit-scrollbar-thumb': {
+                                borderRadius: 8,
+                                backgroundColor: `var(--Body-background, ${theme.vars.palette.background.scrollbarThumb})`
+                            },
+                            '::-webkit-scrollbar-track': {
+                                backgroundColor: `var(--Body-background, ${theme.vars.palette.background.scrollbarTrack})`
+                            },
+                            body: {
+                                overflow: 'hidden',
+                                backgroundColor: `var(--Body-background, ${theme.vars.palette.background.body})`,
+                                fontFamily: `var(--Body-fontFamily, ${theme.vars.fontFamily})`,
+                            },
+                            '.w-4': {
+                                width: '1rem',
+                            },
+                            '.w-5': {
+                                width: '1.25rem',
+                            },
+                            '.w-6': {
+                                width: '1.5rem',
+                            },
+                            '.w-8': {
+                                width: '2rem',
+                            },
+                            '.h-4': {
+                                height: '1rem',
+                            },
+                            '.h-5': {
+                                height: '1.25rem',
+                            },
+                            '.h-6': {
+                                height: '1.5rem',
+                            },
+                            '.h-8': {
+                                height: '2rem',
+                            },
+                            '.ss-icon': {
+                                color: `var(--Icon-color, ${theme.vars.palette.text})`,
+                                margin: 'var(--Icon-margin)',
+                                fontSize: `var(--Icon-fontSize, ${theme.vars.fontSize.xl})`,
+                            },
+                        })}
+                    />
+                    {/* the custom theme is optional */}
+                    {children}
+                </CssVarsProvider>
+            </MaterialCssVarsProvider>
         </CacheProvider>
     );
 }
