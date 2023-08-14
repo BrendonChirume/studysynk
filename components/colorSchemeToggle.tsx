@@ -18,13 +18,18 @@ export default function ColorSchemeToggle(
     if (!mounted) {
         return (
             <IconButton
+                id="toggle-mode"
                 size="sm"
                 variant="outlined"
                 color="neutral"
-                {...props}
-                sx={sx}
-                disabled
-            />
+                sx={{
+                    '--IconButton-radius': '50%',
+                    width: 38,
+                    height: 38,
+                }}
+            >
+                <SunIcon className="w-5 h-5 ss-icon"/>
+            </IconButton>
         );
     }
     return (

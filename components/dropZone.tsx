@@ -4,7 +4,6 @@ import Card, {CardProps} from '@mui/joy/Card';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
 import CloudArrowUpIcon from "@heroicons/react/24/outline/CloudArrowUpIcon";
-import { DropzoneArea } from 'material-ui-dropzone';
 
 export default function DropZone({sx, ...props}: CardProps) {
     return (

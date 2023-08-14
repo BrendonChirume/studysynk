@@ -21,7 +21,7 @@ export default function MyProfile() {
                 gridTemplateColumns: {
                     xs: '100%',
                     sm: 'minmax(120px, 30%) 1fr',
-                    lg: '280px 1fr',
+                    lg: '320px 1fr',
                 },
                 columnGap: {xs: 2, sm: 3, md: 3},
                 rowGap: {xs: 2, sm: 4},

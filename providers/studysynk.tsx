@@ -17,7 +17,7 @@ export default function Studysynk({children}: StudySynkProps) {
     const currentRoute = usePathname();
     const navigate = useRouter();
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const [openFilter, setOpenFilter] = React.useState(false)
+    const [openFilter] = React.useState(false)
     return (
         <Provider store={store}>
             {drawerOpen && (
@@ -27,7 +27,10 @@ export default function Studysynk({children}: StudySynkProps) {
             )}
             <Layout.Root
                 sx={{
-                    gridTemplateColumns: openFilter ? "300px 1fr 280px" : "300px 1fr",
+                    gridTemplateColumns: openFilter ? {xs: '100%', md: "300px 1fr 280px"} : {
+                        xs: '100%',
+                        md: "300px 1fr"
+                    },
                     ...(drawerOpen && {
                         height: '100vh',
                         overflow: 'hidden',
@@ -37,7 +40,6 @@ export default function Studysynk({children}: StudySynkProps) {
                 <Layout.Header>
                     <Navbar setDrawerOpen={setDrawerOpen}/>
                 </Layout.Header>
-                {/*<Box sx={{display: 'grid', gridTemplateColumns: {xs: '1fr', sm: '300px 1fr'}}}>*/}
                 <Layout.SideNav>
                     <Sidebar navigate={navigate.push} currentRoute={currentRoute}/>
                 </Layout.SideNav>

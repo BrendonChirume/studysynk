@@ -10,7 +10,7 @@ function Root(props: BoxProps) {
                 [
                     {
                         display: 'grid',
-                        gridTemplateColumns: '1fr',
+                        gridTemplateColumns: '300px 1fr',
                         gridTemplateRows: '64px 1fr',
                         height: '100vh',
                     },
@@ -74,7 +74,7 @@ function SideNav(props: BoxProps) {
                         height: 'calc(100vh - 60px)',
                         display: {
                             xs: 'none',
-                            sm: 'initial',
+                            md: 'initial',
                         },
                     },
                     ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
@@ -88,7 +88,7 @@ function SideNav(props: BoxProps) {
 function SidePane(props: BoxProps) {
     return (
         <Box
-            className="Inbox"
+            className="Filter"
             {...
                 props
             }

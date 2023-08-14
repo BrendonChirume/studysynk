@@ -29,12 +29,8 @@ export default function PositionedMenu() {
                     }
                 }}
             >
-                <Avatar
-                    variant="outlined"
-                    sx={{
-                        display: {xs: 'none', lg: 'inline-block'}
-                    }}>
-                <Image src="/avatar.jpg" alt={'student avatar'} width={40} height={40}/>
+                <Avatar variant="outlined">
+                    <Image src="/avatar.jpg" alt={'student avatar'} width={40} height={40}/>
                 </Avatar>
             </MenuButton>
             <Menu placement="bottom-end" sx={{
