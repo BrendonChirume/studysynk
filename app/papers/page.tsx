@@ -12,9 +12,13 @@ import IconButton from "@mui/joy/IconButton";
 import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
 import ListBulletIcon from "@heroicons/react/24/outline/ListBulletIcon";
 import {useAppSelector} from "@/utils/reduxHooks";
+import {useFilter} from "@/containers/filterContext";
 
 export default function Library() {
     const programs: { name: string; }[] = useAppSelector(({papers}) => papers)
+    const {showFilter, isOpen} = useFilter();
+
+
 
     return (
         <Styled.Section>
@@ -29,6 +33,7 @@ export default function Library() {
                 >
                     <Button
                         color={"neutral"}
+                        onClick={() => showFilter(!isOpen)}
                         startDecorator={
                             <FunnelIcon className="h-4 w-4 ss-icon"/>
                         } size={"sm"} sx={{fontWeight: 'normal', py: 1, px: 2}}
@@ -47,7 +52,7 @@ export default function Library() {
                 <Grid container spacing={3} columns={{xs: 12, sm: 6, md: 12}}>
                     {
                         programs.map((paper, index) => (
-                            <Grid xs={6} md={3} lg={3} key={index}>
+                            <Grid xs={6} md={3} lg={isOpen?4:3} key={index}>
                                 <FileCard paper={paper}/>
                             </Grid>
                         ))

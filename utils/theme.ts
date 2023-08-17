@@ -25,9 +25,8 @@ const joyTheme = extendTheme({
     typography: {
         h5: {
             fontSize: '1rem',
-            fontWeight: 600,
+            fontWeight: 500,
             lineHeight: 1.2,
-            letterSpacing: '-0.01562em',
             fontFamily: inter.style.fontFamily,
             color: 'var(--joy-palette-text-primary, var(--joy-palette-neutral-800, #23272B))',
         }

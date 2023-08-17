@@ -3,11 +3,7 @@ import Link from "@mui/joy/Link";
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 import ChevronRightIcon from "@heroicons/react/24/solid/ChevronRightIcon";
 import Typography from "@mui/joy/Typography";
-import ClockIcon from "@heroicons/react/24/outline/ClockIcon";
-import BuildingLibraryIcon from "@heroicons/react/24/outline/BuildingLibraryIcon";
-import DocumentCheckIcon from "@heroicons/react/24/outline/DocumentCheckIcon";
-import UserIcon from "@heroicons/react/24/outline/UserIcon";
-import React, {ReactNode} from "react";
+import React from "react";
 
 interface EnhancedBreadcrumbsProps {
     pathname: string;
