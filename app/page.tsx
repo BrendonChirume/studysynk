@@ -22,12 +22,12 @@ export default function Home() {
                         <Grid container>
                             <Grid xs={7}>
                                 <Typography
-                                    level={"h3"}
+                                    sx={{pt: 2.5}}
                                     startDecorator={<BoltIcon className={"w-8 h-8 ss-icon"}/>}
-                                    fontSize="xx-large">
+                                    level={"h2"}>
                                     15 days!
                                 </Typography>
-                                <Typography sx={{pl: 6, fontWeight: '600', fontSize: '18px'}}>
+                                <Typography sx={{pl: 6, fontWeight: '500', fontSize: '18px'}}>
                                     Welcome back 👋 <br/>
                                     Brendon Chirume
                                 </Typography>
