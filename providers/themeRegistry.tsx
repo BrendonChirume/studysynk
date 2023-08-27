@@ -7,7 +7,7 @@ import {CssVarsProvider} from '@mui/joy/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import {ReactNode, useState} from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
-import theme from "@/utils/theme";
+import theme from "@/lib/utils/theme";
 import {
     Experimental_CssVarsProvider as MaterialCssVarsProvider,
     THEME_ID as MATERIAL_THEME_ID,
@@ -112,6 +112,7 @@ export default function ThemeRegistry(props: ThemeRegistryProps) {
                                 margin: 'var(--Icon-margin)',
                                 fontSize: `var(--Icon-fontSize, ${theme.vars.fontSize.xl})`,
                             },
+
                         })}
                     />
                     {/* the custom theme is optional */}
