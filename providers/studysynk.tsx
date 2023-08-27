@@ -17,7 +17,7 @@ import IconButton from "@mui/joy/IconButton";
 import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon";
 import Sheet from "@mui/joy/Sheet";
-import {AvatarGroup, Tab, TabList, Tabs} from "@mui/joy";
+import {AvatarGroup} from "@mui/joy";
 import Avatar from "@mui/joy/Avatar";
 import AspectRatio from "@mui/joy/AspectRatio";
 
@@ -54,7 +54,6 @@ export default function Studysynk({children}: StudySynkProps) {
             >
                 <Layout.Header>
                     <Navbar setDrawerOpen={setDrawerOpen}/>
-
                 </Layout.Header>
                 <Layout.SideNav>
                     <Sidebar navigate={navigate.push} currentRoute={currentRoute}/>
@@ -77,21 +76,11 @@ export default function Studysynk({children}: StudySynkProps) {
                         </IconButton>
                     </Box>
                     <Divider/>
-                    <Tabs>
-                        <TabList color="primary">
-                            <Tab color="primary" sx={{flexGrow: 1}}>
-                                Details
-                            </Tab>
-                            <Tab color="primary" sx={{flexGrow: 1}}>
-                                Activity
-                            </Tab>
-                        </TabList>
-                    </Tabs>
                     <AspectRatio ratio="21/9">
-                        <img
-                            alt=""
-                            src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=774"
-                        />
+                        {/*<img*/}
+                        {/*    alt=""*/}
+                        {/*    src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=774"*/}
+                        {/*/>*/}
                     </AspectRatio>
                     <Box sx={{p: 2, display: 'flex', gap: 1, alignItems: 'center'}}>
                         <Typography level="body-sm" mr={1}>
