@@ -117,7 +117,7 @@ function Main(props: BoxProps) {
             component="main"
             className="Main"
             {...props}
-            sx={[{p: 4, height: 'calc(100vh - 64px)', overflowX: 'hidden', overflowY: 'auto'}, ...(Array.isArray(props.sx) ? props.sx : [props.sx])
+            sx={[{p: {xs: 2, md: 4}, height: 'calc(100vh - 64px)', overflowX: 'hidden', overflowY: 'auto'}, ...(Array.isArray(props.sx) ? props.sx : [props.sx])
             ]
             }
         />
