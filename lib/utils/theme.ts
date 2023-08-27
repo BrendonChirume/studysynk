@@ -72,7 +72,7 @@ const joyTheme = extendTheme({
                     }
                 }
             }
-        }
+        },
     }
 })
 

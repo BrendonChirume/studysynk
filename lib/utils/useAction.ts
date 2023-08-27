@@ -1,5 +1,5 @@
 
-import {useAppDispatch} from "@/utils/reduxHooks";
+import {useAppDispatch} from "@/lib/utils/reduxHooks";
 
 export const useAction = () => {
     const dispatch = useAppDispatch();
