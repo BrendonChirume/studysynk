@@ -12,7 +12,7 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon';
 import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon';
 import DocumentArrowUpIcon from '@heroicons/react/24/outline/DocumentArrowUpIcon';
-import HomeIcon  from "@heroicons/react/24/outline/HomeIcon";
+import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 
 interface Options {
     name: string;
@@ -25,7 +25,7 @@ export const sidebarLinks: readonly Options[] = [
         name: 'Home',
         href: '/',
         icon: (
-            <HomeIcon  className="w-5 h-5 ss-icon"/>
+            <HomeIcon className="w-5 h-5 ss-icon"/>
         )
     }, {
         name: 'Papers',
@@ -79,11 +79,10 @@ export default function Sidebar({currentRoute, navigate}: SidebarProps) {
                             route = currentRoute.length === 1 ? 'home' : route;
 
                             return (
-                                <ListItem key={index}>
+                                <ListItem key={index} onClick={() => navigate(option.href)}>
                                     <ListItemButton
                                         role="button"
-                                        selected={route.includes(ref)}
-                                        onClick={() => navigate(option.href)}>
+                                        selected={route.includes(ref)}>
                                         <ListItemDecorator>
                                             {option.icon}
                                         </ListItemDecorator>
