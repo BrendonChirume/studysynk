@@ -1,68 +1,73 @@
-import Card from "@mui/joy/Card";
-import CardOverflow from "@mui/joy/CardOverflow";
+import Card, {CardProps} from "@mui/joy/Card";
+import React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
+import DocumentIcon from "@heroicons/react/24/outline/DocumentIcon"
+import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
+import CardContent from "@mui/joy/CardContent";
 import Typography from "@mui/joy/Typography";
-import Box from "@mui/joy/Box";
-import Link from "@mui/joy/Link";
+import IconButton from "@mui/joy/IconButton";
 
-interface FileCardProps {
-    paper: { name: string }
-}
-
-const truncate = (token: string) => {
-    const tokenArray = token.split(' ')
-    const len = token.length;
-    const averageWordLen = Math.floor(tokenArray.reduce((acc, crr) => acc + crr.length, 0) / tokenArray.length);
-
-    if (averageWordLen > 4) {
-        return `${token.slice(0, 47)}...`;
+export default function FileCard(
+    {
+        fileName,
+        fileSize,
+        handleDelete,
+        sx,
+        ...props
+    }: CardProps & {
+        fileName: string;
+        fileSize: number;
+        handleDelete: () => void
     }
-    return token
-}
+) {
 
-export default function FileCard({paper}: FileCardProps) {
+    const formatBytes = (bytes: number) => {
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return `${parseFloat((bytes / Math.pow(k, i)).toFixed(0))} ${sizes[i]}`
+    }
+
     return (
         <Card
             variant="outlined"
-            component={Link}
-            underline={"none"}
-            href={`/library/course/${paper.name}`}
-            sx={{
-                '--Card-radius': (theme) => theme.vars.radius.sm,
-                boxShadow: 'none',
-                cursor: 'pointer'
-            }}
+            orientation={"horizontal"}
+            {...props}
+            sx={[
+                {
+                    gap: 1.5,
+                    boxShadow: 'none',
+                    alignItems: 'flex-start',
+                    borderColor: 'primary.600'
+                },
+                ...(Array.isArray(sx) ? sx : [sx])
+            ]}
         >
-            <CardOverflow
+            <AspectRatio
+                ratio="1"
+                variant="soft"
+                color={"primary"}
                 sx={{
-                    borderBottom: '1px solid',
-                    borderColor: 'neutral.outlinedBorder',
-                }}
+                    minWidth: 35,
+                    borderRadius: '50%',
+                    "--Icon-fonSize": '1rem'
+                }}>
+                <div><DocumentIcon className={"h-5 w-5 ss-icon"}/></div>
+            </AspectRatio>
+            <CardContent>
+                <Typography fontSize={"sm"}>{fileName}</Typography>
+                <Typography level={"body-xs"}>{formatBytes(fileSize)}</Typography>
+            </CardContent>
+            <IconButton
+                variant={"plain"}
+                color={"neutral"}
+                size={"sm"}
+                onClick={handleDelete}
+                sx={{mt: -1, mr: -1}}
             >
-                <AspectRatio ratio="4/3" color="primary">
-                    <Typography
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'primary.plainColor',
-                        }}
-                    >
-                        .zip
-                    </Typography>
-                </AspectRatio>
-            </CardOverflow>
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-                <Box sx={{flex: 1, maxHeight: 72}}>
-                    <Typography level="title-sm" sx={{textTransform: 'capitalize'}}>
-                        {truncate(paper.name)}
-                    </Typography><br/>
-                    <Typography level="body-xs" mt={0.5}>
-                        Added 25 May 2011
-                    </Typography>
-                </Box>
-            </Box>
+                <TrashIcon className={"h-5 w-5 ss-icon"}/>
+            </IconButton>
         </Card>
-
     )
 }
