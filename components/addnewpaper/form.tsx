@@ -16,38 +16,44 @@ import Textarea from "@mui/joy/Textarea";
 import Button from "@mui/joy/Button";
 import PaperAirplaneIcon from "@heroicons/react/24/outline/PaperAirplaneIcon";
 import * as React from "react";
+import {Collage} from "@/lib/types";
+import SelectCollage from "./select-collage";
 
 interface FormProps {
-    collages: any;
+    collages: Collage[];
 }
 
 export default function Form(props: FormProps) {
     const {collages} = props;
-    const [open, setOpen] = React.useState(false);
-    const loading = open && options.length === 0;
+    const [selected, setSelected] = React.useState<Collage | null>(null);
+
     const courses = [{name: ''}];
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+    const handleCollageChange = (newValue: Collage | null) => {
+        const [collage] = collages.filter(collage => collage.id === newValue?.id);
+        setSelected(collage);
+    }
+
+    React.useEffect(() => console.log(selected,collages), [selected]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
 
         try {
-            const formData = new FormData(event.currentTarget)
+            const formData = new FormData(event.currentTarget);
             // Handle response if necessary
             const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/papers`, {
                 method: 'POST',
                 body: formData,
             });
-
-            console.log(data)
-
         } catch (error) {
             console.error(error)
         } finally {
             setIsLoading(false)
-        }
-    }
+        };
+    };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -81,26 +87,9 @@ export default function Form(props: FormProps) {
                         <Styled.Item sx={{p: {xs: 2, md: 3}, mt: {xs: 2, md: 0}}}>
                             <Grid container spacing={3}>
                                 <Grid xs={12}>
-                                    <FormControl sx={{flexGrow: 1}}>
-                                        <FormLabel htmlFor={"collage"} id="paper-collage">Collage</FormLabel>
-                                        <Autocomplete
-                                            id="collage"
-                                            name="collage"
-                                            autoHighlight
-                                            options={collages}
-                                            getOptionLabel={(option) => option.name}
-                                            renderOption={(props, option) => {
-                                                // @ts-ignore
-                                                const {key, ...rest} = props;
-                                                return (
-                                                    <AutocompleteOption
-                                                        sx={{px: 2, py: 0.5, cursor: "pointer"}}
-                                                        key={key} {...rest}>{option.name}
-                                                    </AutocompleteOption>
-                                                )
-                                            }}
-                                        />
-                                    </FormControl>
+                                    <SelectCollage
+                                        collages={collages}
+                                        handleCollageChange={(collage) => handleCollageChange(collage)}/>
                                 </Grid>
                                 <Grid xs={6}>
                                     <FormControl>
@@ -149,8 +138,8 @@ export default function Form(props: FormProps) {
                                 </Grid>
                                 <Grid xs={12}>
                                     <FormControl>
-                                        <FormLabel htmlFor="department"
-                                                   id="paper-department">Course name</FormLabel>
+                                        <FormLabel htmlFor="course-name"
+                                                   id="course-name-label">Course name</FormLabel>
                                         <Autocomplete
                                             id="course-name"
                                             name="course"
