@@ -16,7 +16,8 @@ export default function Navbar({setDrawerOpen}: { setDrawerOpen: React.Dispatch<
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
-                    gap: 1.5,
+                    gap: {xs: 0, md: 1.5},
+                    flex: {xs: 1, sm: 0}
                 }}
             >
                 <IconButton
@@ -41,12 +42,12 @@ export default function Navbar({setDrawerOpen}: { setDrawerOpen: React.Dispatch<
                 >
                     <DocumentMagnifyingGlassIcon className="w-6 h-6 ss-icon"/>
                 </IconButton>
-                <Typography component="h1" fontWeight="xl" tw="font-lighter">
+                <Typography component="h1" fontWeight="xl" sx={{mx: {xs: 'auto'}}}>
                     StudySynk
                 </Typography>
             </Box>
             <Search/>
-            <Box sx={{display: 'flex', flexDirection: 'row', gap: 1.5}}>
+            <Box sx={{display: {xs: 'none', md: 'flex'}, flexDirection: 'row', gap: 1.5}}>
                 <ColorSchemeToggle/>
                 <Menu/>
             </Box>

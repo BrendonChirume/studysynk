@@ -1,7 +1,5 @@
-"use client";
-
 import Grid from "@mui/joy/Grid";
-import FileCard from "@/components/fileCard";
+import PaperCard from "@/components/paperCard";
 import React from "react";
 import Styled from "@/components/Styled";
 import Box from "@mui/joy/Box";
@@ -11,14 +9,12 @@ import ToggleButtonGroup from "@mui/joy/ToggleButtonGroup";
 import IconButton from "@mui/joy/IconButton";
 import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
 import ListBulletIcon from "@heroicons/react/24/outline/ListBulletIcon";
-import {useAppSelector} from "@/utils/reduxHooks";
-import {useFilter} from "@/containers/filterContext";
-
-export default function Library() {
-    const programs: { name: string; }[] = useAppSelector(({papers}) => papers)
-    const {showFilter, isOpen} = useFilter();
+import {Paper} from "@/lib/types";
+import { getPapers } from "@/lib/prisma/papers";
 
 
+export default async function Papers() {
+    const papers = await getPapers();
 
     return (
         <Styled.Section>
@@ -33,7 +29,7 @@ export default function Library() {
                 >
                     <Button
                         color={"neutral"}
-                        onClick={() => showFilter(!isOpen)}
+                        // onClick={() => showFilter(!isOpen)}
                         startDecorator={
                             <FunnelIcon className="h-4 w-4 ss-icon"/>
                         } size={"sm"} sx={{fontWeight: 'normal', py: 1, px: 2}}
@@ -49,11 +45,11 @@ export default function Library() {
                         </IconButton>
                     </ToggleButtonGroup>
                 </Box>
-                <Grid container spacing={3} columns={{xs: 12, sm: 6, md: 12}}>
+                <Grid container spacing={3} columns={12}>
                     {
-                        programs.map((paper, index) => (
-                            <Grid xs={6} md={3} lg={isOpen?4:3} key={index}>
-                                <FileCard paper={paper}/>
+                        papers?.map((paper: Paper, index: number) => (
+                            <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                                <PaperCard paper={paper}/>
                             </Grid>
                         ))
                     }

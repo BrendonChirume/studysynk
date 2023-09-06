@@ -4,19 +4,10 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
 import Link from "@mui/joy/Link";
+import {Paper} from "@/lib/types";
 
 interface FileCardProps {
-    paper: { id: string, title: string, courseId: string }
-}
-
-const truncate = (token: string) => {
-    const tokenArray = token.split(' ');
-    const averageWordLen = Math.floor(tokenArray.reduce((acc, crr) => acc + crr.length, 0) / tokenArray.length);
-
-    if (averageWordLen > 4) {
-        return `${token.slice(0, 47)}...`;
-    }
-    return token
+    paper: Paper
 }
 
 export default function PaperCard({paper}: FileCardProps) {
@@ -25,11 +16,14 @@ export default function PaperCard({paper}: FileCardProps) {
             variant="outlined"
             component={Link}
             underline={"none"}
-            href={`/library/course/${paper.title}`}
+            href={`/papers/${paper.title}`}
             sx={{
-                '--Card-radius': (theme) => theme.vars.radius.sm,
+                '--Card-radius': '8px',
                 boxShadow: 'none',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                minWidth: 200,
+                maxWidth: 300,
+                mx: 'auto'
             }}
         >
             <CardOverflow
@@ -53,11 +47,11 @@ export default function PaperCard({paper}: FileCardProps) {
             </CardOverflow>
             <Box sx={{display: 'flex', alignItems: 'center'}}>
                 <Box sx={{flex: 1, maxHeight: 72}}>
-                    <Typography level="title-sm" sx={{textTransform: 'capitalize'}}>
-                        {truncate(paper.title)}
+                    <Typography level="title-sm" noWrap sx={{textTransform: 'capitalize'}}>
+                        {paper.title}
                     </Typography><br/>
                     <Typography level="body-xs" mt={0.5}>
-                        Added 25 May 2011
+                        Added 25 May {paper.year}
                     </Typography>
                 </Box>
             </Box>

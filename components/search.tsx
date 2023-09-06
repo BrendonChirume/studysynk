@@ -2,10 +2,11 @@ import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import Input from "@mui/joy/Input";
 import * as React from "react";
 import IconButton from "@mui/joy/IconButton";
+import Box from "@mui/joy/Box";
 
 export default function Search() {
     return (
-        <>
+        <Box sx={{display: {xs: 'none', md: 'initial'}}}>
             <Input
                 size="sm"
                 variant="soft"
@@ -18,7 +19,7 @@ export default function Search() {
                     p: 1, px: 1.5,
                     display: {
                         xs: 'none',
-                        sm: 'flex',
+                        md: 'flex',
                     },
                 }}
             />
@@ -37,6 +38,6 @@ export default function Search() {
                 color="neutral">
                 <MagnifyingGlassIcon className="w-5 h-5 ss-icon"/>
             </IconButton>
-        </>
+        </Box>
     )
 }

@@ -44,7 +44,7 @@ function Header(props: BoxProps) {
                         borderColor: 'divider',
                         position: 'sticky',
                         top: 0,
-                        zIndex: 1100,
+                        zIndex: 1501,
                     },
                     ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
                 ]

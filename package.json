@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:format": "npx dotenv -e .env.local -- prisma format",
+    "prisma:studio": "npx dotenv -e .env.local -- prisma studio",
+    "prisma:dbpush": "npx dotenv -e .env.local -- prisma db push"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
