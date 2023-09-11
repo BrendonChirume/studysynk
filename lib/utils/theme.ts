@@ -59,6 +59,13 @@ const joyTheme = extendTheme({
                 variant: "outlined",
             }
         },
+        JoyButton: {
+            styleOverrides: {
+                root: {
+                    fontWeight: 500
+                }
+            }
+        },
         JoyAvatar: {
             defaultProps: {
                 variant: "plain",
@@ -85,6 +92,7 @@ const muiTheme = materialExtendTheme({
             styleOverrides: {
                 root: {
                     borderRadius: 8,
+                    fontWeight: 500
                 }
             }
         },
