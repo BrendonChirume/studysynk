@@ -52,7 +52,6 @@ export default function Sidebar({currentRoute, navigate}: SidebarProps) {
     return (
         <List size="sm" sx={{
             '--ListItem-radius': '8px', '--List-gap': '4px',
-            height: 'fit-content'
         }}>
             <ListItem nested>
                 <ListSubheader id="expand-browse">
