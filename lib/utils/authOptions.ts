@@ -1,19 +1,17 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import {NextAuthOptions} from "next-auth";
 import bcrypt from "bcrypt";
+import {Student} from "@/lib/models";
 
 
 const authOptions: NextAuthOptions = {
-    session: {
-        strategy: "jwt",
-        maxAge: 60 * 60, // 1 hour
-    },
+    debug: process.env.NODE_ENV === "development",
     pages: {
         signIn: '/signin'
     },
     providers: [
         CredentialsProvider({
-            name: "StudySynk",
+            name: "credentials",
             type: "credentials",
             credentials: {
                 email: {label: "Username", type: "email"},
@@ -23,30 +21,29 @@ const authOptions: NextAuthOptions = {
                 if (!credentials || !credentials.email || !credentials.password) {
                     return null
                 }
+                const {email, password} = credentials;
 
-                const student = {
-                    id: "1",
-                    firstName: "John",
-                    email: "",
-                    password: "123"
-                }
-
+                const student = await Student.findOne({email})
                 if (!student) {
                     return null;
                 }
 
                 // check if the password is correct
-                const isMatch = await bcrypt.compare(credentials.password, student.password);
+                const isMatch = await bcrypt.compare(password, student.password);
 
                 if (!isMatch) {
                     return null;
                 }
+
                 return student;
             }
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
-    debug: process.env.NODE_ENV === "development",
+    session: {
+        strategy: "jwt",
+        maxAge: 60 * 60, // 1 hour
+    },
 }
 
 export default authOptions

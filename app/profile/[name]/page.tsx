@@ -13,7 +13,7 @@ import EditorToolbar from '@/components/editorToolbar';
 import EnvelopeIcon from "@heroicons/react/24/outline/EnvelopeIcon";
 import BuildingOffice2Icon from "@heroicons/react/24/outline/BuildingOffice2Icon";
 import AcademicCapIcon from "@heroicons/react/24/outline/AcademicCapIcon";
-import PaperAirplaneIcon from "@heroicons/react/24/outline/PaperAirplaneIcon";
+import CheckIcon from "@heroicons/react/24/outline/CheckIcon";
 
 export default function MyProfile() {
     return (
@@ -127,7 +127,7 @@ export default function MyProfile() {
                 <Button
                     variant="soft" type="submit"
                     endDecorator={
-                        <PaperAirplaneIcon className="w-5 h-5 ss-icon"/>
+                        <CheckIcon className="w-5 h-5 ss-icon"/>
                     }>
                     Save
                 </Button>

@@ -11,7 +11,7 @@ import {getServerSession} from "next-auth";
 
 export default async function Home() {
     const session = await getServerSession();
-    console.log(session);
+    console.log("session: ",session);
     return (
         <Styled.Section sx={{pt: 4}}>
             <Grid container spacing={3}>

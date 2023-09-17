@@ -12,6 +12,7 @@ import ArrowRightOnRectangleIcon from "@heroicons/react/24/outline/ArrowRightOnR
 import Link from "@mui/joy/Link";
 import Avatar from "@mui/joy/Avatar";
 import Image from "next/image";
+import {signOut} from "next-auth/react";
 
 export default function PositionedMenu() {
     return (
@@ -56,7 +57,7 @@ export default function PositionedMenu() {
                     Add new paper
                 </MenuItem>
                 <ListDivider/>
-                <MenuItem>
+                <MenuItem onClick={()=>signOut()}>
                     <ListItemDecorator sx={{color: 'inherit'}}>
                         <ArrowRightOnRectangleIcon className={"w-5 h-5 ss-icon"}/>
                     </ListItemDecorator>

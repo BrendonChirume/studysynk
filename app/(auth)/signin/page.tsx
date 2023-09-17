@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from 'react';
+import {useState} from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import FormLabel, {formLabelClasses} from '@mui/joy/FormLabel';
@@ -13,7 +14,7 @@ import {useRouter} from "next/navigation";
 import FormControl from "@mui/joy/FormControl";
 import Input from "@mui/joy/Input";
 import Link from "next/link";
-import {useState} from "react";
+import notify from "@/lib/utils/notify";
 
 export default function SignIn() {
     const session = useSession();
@@ -30,10 +31,16 @@ export default function SignIn() {
             email: formData.get("email") as string,
             password: formData.get("password") as string,
         }).then((res) => {
-            if (res?.ok) {
+            if (!res) {
+                notify("An error occurred while trying to sign in!", "warning")
+                return;
+            }
+            if (res.error) {
+                notify("Invalid credentials!", "error");
+                return setError(!!res);
+            }
+            if (res.ok) {
                 return router.replace('/');
-            } else {
-                setError(!!res);
             }
         }).finally(() => {
             setLoading(false);
@@ -136,7 +143,7 @@ export default function SignIn() {
                         <form onSubmit={handleSubmit}>
                             <FormControl required id="email-wrapper">
                                 <FormLabel htmlFor="email-wrapper" id="label-email">Email</FormLabel>
-                                <Input type="email" name="email" error={error} />
+                                <Input type="email" name="email" error={error}/>
                             </FormControl>
                             <FormControl required id="password-wrapper">
                                 <FormLabel htmlFor="password-wrapper" id="label-password">Password</FormLabel>
@@ -214,12 +221,7 @@ export default function SignIn() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
-                    // backgroundImage:
-                    //     'url(https://images.unsplash.com/photo-1527181152855-fc03fc7949c8?auto=format&w=1000&dpr=2)',
-                    // [theme.getColorSchemeSelector('dark')]: {
-                    //     backgroundImage:
-                    //         'url(https://images.unsplash.com/photo-1572072393749-3ca9c8ea0831?auto=format&w=1000&dpr=2)',
-                    // },
+                    backgroundImage: 'url("/3394878.jpg")',
                 })}
             />
         </>
