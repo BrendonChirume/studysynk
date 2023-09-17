@@ -1,6 +1,6 @@
 "use client";
 
-import Layout from "@/components/stracture";
+import * as Layout from "@/components/stracture";
 import Sidebar from "@/components/sidebar";
 import * as React from "react";
 import {store} from '@/redux/store'

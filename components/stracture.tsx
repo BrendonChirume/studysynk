@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Box, { BoxProps } from '@mui/joy/Box';
+import Box, {BoxProps} from '@mui/joy/Box';
 import Sheet from '@mui/joy/Sheet';
 
 function Root(props: BoxProps) {
@@ -101,7 +101,7 @@ function Main(props: BoxProps) {
             component="main"
             className="Main"
             {...props}
-            sx={[{ p: 2 }, ...(Array.isArray(props.sx) ? props.sx : [props.sx])]}
+            sx={[{p: 2}, ...(Array.isArray(props.sx) ? props.sx : [props.sx])]}
         />
     );
 }
@@ -114,7 +114,7 @@ function SideDrawer({
         <Box
             {...props}
             sx={[
-                { position: 'fixed', zIndex: 1200, width: '100%', height: '100%' },
+                {position: 'fixed', zIndex: 1200, width: '100%', height: '100%'},
                 ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
             ]}
         >
@@ -144,11 +144,11 @@ function SideDrawer({
     );
 }
 
-export default {
+export {
     Root,
     Header,
     SideNav,
     SidePane,
     SideDrawer,
     Main,
-};
+}
