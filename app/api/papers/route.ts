@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     return NextResponse.json(data);
 }
 
-export async function POST(response: Response, request: Request) {
+export async function POST(request: Request) {
     const res = await request.json();
     await connectMongoDB();
     await Paper.create(res);
