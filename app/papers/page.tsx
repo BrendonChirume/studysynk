@@ -6,7 +6,7 @@ import Box from "@mui/joy/Box";
 import FilterOptions from "@/components/papers/filterOptions";
 
 const getPapers = async () => {
-    const response = fetch('/api/papers');
+    const response = await fetch('/api/papers');
     return response.json();
 }
 
