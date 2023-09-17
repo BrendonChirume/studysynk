@@ -16,29 +16,74 @@ import PencilIcon from "@heroicons/react/24/outline/PencilIcon";
 import IconButton from "@mui/joy/IconButton";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
+import Image from "next/image"
+import InformationCircleIcon from "@heroicons/react/24/outline/InformationCircleIcon"
+import UserIcon from "@heroicons/react/24/solid/UserIcon"
+import FormHelperText from "@mui/joy/FormHelperText";
+import {ToastContainer} from "react-toastify";
+import notify from "@/lib/utils/notify";
+
+function isEmpty(obj: FormDataEntryValue) {
+    return Object.keys(obj).length === 0;
+}
 
 export default function Signup() {
     const router = useRouter();
     const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [imageSrc, setImageSrc] = React.useState<string>('');
+    const [password, setPassword] = React.useState({
+        password: '',
+        confirmPassword: '',
+    })
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.name !== "profileImage") {
+            return setPassword((prevState) => ({...prevState, [event.target.name]: event.target.value}));
+        }
+        return event.target.files && event.target.files[0] && setImageSrc(URL.createObjectURL(event.target.files[0]));
+    }
+
+    React.useEffect(() => {
+        if (password.password.length > 3 && password.confirmPassword.length > 3)
+            setError(password.password !== password.confirmPassword);
+    }, [password])
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true)
 
         const formData = new FormData(event.currentTarget);
+        let data = Object.fromEntries(formData);
+        if (data.password !== data.confirmPassword) {
+            setLoading(false)
+            return;
+        }
+        delete data.confirmPassword;
+
+        if (isEmpty(data.profileImage)) {
+            data.profileImage = imageSrc;
+        }
 
         await fetch('/api/student', {
             method: 'POST',
-            body: JSON.stringify(Object.fromEntries(formData)),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((response) => {
-            console.log(response.ok)
-        }).finally(() => {
-            setLoading(false);
-            router.push('/signin')
-        });
+        }).then(async (response) => {
+            if (response.ok) {
+                setLoading(false);
+                const res = await response.json()
+                if (res.message.includes("exists")) {
+                    return notify(res.message, "warning")
+                }
+                router.push('/signin');
+            } else {
+                notify("Failed", "error")
+                setLoading(false);
+            }
+        })
 
     }
 
@@ -64,7 +109,7 @@ export default function Signup() {
                     <Grid xs={12}>
                         <Typography component={"h1"} level={"h3"}>Sign Up</Typography>
                         <Typography level={"body-sm"} sx={{mt: 1}}>
-                            Create your account in minutes and start have access to unlimited papers
+                            Create your account in minutes and have access to unlimited papers
                         </Typography>
                     </Grid>
                     <Grid xs={12}>
@@ -78,20 +123,21 @@ export default function Signup() {
                                     maxHeight={108}
                                     sx={{flex: 1, minWidth: 108, borderRadius: '100%'}}
                                 >
-                                    <img
-                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                                        loading="lazy"
-                                        alt=""
-                                    />
+                                    {
+                                        imageSrc.length > 0 ?
+                                            <Image alt={"profile image"} width={108} height={108}
+                                                   src={imageSrc as string}/> :
+                                            <Box component={UserIcon} sx={{padding: "10px"}} className={"ss-icon"}/>
+                                    }
                                 </AspectRatio>
                                 <Input
                                     sx={{
                                         display: "none",
                                     }}
+                                    onChange={handleChange}
                                     slotProps={{
                                         input: {
-                                            id: "file",
+                                            id: "profileImage",
                                             accept: "image/*",
                                             name: "profileImage",
                                         }
@@ -100,6 +146,7 @@ export default function Signup() {
                                     aria-label="upload new profile picture"
                                     variant="outlined"
                                     color="neutral"
+                                    type={"button"}
                                     sx={{
                                         bgcolor: 'background.body',
                                         position: 'absolute',
@@ -121,7 +168,7 @@ export default function Signup() {
                                             borderRadius: '50%',
 
                                         }}
-                                        component={"label"} htmlFor={"file"}>
+                                        component={"label"} htmlFor={"profileImage"}>
                                         <PencilIcon className={"w-5 h-5 ss-icon"}/>
                                     </Box>
                                 </IconButton>
@@ -147,17 +194,27 @@ export default function Signup() {
                                     </FormControl>
                                 </Grid>
                                 <Grid xs={6}>
-                                    <FormControl required id="password-wrapper">
+                                    <FormControl required id="password-wrapper" error={error}>
                                         <FormLabel htmlFor="password-wrapper" id="label-password">Password</FormLabel>
-                                        <Input type="password" name="password"/>
+                                        <Input type="password" name="password" value={password.password}
+                                               onChange={handleChange}/>
+                                        <FormHelperText sx={{display: error ? "block" : "none"}}>
+                                            <InformationCircleIcon className={"w-5 h-5 ss-icon"}/>
+                                            &nbsp;Passwords do not match!
+                                        </FormHelperText>
                                     </FormControl>
                                 </Grid>
                                 <Grid xs={6}>
-                                    <FormControl required id="confirmPassword-wrapper">
+                                    <FormControl required id="confirmPassword-wrapper" error={error}>
                                         <FormLabel htmlFor="confirmPassword-wrapper" id="label-password">
                                             Confirm password
                                         </FormLabel>
-                                        <Input type="password" name="password"/>
+                                        <Input type="password" name="confirmPassword" value={password.confirmPassword}
+                                               onChange={handleChange}/>
+                                        <FormHelperText sx={{display: error ? "block" : "none"}}>
+                                            <InformationCircleIcon className={"w-5 h-5 ss-icon"}/>
+                                            &nbsp;Passwords do not match!
+                                        </FormHelperText>
                                     </FormControl>
                                 </Grid>
                             </Grid>
@@ -185,6 +242,7 @@ export default function Signup() {
                     </Grid>
                 </Grid>
             </Stack>
+            <ToastContainer/>
         </Container>
     )
 }

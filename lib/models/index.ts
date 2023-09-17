@@ -28,19 +28,29 @@ const courseSchema = new Schema({
 });
 
 const studentSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    password: String,
-    program: {type: Schema.Types.ObjectId, ref: 'Program'},
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
+        unique: true,
         match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
     bio: String,
     profileImage: Buffer,
+    program: {type: Schema.Types.ObjectId, ref: 'Program'},
     courses: [{type: Schema.Types.ObjectId, ref: 'Course'}]
-});
+}, {timestamps: true});
 
 const paperSchema = new Schema({
     title: String,

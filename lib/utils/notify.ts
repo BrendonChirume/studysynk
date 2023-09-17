@@ -1,6 +1,6 @@
 import {toast} from "react-toastify";
 
-const notify = (message: string, type: "success" | "error") => toast[type](message, {
+const notify = (message: string, type: "success" | "error" | "warning") => toast[type](message, {
     position: "bottom-right",
     autoClose: 5000,
     hideProgressBar: false,
