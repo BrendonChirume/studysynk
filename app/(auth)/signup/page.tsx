@@ -80,7 +80,7 @@ export default function Signup() {
                 }
                 router.push('/signin');
             } else {
-                notify("Failed", "error")
+                notify("Sign up failed!", "error")
                 setLoading(false);
             }
         })
@@ -225,7 +225,7 @@ export default function Signup() {
 
                     <Grid xs={12}>
                         <Button type="submit" fullWidth loading={loading}>
-                            Sign in
+                            Sign up
                         </Button>
                     </Grid>
                     <Grid xs={12}>

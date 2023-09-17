@@ -2,12 +2,14 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import {NextAuthOptions} from "next-auth";
 import bcrypt from "bcrypt";
 import {Student} from "@/lib/models";
+import {MongoDBAdapter} from "@auth/mongodb-adapter";
+import clientPromise from "@/lib/clientPromise";
 
 
 const authOptions: NextAuthOptions = {
-    debug: process.env.NODE_ENV === "development",
+    adapter: MongoDBAdapter(clientPromise),
     pages: {
-        signIn: '/signin'
+        signIn: '/signin',
     },
     providers: [
         CredentialsProvider({
@@ -23,19 +25,19 @@ const authOptions: NextAuthOptions = {
                 }
                 const {email, password} = credentials;
 
-                const student = await Student.findOne({email})
-                if (!student) {
+                const user = await Student.findOne({email})
+                if (!user) {
                     return null;
                 }
 
                 // check if the password is correct
-                const isMatch = await bcrypt.compare(password, student.password);
+                const isMatch = await bcrypt.compare(password, user.password);
 
                 if (!isMatch) {
                     return null;
                 }
 
-                return student;
+                return user;
             }
         }),
     ],

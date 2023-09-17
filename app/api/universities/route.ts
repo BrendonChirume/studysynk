@@ -1,6 +1,6 @@
-import connectMongoDB from "@/lib/mongo";
-import {University} from "@/lib/models";
 import {NextResponse} from "next/server";
+import connectMongoDB from "@/lib/connectMongoDB";
+import {University} from "@/lib/models";
 
 export async function POST(request: Request) {
     const res = await request.json();
