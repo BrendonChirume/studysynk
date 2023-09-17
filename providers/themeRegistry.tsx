@@ -25,6 +25,7 @@ export default function ThemeRegistry(props: ThemeRegistryProps) {
         const cache = createCache(options);
         cache.compat = true;
         const prevInsert = cache.insert;
+       // @ts-ignore
         let inserted: string[] = [];
         cache.insert = (...args) => {
             const serialized = args[1];

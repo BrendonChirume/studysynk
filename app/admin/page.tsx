@@ -6,7 +6,7 @@ import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import * as React from "react";
 import Box from "@mui/joy/Box";
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import notify from "@/lib/utils/notify";
 
 export default function Admin() {

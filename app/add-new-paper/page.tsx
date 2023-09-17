@@ -21,7 +21,7 @@ import SelectFaculty from "@/components/addnewpaper/select-faculty";
 import SelectCourse from "@/components/addnewpaper/select-course";
 import SelectProgram from "@/components/addnewpaper/select-program";
 import notify from "@/lib/utils/notify";
-
+import {ToastContainer} from "react-toastify";
 
 interface InitialStateType {
     university?: string;
@@ -199,6 +199,7 @@ export default function AddNewPage() {
                     </Stack>
                 </form>
             </Box>
+            <ToastContainer/>
         </Styled.Section>
     );
 }

@@ -200,7 +200,7 @@ export default function SignIn() {
                 </Box>
             </Box>
             <Box
-                sx={(theme) => ({
+                sx={() => ({
                     height: '100%',
                     position: 'fixed',
                     right: 0,
