@@ -7,8 +7,11 @@ import Box from "@mui/joy/Box";
 import Image from "next/image";
 import Styled from "@/components/Styled";
 import BoltIcon from "@heroicons/react/24/outline/BoltIcon";
+import {getServerSession} from "next-auth";
 
-export default function Home() {
+export default async function Home() {
+    const session = await getServerSession();
+    console.log(session);
     return (
         <Styled.Section sx={{pt: 4}}>
             <Grid container spacing={3}>

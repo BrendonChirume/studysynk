@@ -11,8 +11,11 @@ import Button from "@mui/joy/Button";
 import * as React from "react";
 import Divider from "@mui/joy/Divider";
 import Grid from "@mui/joy/Grid";
-import axios from "axios";
 import {useRouter} from "next/navigation";
+import PencilIcon from "@heroicons/react/24/outline/PencilIcon";
+import IconButton from "@mui/joy/IconButton";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Box from "@mui/joy/Box";
 
 export default function Signup() {
     const router = useRouter();
@@ -24,14 +27,14 @@ export default function Signup() {
 
         const formData = new FormData(event.currentTarget);
 
-        await axios.post('/api/signup', {
+        await fetch('/api/student', {
             method: 'POST',
             body: JSON.stringify(Object.fromEntries(formData)),
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((res) => {
-            console.log(res)
+        }).then((response) => {
+            console.log(response.ok)
         }).finally(() => {
             setLoading(false);
             router.push('/signin')
@@ -67,38 +70,102 @@ export default function Signup() {
                     <Grid xs={12}>
                         <Divider/>
                     </Grid>
-                    <Grid xs={6}>
-                        <FormControl required id="firstname-label">
-                            <FormLabel htmlFor="signin-firstname" id="label-firstname">First name</FormLabel>
-                            <Input type="text" name="firstName"/>
-                        </FormControl>
+                    <Grid xs={12}>
+                        <Stack direction="row" spacing={2}>
+                            <Stack direction="column" spacing={1} sx={{position: "relative"}}>
+                                <AspectRatio
+                                    ratio="1"
+                                    maxHeight={108}
+                                    sx={{flex: 1, minWidth: 108, borderRadius: '100%'}}
+                                >
+                                    <img
+                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                                        loading="lazy"
+                                        alt=""
+                                    />
+                                </AspectRatio>
+                                <Input
+                                    sx={{
+                                        display: "none",
+                                    }}
+                                    slotProps={{
+                                        input: {
+                                            id: "file",
+                                            accept: "image/*",
+                                            name: "profileImage",
+                                        }
+                                    }} component="div" type={"file"}/>
+                                <IconButton
+                                    aria-label="upload new profile picture"
+                                    variant="outlined"
+                                    color="neutral"
+                                    sx={{
+                                        bgcolor: 'background.body',
+                                        position: 'absolute',
+                                        zIndex: 2,
+                                        left: 72,
+                                        overflow: "hidden",
+                                        top: 62,
+                                        borderRadius: '50%',
+                                        boxShadow: 'sm',
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            width: 30,
+                                            height: 30,
+                                            borderRadius: '50%',
+
+                                        }}
+                                        component={"label"} htmlFor={"file"}>
+                                        <PencilIcon className={"w-5 h-5 ss-icon"}/>
+                                    </Box>
+                                </IconButton>
+                            </Stack>
+                            <Grid container spacing={2} sx={{flexGrow: 1}}>
+                                <Grid xs={6}>
+                                    <FormControl required id="firstname-label">
+                                        <FormLabel htmlFor="signin-firstname" id="label-firstname">First
+                                            name</FormLabel>
+                                        <Input type="text" name="firstName"/>
+                                    </FormControl>
+                                </Grid>
+                                <Grid xs={6}>
+                                    <FormControl required id="lastname-wrapper">
+                                        <FormLabel htmlFor="lastname-wrapper" id="label-email">Last name</FormLabel>
+                                        <Input type="text" name="lastName"/>
+                                    </FormControl>
+                                </Grid>
+                                <Grid xs={12}>
+                                    <FormControl required id="email-wrapper">
+                                        <FormLabel htmlFor="email-wrapper" id="label-email">Email</FormLabel>
+                                        <Input type="email" name="email"/>
+                                    </FormControl>
+                                </Grid>
+                                <Grid xs={6}>
+                                    <FormControl required id="password-wrapper">
+                                        <FormLabel htmlFor="password-wrapper" id="label-password">Password</FormLabel>
+                                        <Input type="password" name="password"/>
+                                    </FormControl>
+                                </Grid>
+                                <Grid xs={6}>
+                                    <FormControl required id="confirmPassword-wrapper">
+                                        <FormLabel htmlFor="confirmPassword-wrapper" id="label-password">
+                                            Confirm password
+                                        </FormLabel>
+                                        <Input type="password" name="password"/>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </Stack>
+
                     </Grid>
-                    <Grid xs={6}>
-                        <FormControl required id="lastname-wrapper">
-                            <FormLabel htmlFor="lastname-wrapper" id="label-email">Last name</FormLabel>
-                            <Input type="text" name="lastName"/>
-                        </FormControl>
-                    </Grid>
-                    <Grid xs={6}>
-                        <FormControl required id="email-wrapper">
-                            <FormLabel htmlFor="email-wrapper" id="label-email">Email</FormLabel>
-                            <Input type="email" name="email"/>
-                        </FormControl>
-                    </Grid>
-                    <Grid xs={6}>
-                        <FormControl required id="password-wrapper">
-                            <FormLabel htmlFor="password-wrapper" id="label-password">Password</FormLabel>
-                            <Input type="password" name="password"/>
-                        </FormControl>
-                    </Grid>
-                    <Grid xs={6}>
-                        <FormControl required id="confirmPassword-wrapper">
-                            <FormLabel htmlFor="confirmPassword-wrapper" id="label-password">
-                                Confirm password
-                            </FormLabel>
-                            <Input type="password" name="password"/>
-                        </FormControl>
-                    </Grid>
+
+
                     <Grid xs={12}>
                         <Button type="submit" fullWidth loading={loading}>
                             Sign in
@@ -113,7 +180,7 @@ export default function Signup() {
                                 alignItems: 'center',
                             }}
                         >
-                            Already have an Account?&nbsp;<Link href={"/signin"}>Sign up</Link>
+                            Already have an Account?&nbsp;<Link href={"/signin"}>Sign in</Link>
                         </Typography>
                     </Grid>
                 </Grid>

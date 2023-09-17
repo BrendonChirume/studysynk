@@ -1,14 +1,19 @@
-import {prisma} from "@/lib/prisma";
 import {NextResponse} from "next/server";
 import {NextApiRequest} from "next";
+import connectMongoDB from "@/lib/mongo";
+import {Paper} from "@/lib/models";
 
-export async function GET() {
-    const papers = await prisma.paper.findMany();
-    return NextResponse.json(papers)
+export async function GET(request: Request) {
+    const {searchParams} = new URL(request.url)
+    const id = searchParams.get('id');
+    await connectMongoDB();
+    const data = await Paper.findOne({id});
+    return NextResponse.json(data);
 }
 
 export async function POST(request: NextApiRequest) {
-    const data = await request.body.json();
-    const paper = await prisma.paper.create({data})
-    return NextResponse.redirect(`/papers/${paper.id}`)
+    const res = await request.body;
+    await connectMongoDB();
+    await Paper.create(res);
+    return NextResponse.json(res);
 }

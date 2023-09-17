@@ -1,4 +1,5 @@
-import {Collage} from "@/lib/types";
+"use client";
+
 import Autocomplete from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption/AutocompleteOption";
 import CircularProgress from "@mui/joy/CircularProgress";
@@ -6,30 +7,43 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import React from "react";
 
-interface SelectCollageProps {
-    collages: Collage[];
-    handleCollageChange: (collage: Collage | null) => void;
+interface SelectUniversityProps {
+    setSelected: (token: { university?: string }) => void;
 }
 
-export default function (props: SelectCollageProps) {
-    const {collages, handleCollageChange} = props;
+export default function SelectUniversity(props: SelectUniversityProps) {
+    const {setSelected} = props;
+    const [universities, setUniversities] = React.useState<University[]>([]);
     const [open, setOpen] = React.useState(false);
-    const loading = open && collages.length === 0;
+    const loading = open && universities.length === 0;
 
-    const [value, setValue] = React.useState<Collage | null>(collages[0]);
+    const [value, setValue] = React.useState<University | null>(null);
     const [inputValue, setInputValue] = React.useState('');
+
+    React.useEffect(() => {
+        if (!loading) {
+            return undefined;
+        }
+
+        (async () => {
+            const universities = await fetch("/api/universities", {
+                method: "GET",
+            }).then(res => res.json());
+            setUniversities(universities);
+        })();
+    }, [loading]);
 
     return (
         <FormControl sx={{flexGrow: 1}}>
-            <FormLabel htmlFor={"collage"} id="paper-collage">Collage</FormLabel>
+            <FormLabel htmlFor={"university"} id="paper-university">University</FormLabel>
             <Autocomplete
-                id="collage"
-                name="collage"
+                id="university"
+                name="university"
                 autoHighlight
                 value={value}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
-                    handleCollageChange(newValue);
+                    setSelected({university: newValue?.id});
                 }}
                 inputValue={inputValue}
                 onInputChange={(_event, newInputValue) => {
@@ -49,16 +63,16 @@ export default function (props: SelectCollageProps) {
                         <CircularProgress size="sm" sx={{bgcolor: 'background.surface'}}/>
                     ) : null
                 }
-                options={collages}
+                options={universities}
                 getOptionLabel={(option) => option.name}
                 renderOption={(props, option) => {
                     // @ts-ignore
-                    const {key, ...rest} = props;
+                    const {key, id, ...rest} = props;
                     return (
                         <AutocompleteOption
                             sx={{px: 2, py: 0.5, cursor: "pointer"}}
-                            key={key} {...rest}>
-                            {`${option.name} (${option.shortName})`}
+                            key={id} {...rest}>
+                            {`${option.name} (${option.acronym})`}
                         </AutocompleteOption>
                     )
                 }}

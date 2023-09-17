@@ -25,7 +25,7 @@ export default function Navbar({setDrawerOpen}: { setDrawerOpen: React.Dispatch<
                     size="sm"
                     onClick={() => setDrawerOpen(true)}
                     sx={{
-                        display: {sm: 'none'},
+                        display: {md: 'none'},
                         width: 35,
                         height: 35
                     }}

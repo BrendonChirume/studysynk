@@ -20,7 +20,7 @@ import Sheet from "@mui/joy/Sheet";
 import {AvatarGroup} from "@mui/joy";
 import Avatar from "@mui/joy/Avatar";
 import AspectRatio from "@mui/joy/AspectRatio";
-import {AuthProvider} from "@/providers/AuthProvider";
+import {AuthProvider} from "@/providers/authProvider";
 
 interface StudySynkProps {
     children: React.ReactNode;
@@ -59,7 +59,11 @@ export default function Studysynk({children}: StudySynkProps) {
                         <Layout.SideNav>
                             <Sidebar navigate={navigate.push} currentRoute={currentRoute}/>
                         </Layout.SideNav>
-                        <Layout.Main>
+                        <Layout.Main
+                            sx={{
+                                overflow: 'auto',
+                                height: 'calc(100vh - 64px)'
+                            }}>
                             <EnhancedBreadcrumbs pathname={currentRoute}/>
                             {children}
                         </Layout.Main>

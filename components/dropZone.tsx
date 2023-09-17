@@ -40,7 +40,6 @@ export default function DropZone({sx, ...props}: CardProps) {
             setFile(event.target.files);
         }
     }
-    console.log(file)
 
     const handleDelete = () => setFile(null);
 

@@ -3,14 +3,47 @@
 import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import {formLabelClasses} from '@mui/joy/FormLabel';
+import FormLabel, {formLabelClasses} from '@mui/joy/FormLabel';
 import Typography from '@mui/joy/Typography';
 import SvgIcon from '@mui/joy/SvgIcon';
 import IconButton from "@mui/joy/IconButton";
 import DocumentMagnifyingGlassIcon from "@heroicons/react/24/solid/DocumentMagnifyingGlassIcon";
-import Form from "@/components/form";
+import {signIn, useSession} from "next-auth/react";
+import {useRouter} from "next/navigation";
+import FormControl from "@mui/joy/FormControl";
+import Input from "@mui/joy/Input";
+import Link from "next/link";
+import {useState} from "react";
 
 export default function SignIn() {
+    const session = useSession();
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        setLoading(true);
+        await signIn("credentials", {
+            redirect: false,
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
+        }).then((res) => {
+            if (res?.ok) {
+                return router.replace('/');
+            } else {
+                setError(!!res);
+            }
+        }).finally(() => {
+            setLoading(false);
+        });
+    }
+
+    if (!session) {
+        return router.replace('/')
+    }
+
     return (
         <>
             <Box
@@ -99,7 +132,36 @@ export default function SignIn() {
                                 Welcome back
                             </Typography>
                         </div>
-                        <Form/>
+
+                        <form onSubmit={handleSubmit}>
+                            <FormControl required id="email-wrapper">
+                                <FormLabel htmlFor="email-wrapper" id="label-email">Email</FormLabel>
+                                <Input type="email" name="email" error={error} />
+                            </FormControl>
+                            <FormControl required id="password-wrapper">
+                                <FormLabel htmlFor="password-wrapper" id="label-password">Password</FormLabel>
+                                <Input type="password" name="password"
+                                       error={error}
+                                       slotProps={{
+                                           input: {
+                                               id: "signin-password"
+                                           }
+                                       }}/>
+                            </FormControl>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Link href={"#"}> Forgot your password? </Link>
+                            </Box>
+                            <Button type="submit" fullWidth loading={loading}>
+                                Sign in
+                            </Button>
+                        </form>
+
                         <Button
                             variant="outlined"
                             color="neutral"
@@ -138,7 +200,7 @@ export default function SignIn() {
                 </Box>
             </Box>
             <Box
-                sx={() => ({
+                sx={(theme) => ({
                     height: '100%',
                     position: 'fixed',
                     right: 0,

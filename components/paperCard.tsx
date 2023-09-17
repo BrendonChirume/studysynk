@@ -4,10 +4,10 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
 import Link from "@mui/joy/Link";
-import {Paper} from "@/lib/types";
+import Image from "next/image";
 
 interface FileCardProps {
-    paper: Paper
+    paper: QuestionPaper
 }
 
 export default function PaperCard({paper}: FileCardProps) {
@@ -18,39 +18,46 @@ export default function PaperCard({paper}: FileCardProps) {
             underline={"none"}
             href={`/papers/${paper.title}`}
             sx={{
-                '--Card-radius': '8px',
+                p: 0,
                 boxShadow: 'none',
                 cursor: 'pointer',
-                minWidth: 200,
-                maxWidth: 300,
-                mx: 'auto'
+                overflow: 'hidden',
+                width: 230,
+                height: 280,
+                mx: 'auto',
             }}
         >
             <CardOverflow
                 sx={{
                     borderBottom: '1px solid',
                     borderColor: 'neutral.outlinedBorder',
+                    borderRadius: 0,
                 }}
             >
-                <AspectRatio ratio="4/3" color="primary">
-                    <Typography
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'primary.plainColor',
+                <AspectRatio
+                    sx={{
+                        borderRadius: 0,
+                        overflow: 'hidden',
+
+                    }}
+                    ratio="10/9" color="neutral">
+                    <Image
+                        src={'/thumbnail3.png'}
+                        width={280}
+                        height={280}
+                        style={{
+                            objectPosition: 'top',
                         }}
-                    >
-                        .zip
-                    </Typography>
+                        alt="PDF Thumbnail"
+                    />
                 </AspectRatio>
             </CardOverflow>
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-                <Box sx={{flex: 1, maxHeight: 72}}>
+            <Box sx={{display: 'flex', alignItems: 'start', width: '100%', px: 2}}>
+                <Box sx={{flex: 1, maxHeight: 54, pb: 2}}>
                     <Typography level="title-sm" noWrap sx={{textTransform: 'capitalize'}}>
                         {paper.title}
                     </Typography><br/>
-                    <Typography level="body-xs" mt={0.5}>
+                    <Typography level="body-xs">
                         Added 25 May {paper.year}
                     </Typography>
                 </Box>

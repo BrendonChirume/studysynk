@@ -68,6 +68,12 @@ export default function ThemeRegistry(props: ThemeRegistryProps) {
                     <CssBaseline/>
                     <GlobalStyles
                         styles={(theme) => ({
+                            ':root': {
+                                '--Collapsed-breakpoint': '769px', // form will stretch when viewport is below `769px`
+                                '--Cover-width': '40vw', // must be `vw` only
+                                '--Form-maxWidth': '700px',
+                                '--Transition-duration': '0.4s', // set to `none` to disable transition
+                            },
                             '::-webkit-scrollbar': {
                                 width: 8
                             },

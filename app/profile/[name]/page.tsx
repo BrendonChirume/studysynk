@@ -11,6 +11,9 @@ import Textarea from '@mui/joy/Textarea';
 import DropZone from '@/components/dropZone';
 import EditorToolbar from '@/components/editorToolbar';
 import EnvelopeIcon from "@heroicons/react/24/outline/EnvelopeIcon";
+import BuildingOffice2Icon from "@heroicons/react/24/outline/BuildingOffice2Icon";
+import AcademicCapIcon from "@heroicons/react/24/outline/AcademicCapIcon";
+import PaperAirplaneIcon from "@heroicons/react/24/outline/PaperAirplaneIcon";
 
 export default function MyProfile() {
     return (
@@ -92,9 +95,24 @@ export default function MyProfile() {
                     275 characters left
                 </FormHelperText>
             </Box>
-
             <Divider role="presentation"/>
 
+            <FormControl sx={{display: {sm: 'contents'}}}>
+                <FormLabel>University</FormLabel>
+                <Input
+                    startDecorator={<BuildingOffice2Icon className="w-6 h-6 ss-icon"/>}
+                    placeholder="university"
+                />
+            </FormControl>
+
+            <FormControl sx={{display: {sm: 'contents'}}}>
+                <FormLabel>Program</FormLabel>
+                <Input
+                    startDecorator={<AcademicCapIcon className="w-6 h-6 ss-icon"/>}
+                    placeholder="Program"
+                />
+            </FormControl>
+            <Divider role="presentation"/>
             <Box
                 sx={{
                     gridColumn: '1/-1',
@@ -103,10 +121,16 @@ export default function MyProfile() {
                     gap: 1,
                 }}
             >
-                <Button variant="outlined" color="neutral" size="sm">
+                <Button variant="outlined" color="neutral">
                     Cancel
                 </Button>
-                <Button size="sm">Save</Button>
+                <Button
+                    variant="soft" type="submit"
+                    endDecorator={
+                        <PaperAirplaneIcon className="w-5 h-5 ss-icon"/>
+                    }>
+                    Save
+                </Button>
             </Box>
         </Box>
     );
