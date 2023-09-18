@@ -1,7 +1,7 @@
 import {NextResponse} from "next/server";
 import bcrypt from "bcrypt";
+import connectMongoDB from "@/lib/mongo";
 import {Student} from "@/lib/models";
-import connectMongoDB from "@/lib/connectMongoDB";
 
 export async function POST(request: Request) {
     let {password, email, ...rest} = await request.json();

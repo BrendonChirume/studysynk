@@ -7,16 +7,9 @@ const universitySchema = new Schema({
 });
 
 const facultySchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
+    name: String,
     department: String,
-    university: {
-        type: Schema.Types.ObjectId,
-        ref: 'University',
-        required: true
-    },
+    university: {type: Schema.Types.ObjectId, ref: 'University'},
     courses: [{type: Schema.Types.ObjectId, ref: 'Course'}]
 });
 
@@ -28,14 +21,7 @@ const programSchema = new Schema({
 });
 
 const courseSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    code: {
-        type: String,
-        required: true
-    },
+    name: String,
     program: {type: Schema.Types.ObjectId, ref: 'Program'},
     students: [{type: Schema.Types.ObjectId, ref: 'Student'}],
     papers: [{type: Schema.Types.ObjectId, ref: 'Paper'}]

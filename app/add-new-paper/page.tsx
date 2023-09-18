@@ -53,7 +53,7 @@ export default function AddNewPage() {
 
         const formData = new FormData(event.currentTarget);
 
-        await fetch(`/api/papers`, {
+        await fetch(`${process.env.NEXT_PUBLIC_URL}/api/papers`, {
             method: 'POST',
             body: JSON.stringify(Object.fromEntries(formData)),
         }).then((response) => {

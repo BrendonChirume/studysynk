@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
+import connectMongoDB from "@/lib/mongo";
 import {Paper} from "@/lib/models";
-import connectMongoDB from "@/lib/connectMongoDB";
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url)
