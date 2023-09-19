@@ -13,7 +13,8 @@ import {signIn, useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import FormControl from "@mui/joy/FormControl";
 import Input from "@mui/joy/Input";
-import Link from "next/link";
+import NextLink from "next/link";
+import MuiLink from "@mui/joy/Link";
 import notify from "@/lib/utils/notify";
 
 export default function SignIn() {
@@ -158,11 +159,13 @@ export default function SignIn() {
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    justifyContent: 'center',
+                                    justifyContent: 'space-between',
                                     alignItems: 'center',
                                 }}
                             >
-                                <Link href={"#"}> Forgot your password? </Link>
+                                <MuiLink component={NextLink} level={"body-sm"} href={"/signup"}> Sign up </MuiLink>
+                                <MuiLink component={NextLink} level={"body-sm"} href={"#"}> Forgot your
+                                    password? </MuiLink>
                             </Box>
                             <Button type="submit" fullWidth loading={loading}>
                                 Sign in
