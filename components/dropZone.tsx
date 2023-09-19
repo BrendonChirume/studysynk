@@ -5,9 +5,8 @@ import Typography from '@mui/joy/Typography';
 import CloudArrowUpIcon from "@heroicons/react/24/outline/CloudArrowUpIcon";
 import Input from "@mui/joy/Input";
 import FileCard from "@/components/fileCard";
-import {CSSObject} from "@mui/material";
 
-const activeStyles: CSSObject = {
+const activeStyles = {
     bgcolor: 'background.level1',
     borderColor: 'background.surface'
 }

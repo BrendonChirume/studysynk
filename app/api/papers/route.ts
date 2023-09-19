@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-import connectMongoDB from "@/lib/mongo";
+import connectMongoDB from "@/lib/connectMongoDB";
 import {Paper} from "@/lib/models";
 
 export async function GET(request: Request) {

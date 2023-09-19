@@ -1,7 +1,4 @@
 import {extendTheme} from '@mui/joy/styles';
-import {
-    experimental_extendTheme as materialExtendTheme,
-} from '@mui/material/styles';
 import {Inter} from 'next/font/google';
 
 export const inter = Inter({
@@ -83,29 +80,4 @@ const joyTheme = extendTheme({
     }
 })
 
-const muiTheme = materialExtendTheme({
-    typography: {
-        fontFamily: inter.style.fontFamily,
-    },
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 8,
-                    fontWeight: 500
-                }
-            }
-        },
-        MuiAvatar: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: 'transparent'
-                }
-            }
-        }
-    }
-})
-
-const vars = {joyTheme, muiTheme};
-
-export default vars
+export default joyTheme
