@@ -9,4 +9,4 @@ const connectMongoDB = () =>
             console.error(err);
         });
 
-export default connectMongoDB
+export default connectMongoDB;

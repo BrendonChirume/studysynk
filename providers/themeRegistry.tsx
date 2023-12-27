@@ -7,7 +7,7 @@ import {CssVarsProvider} from '@mui/joy/styles';
 import {ReactNode, useState} from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import theme from "@/lib/utils/theme";
-import {CssBaseline} from "@mui/joy";
+import CssBaseline from "@mui/joy/CssBaseline";
 
 interface ThemeRegistryProps {
     children: ReactNode;
@@ -60,7 +60,7 @@ export default function ThemeRegistry(props: ThemeRegistryProps) {
 
     return (
         <CacheProvider value={cache}>
-            <CssVarsProvider disableTransitionOnChange theme={theme.joyTheme}>
+            <CssVarsProvider disableTransitionOnChange theme={theme}>
                 <CssBaseline/>
                 <GlobalStyles
                     styles={(theme) => ({

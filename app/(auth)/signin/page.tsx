@@ -16,6 +16,7 @@ import Input from "@mui/joy/Input";
 import NextLink from "next/link";
 import MuiLink from "@mui/joy/Link";
 import notify from "@/lib/utils/notify";
+import {ToastContainer} from "react-toastify";
 
 export default function SignIn() {
     const session = useSession();
@@ -227,6 +228,7 @@ export default function SignIn() {
                     backgroundImage: 'url("/3394878.jpg")',
                 })}
             />
+            <ToastContainer/>
         </>
     );
 }

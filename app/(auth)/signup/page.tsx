@@ -61,8 +61,8 @@ export default function Signup() {
         }
         delete data.confirmPassword;
 
-        if (isEmpty(data.profileImage)) {
-            data.profileImage = imageSrc;
+        if (isEmpty(data.image)) {
+            data.image = imageSrc;
         }
 
         await fetch('/api/student', {
@@ -80,7 +80,7 @@ export default function Signup() {
                 }
                 router.push('/signin');
             } else {
-                notify("Failed", "error")
+                notify(response.statusText, "error");
                 setLoading(false);
             }
         })
@@ -127,7 +127,7 @@ export default function Signup() {
                                         imageSrc.length > 0 ?
                                             <Image alt={"profile image"} width={108} height={108}
                                                    src={imageSrc as string}/> :
-                                            <Box component={UserIcon} sx={{padding: "10px"}} className={"ss-icon"}/>
+                                            <UserIcon className={"ss-icon"} style={{padding: 12}}/>
                                     }
                                 </AspectRatio>
                                 <Input
@@ -137,9 +137,9 @@ export default function Signup() {
                                     onChange={handleChange}
                                     slotProps={{
                                         input: {
-                                            id: "profileImage",
+                                            id: "image",
                                             accept: "image/*",
-                                            name: "profileImage",
+                                            name: "image",
                                         }
                                     }} component="div" type={"file"}/>
                                 <IconButton
@@ -168,28 +168,23 @@ export default function Signup() {
                                             borderRadius: '50%',
 
                                         }}
-                                        component={"label"} htmlFor={"profileImage"}>
+                                        component={"label"} htmlFor={"image"}>
                                         <PencilIcon className={"w-5 h-5 ss-icon"}/>
                                     </Box>
                                 </IconButton>
                             </Stack>
                             <Grid container spacing={2} sx={{flexGrow: 1}}>
-                                <Grid xs={6}>
-                                    <FormControl required id="firstname-label">
-                                        <FormLabel htmlFor="signin-firstname" id="label-firstname">First
-                                            name</FormLabel>
-                                        <Input type="text" name="firstName"/>
-                                    </FormControl>
-                                </Grid>
-                                <Grid xs={6}>
-                                    <FormControl required id="lastname-wrapper">
-                                        <FormLabel htmlFor="lastname-wrapper" id="label-email">Last name</FormLabel>
-                                        <Input type="text" name="lastName"/>
+                                <Grid xs={12}>
+                                    <FormControl required id="name-label">
+                                        <FormLabel htmlFor="signin-name" id="label-name">
+                                            Full name
+                                        </FormLabel>
+                                        <Input type="text" name="name"/>
                                     </FormControl>
                                 </Grid>
                                 <Grid xs={12}>
                                     <FormControl required id="email-wrapper">
-                                        <FormLabel htmlFor="email-wrapper" id="label-email">Email</FormLabel>
+                                        <FormLabel htmlFor="email-wrapper" id="label-email">Your email</FormLabel>
                                         <Input type="email" name="email"/>
                                     </FormControl>
                                 </Grid>
@@ -223,8 +218,11 @@ export default function Signup() {
                     </Grid>
 
 
-                    <Grid xs={12}>
-                        <Button type="submit" fullWidth loading={loading}>
+                    <Grid xs={12} sx={{
+                        display: "flex",
+                        justifyContent: "center"
+                    }}>
+                        <Button type="submit" sx={{width: {xs: "100%", md: 250}}} loading={loading}>
                             Sign in
                         </Button>
                     </Grid>
