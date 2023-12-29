@@ -3,8 +3,6 @@
 import * as Layout from "@/components/stracture";
 import Sidebar from "@/components/sidebar";
 import * as React from "react";
-import {store} from '@/redux/store'
-import {Provider} from 'react-redux'
 import {usePathname, useRouter} from "next/navigation";
 import Navbar from "@/components/navbar";
 import EnhancedBreadcrumbs from "@/components/breadcrumbs";
@@ -35,7 +33,7 @@ export default function Studysynk({children}: StudySynkProps) {
     return (
         <AuthProvider>
             {['/signin', '/signup'].includes(currentRoute) ? children : (
-                <Provider store={store}>
+                <>
                     {drawerOpen && (
                         <Layout.SideDrawer onClose={() => setDrawerOpen(false)}>
                             <Sidebar navigate={navigate.push} currentRoute={currentRoute}/>
@@ -165,7 +163,7 @@ export default function Studysynk({children}: StudySynkProps) {
                         </Sheet>
 
                     </Layout.Root>
-                </Provider>
+                </>
             )}
         </AuthProvider>
     );
