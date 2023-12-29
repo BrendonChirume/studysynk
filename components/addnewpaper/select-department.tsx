@@ -2,53 +2,54 @@ import * as React from 'react';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Autocomplete from '@mui/joy/Autocomplete';
-import {Course, Program} from "@/lib/types";
+import {Department, Program} from "@/lib/types";
 import AutocompleteOption from "@mui/joy/AutocompleteOption/AutocompleteOption";
 
 
-interface SelectProgramProps {
-    programs: Program[] | [];
-    setCourses: React.Dispatch<React.SetStateAction<Course[] | []>>;
+interface SelectDepartmentProps {
+    departments: Department[] | [];
+    setPrograms: React.Dispatch<React.SetStateAction<Program[] | []>>;
     setInputValue: React.Dispatch<React.SetStateAction<{ university: string, course: string, program: string, department: string, faculty: string }>>;
-    inputValue: { university: string, course: string, program: string, department: string, faculty: string };
+    inputValue: {university: string, course: string, program: string, department: string, faculty: string};
 }
 
-export default function SelectProgram(props: SelectProgramProps) {
-    const {programs, setCourses, inputValue, setInputValue} = props
-    const [value, setValue] = React.useState<Program | null>(null);
+export default function SelectDepartment(props: SelectDepartmentProps) {
+    const {departments, setPrograms, inputValue, setInputValue} = props
+    const [value, setValue] = React.useState<Department | null>(null);
 
     return (
-        <FormControl id="select-program">
-            <FormLabel htmlFor={"program"} id="paper-program">Program</FormLabel>
+        <FormControl id="select-department">
+            <FormLabel htmlFor={"department"} id="paper-department">Department</FormLabel>
             <Autocomplete
-                id="program"
-                name="program"
+                id="department"
+                name="department"
                 autoHighlight
                 value={value}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
                     if (newValue) {
-                        setCourses(newValue?.courses);
+                        setPrograms(newValue?.programs);
                     } else {
-                        setCourses([]);
+                        setPrograms([]);
                     }
                 }}
-                inputValue={inputValue.program}
+                inputValue={inputValue.department}
                 onInputChange={(_event, newInputValue) => {
                     if (newInputValue === "") {
                         setInputValue({
                             ...inputValue,
+                            department: newInputValue,
                             program: newInputValue,
                             course: newInputValue,
                         });
                     } else {
                         setInputValue({
                             ...inputValue,
-                            program: newInputValue,
+                            department: newInputValue,
                         });
                     }
                 }}
-                options={programs}
+                options={departments}
                 getOptionLabel={(option) => option.name}
                 renderOption={(props, option) => {
                     // @ts-ignore

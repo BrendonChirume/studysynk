@@ -11,8 +11,6 @@ import Input from "@mui/joy/Input";
 import Divider from "@mui/joy/Divider";
 import Grid from "@mui/joy/Grid";
 import SelectUniversity from "@/components/addnewpaper/select-university";
-import Autocomplete from "@mui/joy/Autocomplete";
-import AutocompleteOption from "@mui/joy/AutocompleteOption";
 import DropZone from "@/components/dropZone";
 import Textarea from "@mui/joy/Textarea";
 import Button from "@mui/joy/Button";
@@ -22,29 +20,32 @@ import SelectCourse from "@/components/addnewpaper/select-course";
 import SelectProgram from "@/components/addnewpaper/select-program";
 import notify from "@/lib/utils/notify";
 import {ToastContainer} from "react-toastify";
-
-interface InitialStateType {
-    university?: string;
-    faculty: string;
-    program: string;
-    course: string;
-    setToken?: (token: Partial<InitialStateType>) => void;
-}
-
-const initialState: InitialStateType = {
-    university: "",
-    faculty: "",
-    program: "",
-    course: "",
-};
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
+import {Course, Department, Faculty, Program} from "@/lib/types";
+import SelectDepartment from "@/components/addnewpaper/select-department";
 
 
 export default function AddNewPage() {
-    const [selected, setSelectedIds] = React.useState<InitialStateType>(initialState);
+    const [faculties, setFaculties] = React.useState<Faculty[] | []>([]);
+    const [departments, setDepartments] = React.useState<Department[] | []>([]);
+    const [programs, setPrograms] = React.useState<Program[] | []>([]);
+    const [courses, setCourses] = React.useState<Course[] | []>([]);
+    const [inputValue, setInputValue] = React.useState<{
+        university: string,
+        faculty: string
+        department: string,
+        program: string,
+        course: string,
+    }>({
+        university: "",
+        faculty: "",
+        department: "",
+        program: "",
+        course: ""
+    });
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-    const setSelected = (token: Partial<InitialStateType>) => setSelectedIds({...selected, ...token});
 
     // Handle form submit
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,28 +53,29 @@ export default function AddNewPage() {
         setIsLoading(true);
 
         const formData = new FormData(event.currentTarget);
+        const data = Object.fromEntries(formData);
 
-        await fetch(`${process.env.NEXT_PUBLIC_URL}/api/papers`, {
+        await fetch('/api/papers', {
             method: 'POST',
-            body: JSON.stringify(Object.fromEntries(formData)),
+            body: JSON.stringify(data),
         }).then((response) => {
             if (response.ok) {
                 notify("Submitted for verification!", "success");
                 (event.target as HTMLFormElement).reset();
             } else {
                 notify("An error occurred while submitting!", "error");
+                setIsLoading(false);
             }
-        }).finally(() => {
-            setIsLoading(false)
         })
     };
+
     return (
         <Styled.Section>
             <Box sx={{pt: 4}}>
                 <Typography level="h5">Add New Paper</Typography>
                 <Typography level="body-sm" sx={{mt: 1}}>The credibility of this information is at your
                     discretion.</Typography>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} encType={"multipart/form-data"}>
                     <Stack spacing={{xs: 3, md: 5}}>
                         <Box>
                             <FormControl sx={{flex: 1, mt: 2.5}} id="title">
@@ -93,27 +95,50 @@ export default function AddNewPage() {
                         </Box>
                         <Divider/>
                         <Grid container spacing={1}>
-                            <Grid xs={12} md={4}>
+                            <Grid xs={12} lg={4}>
                                 <Typography level="h5">Paper details</Typography>
                                 <Typography level="body-sm" sx={{mt: 1}}>
                                     This information will help us organize and process your submission accurately.
                                 </Typography>
                             </Grid>
-                            <Grid xs={12} md={8}>
+                            <Grid xs={12} lg={8}>
                                 <Styled.Item sx={{p: {xs: 2, md: 3}, mt: {xs: 2, md: 0}}}>
                                     <Grid container spacing={3}>
                                         <Grid xs={12}>
-                                            <SelectUniversity setSelected={setSelected}/>
+                                            <SelectUniversity
+                                                inputValue={inputValue}
+                                                setInputValue={setInputValue}
+                                                setFaculties={setFaculties}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectFaculty setSelected={setSelected}
-                                                           universityId={selected.university}/>
+                                            <SelectFaculty
+                                                inputValue={inputValue}
+                                                setInputValue={setInputValue}
+                                                faculties={faculties}
+                                                setDepartments={setDepartments}
+                                            />
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectProgram setSelected={setSelected} facultyId={selected.faculty}/>
+                                            <SelectDepartment
+                                                inputValue={inputValue}
+                                                setInputValue={setInputValue}
+                                                departments={departments}
+                                                setPrograms={setPrograms}
+                                            />
                                         </Grid>
-                                        <Grid xs={6}>
-                                            <SelectCourse setSelected={setSelected} programId={selected.program}/>
+                                        <Grid xs={12}>
+                                            <SelectProgram
+                                                inputValue={inputValue}
+                                                setInputValue={setInputValue}
+                                                programs={programs}
+                                                setCourses={setCourses}
+                                            />
+                                        </Grid>
+                                        <Grid xs={12}>
+                                            <SelectCourse
+                                                inputValue={inputValue}
+                                                setInputValue={setInputValue}
+                                                courses={courses}/>
                                         </Grid>
                                         <Grid xs={6}>
                                             <FormControl id="year" sx={{flexGrow: 1}}>
@@ -122,24 +147,18 @@ export default function AddNewPage() {
                                             </FormControl>
                                         </Grid>
                                         <Grid xs={6}>
-                                            <FormControl sx={{flexGrow: 1}}>
+                                            <FormControl id={"paper-type"} sx={{display: {sm: 'contents'}}}>
                                                 <FormLabel htmlFor="paper-type" id="paper-year">Paper type</FormLabel>
-                                                <Autocomplete
-                                                    id="paper-type"
-                                                    name={"paperType"}
-                                                    autoHighlight
-                                                    options={['Practice Questions', 'Exam Paper']}
-                                                    renderOption={(props, option) => {
-                                                        // @ts-ignore
-                                                        const {key, ...rest} = props;
-                                                        return (
-                                                            <AutocompleteOption
-                                                                sx={{px: 2, py: 0.5, cursor: "pointer"}}
-                                                                key={key} {...rest}>{option}
-                                                            </AutocompleteOption>
-                                                        )
-                                                    }}
-                                                />
+                                                <Select
+                                                    defaultValue="1"
+                                                >
+                                                    <Option value="1">
+                                                        Exam paper
+                                                    </Option>
+                                                    <Option value="2">
+                                                        Question paper
+                                                    </Option>
+                                                </Select>
                                             </FormControl>
                                         </Grid>
                                     </Grid>
@@ -149,14 +168,14 @@ export default function AddNewPage() {
                         </Grid>
                         <Divider/>
                         <Grid container spacing={1}>
-                            <Grid xs={12} md={4}>
+                            <Grid xs={12} lg={4}>
                                 <Typography level="h5">Upload question paper</Typography>
                                 <Typography level="body-sm" sx={{mt: 1}}>
                                     Please upload a pdf file of the question paper and enter a short description of the
                                     paper.
                                 </Typography>
                             </Grid>
-                            <Grid xs={12} md={8}>
+                            <Grid xs={12} lg={8}>
                                 <Styled.Item
                                     sx={{
                                         p: {xs: 2, md: 3},

@@ -1,51 +1,23 @@
-"use client";
-
-import Autocomplete from "@mui/joy/Autocomplete";
+import * as React from 'react';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Autocomplete from '@mui/joy/Autocomplete';
+import {Course} from "@/lib/types";
 import AutocompleteOption from "@mui/joy/AutocompleteOption/AutocompleteOption";
-import CircularProgress from "@mui/joy/CircularProgress";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import React from "react";
+
 
 interface SelectCourseProps {
-    setSelected: (token: { course?: string }) => void;
-    programId?: string;
+    courses: Course[] | [];
+    setInputValue: React.Dispatch<React.SetStateAction<{ university: string, course: string, program: string, department: string, faculty: string }>>;
+    inputValue: { university: string, course: string, program: string, department: string, faculty: string };
 }
 
 export default function SelectCourse(props: SelectCourseProps) {
-    const {setSelected, programId} = props;
-    const [faculties, setFaculties] = React.useState<Course[]>([]);
-    const [open, setOpen] = React.useState(false);
-    const loading = open && faculties.length === 0;
-
+    const {courses, inputValue, setInputValue} = props;
     const [value, setValue] = React.useState<Course | null>(null);
-    const [inputValue, setInputValue] = React.useState('');
-
-    const getFaculties = React.useCallback(async () => {
-        const data = await fetch(`/api/courses?id=${programId}`, {
-            method: "GET",
-        }).then(res => res.json());
-        setFaculties(data);
-    }, [programId]);
-
-    React.useEffect(() => {
-        if (!loading) {
-            if (!programId) {
-                setFaculties([])
-            }
-            return;
-        } else {
-            getFaculties().then(r => r);
-        }
-
-    }, [programId, loading, getFaculties]);
-
-    React.useEffect(() => {
-        getFaculties().then(r => r);
-    }, [getFaculties]);
 
     return (
-        <FormControl sx={{flexGrow: 1}}>
+        <FormControl id="select-course">
             <FormLabel htmlFor={"course"} id="paper-course">Course</FormLabel>
             <Autocomplete
                 id="course"
@@ -54,27 +26,15 @@ export default function SelectCourse(props: SelectCourseProps) {
                 value={value}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
-                    setSelected({course: newValue?.id});
                 }}
-                inputValue={inputValue}
+                inputValue={inputValue.course}
                 onInputChange={(_event, newInputValue) => {
-                    setInputValue(newInputValue);
+                    setInputValue({
+                        ...inputValue,
+                        course: newInputValue,
+                    });
                 }}
-                open={open}
-                onOpen={() => {
-                    setOpen(true);
-                }}
-                onClose={() => {
-                    setOpen(false);
-                }}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                loading={loading}
-                endDecorator={
-                    loading ? (
-                        <CircularProgress size="sm" sx={{bgcolor: 'background.surface'}}/>
-                    ) : null
-                }
-                options={faculties}
+                options={courses}
                 getOptionLabel={(option) => option.name}
                 renderOption={(props, option) => {
                     // @ts-ignore
@@ -83,11 +43,12 @@ export default function SelectCourse(props: SelectCourseProps) {
                         <AutocompleteOption
                             sx={{px: 2, py: 0.5, cursor: "pointer"}}
                             key={id} {...rest}>
-                            {`${option.code} ${option.name}`}
+                            {`${option.name}`}
                         </AutocompleteOption>
                     )
                 }}
             />
         </FormControl>
-    )
+
+    );
 }
