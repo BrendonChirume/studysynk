@@ -13,6 +13,7 @@ import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon';
 import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon';
 import DocumentArrowUpIcon from '@heroicons/react/24/outline/DocumentArrowUpIcon';
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
+import Link from "next/link";
 
 interface Options {
     name: string;
@@ -45,10 +46,9 @@ export const sidebarLinks: readonly Options[] = [
 // sidebar props
 interface SidebarProps {
     currentRoute: string;
-    navigate: (path: string) => void;
 }
 
-export default function Sidebar({currentRoute, navigate}: SidebarProps) {
+export default function Sidebar({currentRoute}: SidebarProps) {
     return (
         <List size="sm" sx={{
             '--ListItem-radius': '8px', '--List-gap': '4px',
@@ -78,16 +78,18 @@ export default function Sidebar({currentRoute, navigate}: SidebarProps) {
                             route = currentRoute.length === 1 ? 'home' : route;
 
                             return (
-                                <ListItem key={index} onClick={() => navigate(option.href)}>
-                                    <ListItemButton
-                                        role="button"
-                                        selected={route.includes(ref)}>
-                                        <ListItemDecorator>
-                                            {option.icon}
-                                        </ListItemDecorator>
-                                        <ListItemContent>{option.name}</ListItemContent>
-                                    </ListItemButton>
-                                </ListItem>
+                                <Link href={option.href} key={index}>
+                                    <ListItem key={index}>
+                                        <ListItemButton
+                                            role="button"
+                                            selected={route.includes(ref)}>
+                                            <ListItemDecorator>
+                                                {option.icon}
+                                            </ListItemDecorator>
+                                            <ListItemContent>{option.name}</ListItemContent>
+                                        </ListItemButton>
+                                    </ListItem>
+                                </Link>
                             )
                         })
                     }
