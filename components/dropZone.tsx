@@ -8,10 +8,16 @@ import FileCard from "@/components/fileCard";
 
 const activeStyles = {
     bgcolor: 'background.level1',
-    borderColor: 'background.surface'
+    borderColor: 'background.surface',
 }
 
-export default function DropZone({sx, ...props}: CardProps) {
+interface DropZoneProps {
+    accept: string;
+    inputId: string;
+}
+
+
+export default function DropZone({sx, accept, inputId, ...props}: CardProps & DropZoneProps) {
     const inputRef = React.useRef<HTMLInputElement | null>(null)
     const [file, setFile] = React.useState<FileList | null>(null);
     const [dragActive, setDragActive] = React.useState<boolean>(false)
@@ -97,7 +103,7 @@ export default function DropZone({sx, ...props}: CardProps) {
                             <Typography level="body-md" textAlign="center">
                                 Click to upload here, or drag and drop
                                 <br/>
-                                File here&nbsp;<Typography level={"body-xs"}>(PDF only)</Typography>
+                                File here&nbsp;<Typography level={"body-xs"}>({accept.includes("image") ? "Images":"PDF"} only)</Typography>
                             </Typography>
                         </Card>
                     )
@@ -109,9 +115,9 @@ export default function DropZone({sx, ...props}: CardProps) {
                 onChange={handleChange}
                 slotProps={{
                     input: {
-                        id: "file",
-                        accept: "application/pdf",
-                        name: "file",
+                        id: inputId,
+                        accept,
+                        name: inputId,
                         ref: inputRef
                     }
                 }} component="div" type={"file"}/>
