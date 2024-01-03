@@ -38,7 +38,7 @@ export default function Signup() {
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.name !== "profileImage") {
+        if (event.target.name !== "image") {
             return setPassword((prevState) => ({...prevState, [event.target.name]: event.target.value}));
         }
         return event.target.files && event.target.files[0] && setImageSrc(URL.createObjectURL(event.target.files[0]));
@@ -65,7 +65,7 @@ export default function Signup() {
             data.image = imageSrc;
         }
 
-        await fetch('/api/student', {
+        await fetch('/api/students', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -78,12 +78,11 @@ export default function Signup() {
                 if (res.message.includes("exists")) {
                     return notify(res.message, "warning")
                 }
-                router.push('/signin');
+                return router.push('/signin');
             } else {
-                notify(response.statusText, "error");
-                setLoading(false);
+                return notify(response.statusText, "error");
             }
-        })
+        }).finally(() => setLoading(false))
 
     }
 
@@ -116,12 +115,18 @@ export default function Signup() {
                         <Divider/>
                     </Grid>
                     <Grid xs={12}>
-                        <Stack direction="row" spacing={2}>
-                            <Stack direction="column" spacing={1} sx={{position: "relative"}}>
+                        <Stack direction={{xs: "column", md: "row"}}
+                               sx={{alignItems: {xs: "center", md: "flex-start"}}} spacing={2}>
+                            <Stack direction="column" spacing={1} sx={{
+                                position: "relative",
+                                width: 108,
+                                height: 108,
+                                margin: "0 auto",
+                            }}>
                                 <AspectRatio
                                     ratio="1"
                                     maxHeight={108}
-                                    sx={{flex: 1, minWidth: 108, borderRadius: '100%'}}
+                                    sx={{flex: 1, width: 108, borderRadius: '100%'}}
                                 >
                                     {
                                         imageSrc.length > 0 ?
@@ -188,7 +193,7 @@ export default function Signup() {
                                         <Input type="email" name="email"/>
                                     </FormControl>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid xs={12} md={6}>
                                     <FormControl required id="password-wrapper" error={error}>
                                         <FormLabel htmlFor="password-wrapper" id="label-password">Password</FormLabel>
                                         <Input type="password" name="password" value={password.password}
@@ -199,7 +204,7 @@ export default function Signup() {
                                         </FormHelperText>
                                     </FormControl>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid xs={12} md={6}>
                                     <FormControl required id="confirmPassword-wrapper" error={error}>
                                         <FormLabel htmlFor="confirmPassword-wrapper" id="label-password">
                                             Confirm password
@@ -223,7 +228,7 @@ export default function Signup() {
                         justifyContent: "center"
                     }}>
                         <Button type="submit" sx={{width: {xs: "100%", md: 250}}} loading={loading}>
-                            Sign in
+                            Sign up
                         </Button>
                     </Grid>
                     <Grid xs={12}>

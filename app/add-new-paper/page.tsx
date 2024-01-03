@@ -143,7 +143,15 @@ export default function AddNewPage() {
                                         <Grid xs={6}>
                                             <FormControl id="year" sx={{flexGrow: 1}}>
                                                 <FormLabel htmlFor="year" id="paper-year">Year</FormLabel>
-                                                <Input type={"date"} name={"year"}/>
+                                                <Input name={"year"} type="number"
+                                                       slotProps={{
+                                                           input: {
+                                                               min: 2000,
+                                                               max: 2024,
+                                                               step: 1,
+                                                           }
+                                                       }}
+                                                />
                                             </FormControl>
                                         </Grid>
                                         <Grid xs={6}>
@@ -185,7 +193,7 @@ export default function AddNewPage() {
                                         flexDirection: 'column'
                                     }}>
 
-                                    <DropZone/>
+                                    <DropZone inputId={"file"} accept={"application/pdf"}/>
 
                                     <FormControl sx={{flexGrow: 1}}>
                                         <FormLabel htmlFor="description" id="paper-description">Description&nbsp;

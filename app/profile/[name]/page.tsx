@@ -14,10 +14,55 @@ import EnvelopeIcon from "@heroicons/react/24/outline/EnvelopeIcon";
 import BuildingOffice2Icon from "@heroicons/react/24/outline/BuildingOffice2Icon";
 import AcademicCapIcon from "@heroicons/react/24/outline/AcademicCapIcon";
 import CheckIcon from "@heroicons/react/24/outline/CheckIcon";
+import {useSession} from "next-auth/react";
+import React from "react";
+import notify from "@/lib/utils/notify";
 
 export default function MyProfile() {
+    const {data: session} = useSession();
+    const [name, surname] = session?.user?.name?.split(" ") || ["", ""];
+    const [bio, setBio] = React.useState(
+        "I am a 🚀 SoftwareSorcerer who likes to play around with solutions✨"
+    );
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [wordCount, setWordCount] = React.useState(275 - bio.length)
+
+    const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setBio(event.target.value);
+        const words = event.target.value.length;
+        setWordCount(275 - words)
+    }
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsLoading(true);
+
+        const formData = new FormData(event.currentTarget);
+        const data = Object.fromEntries(formData);
+
+        await fetch(`/api/profile`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(async (response) => {
+            if (response.ok) {
+                const res = await response.json();
+                notify(res.message, "success");
+                (event.target as HTMLFormElement).reset();
+            } else {
+                notify(response.statusText, "error");
+                setIsLoading(false);
+            }
+        })
+
+    }
+
     return (
         <Box
+            component={"form"}
+            onSubmit={handleSubmit}
             sx={{
                 pt: 4,
                 display: 'grid',
@@ -36,11 +81,11 @@ export default function MyProfile() {
             <Box sx={{display: {xs: 'contents', sm: 'flex'}, gap: 2}}>
                 <FormControl sx={{flex: 1}}>
                     <FormLabel sx={{display: {sm: 'none'}}}>First name</FormLabel>
-                    <Input placeholder="first name" defaultValue="Siriwat"/>
+                    <Input placeholder="first name" defaultValue={name}/>
                 </FormControl>
                 <FormControl sx={{flex: 1}}>
                     <FormLabel sx={{display: {sm: 'none'}}}>Last name</FormLabel>
-                    <Input placeholder="last name" defaultValue="K."/>
+                    <Input placeholder="last name" defaultValue={surname}/>
                 </FormControl>
             </Box>
 
@@ -52,7 +97,8 @@ export default function MyProfile() {
                     type="email"
                     startDecorator={<EnvelopeIcon className="w-6 h-6 ss-icon"/>}
                     placeholder="email"
-                    defaultValue="siriwatk@test.com"
+                    name="email"
+                    defaultValue={session?.user?.email || ""}
                 />
             </FormControl>
 
@@ -72,10 +118,10 @@ export default function MyProfile() {
             >
                 <Avatar
                     size="lg"
-                    src="/static/images/avatar/1.jpg"
+                    src="/avatar.jpg"
                     sx={{'--Avatar-size': '64px'}}
                 />
-                <DropZone/>
+                <DropZone accept={"image/*"} inputId={"image"}/>
             </Box>
 
             <Divider role="presentation"/>
@@ -89,10 +135,17 @@ export default function MyProfile() {
                 <Textarea
                     minRows={4}
                     sx={{mt: 1.5}}
-                    defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
+                    slotProps={{
+                        textarea: {
+                            maxLength: 275
+                        }
+                    }}
+                    value={bio}
+                    name={"bio"}
+                    onChange={handleBioChange}
                 />
                 <FormHelperText sx={{mt: 0.75, fontSize: 'xs'}}>
-                    275 characters left
+                    {wordCount} characters left
                 </FormHelperText>
             </Box>
             <Divider role="presentation"/>
@@ -102,6 +155,7 @@ export default function MyProfile() {
                 <Input
                     startDecorator={<BuildingOffice2Icon className="w-6 h-6 ss-icon"/>}
                     placeholder="university"
+                    name={"university"}
                 />
             </FormControl>
 
@@ -110,6 +164,7 @@ export default function MyProfile() {
                 <Input
                     startDecorator={<AcademicCapIcon className="w-6 h-6 ss-icon"/>}
                     placeholder="Program"
+                    name="program"
                 />
             </FormControl>
             <Divider role="presentation"/>
@@ -126,6 +181,7 @@ export default function MyProfile() {
                 </Button>
                 <Button
                     variant="soft" type="submit"
+                    loading={isLoading}
                     endDecorator={
                         <CheckIcon className="w-5 h-5 ss-icon"/>
                     }>

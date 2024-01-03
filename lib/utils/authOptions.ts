@@ -2,6 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import {NextAuthOptions} from "next-auth";
 import bcrypt from "bcrypt";
 import {Student} from "@/lib/models";
+import connectMongoDB from "@/lib/connectMongoDB";
 
 
 const authOptions: NextAuthOptions = {
@@ -22,7 +23,7 @@ const authOptions: NextAuthOptions = {
                     return null
                 }
                 const {email, password} = credentials;
-
+                await connectMongoDB();
                 const student = await Student.findOne({email})
                 if (!student) {
                     return null;
@@ -39,6 +40,18 @@ const authOptions: NextAuthOptions = {
             }
         }),
     ],
+    callbacks: {
+        async session({session, token}) {
+            const {email} = token
+            const student = await Student.findOne({email})
+
+            if (student) {
+                return {...session, user: {...session.user, ...student}}
+            }
+
+            return session
+        }
+    },
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt",

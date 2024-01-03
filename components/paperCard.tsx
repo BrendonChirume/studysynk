@@ -5,9 +5,10 @@ import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
 import Link from "@mui/joy/Link";
 import Image from "next/image";
+import {Paper} from "@/lib/types";
 
 interface FileCardProps {
-    paper: QuestionPaper
+    paper: Paper
 }
 
 export default function PaperCard({paper}: FileCardProps) {

@@ -8,10 +8,12 @@ import Image from "next/image";
 import Styled from "@/components/Styled";
 import BoltIcon from "@heroicons/react/24/outline/BoltIcon";
 import {getServerSession} from "next-auth";
+import RecentTable from "@/components/home/RecentTable";
+import Square3Stack3DIcon from "@heroicons/react/24/outline/Square3Stack3DIcon";
 
 export default async function Home() {
     const session = await getServerSession();
-    console.log("session: ",session);
+
     return (
         <Styled.Section sx={{pt: 4}}>
             <Grid container spacing={3}>
@@ -31,8 +33,10 @@ export default async function Home() {
                                     15 days!
                                 </Typography>
                                 <Typography sx={{pl: 6, fontWeight: '500', fontSize: '18px'}}>
-                                    Welcome back 👋 <br/>
-                                    Brendon Chirume
+                                    Welcome back 👋
+                                </Typography>
+                                <Typography sx={{pl: 6, fontWeight: '500', fontSize: '24px'}}>
+                                    {session?.user?.name}
                                 </Typography>
                                 <Typography level="body-md" sx={{pl: 6, pt: 1, pb: 0.5}}>
                                     Your&apos;e a learning machine!
@@ -58,7 +62,8 @@ export default async function Home() {
                         }}
                     >
                         <CardCover>
-                            <Image width={300} height={282} alt="" src="/thumbnail.png"/>
+                            <Image width={300} height={300} style={{width: 326, height: "auto"}} alt=""
+                                   src="/thumbnail.png"/>
                         </CardCover>
                         <CardCover
                             sx={{
@@ -85,6 +90,12 @@ export default async function Home() {
 
                 </Grid>
             </Grid>
+            <Typography level="body-md" sx={{pt: 5}} startDecorator={
+                <Square3Stack3DIcon className="w-6 h-6 ss-icon"/>
+            }>
+                Recent
+            </Typography>
+            <RecentTable/>
         </Styled.Section>
     )
 }

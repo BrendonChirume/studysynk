@@ -34,11 +34,11 @@ export default function SignIn() {
             password: formData.get("password") as string,
         }).then((res) => {
             if (!res) {
-                notify("An error occurred while trying to sign in!", "warning")
+                notify("An error occurred while trying to sign in!", "error")
                 return;
             }
             if (res.error) {
-                notify("Invalid credentials!", "error");
+                notify("No internet access!", "error");
                 return setError(!!res);
             }
             if (res.ok) {

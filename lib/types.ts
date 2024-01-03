@@ -1,55 +1,61 @@
 // Define the University interface
-interface University {
-    id: string;
-    name: string;
-    acronym: string;
+
+import {Schema} from "mongoose";
+
+export interface Course {
+    name: string,
+    papers: [{ type: Schema.Types.ObjectId, ref: 'Paper' }]
 }
 
-// Define the Faculty interface
-interface Faculty {
-    id: string;
-    name: string;
-    universityId: string;
+export interface Program {
+    name: string,
+    level: string,
+    courses: Course[]
 }
 
-// Define the Program interface
-interface Program {
-    id: string;
-    name: string;
-    students: Student[];
+export interface Department {
+    name: string,
+    programs: Program[]
 }
 
-// Define the Program interface
-interface Course {
-    id: string;
-    name: string;
-    code: string;
-    programId: string;
+export interface Faculty {
+    name: string,
+    departments: Department[]
 }
 
-// Define the Student interface
-interface Student {
-    id: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    program: Program;
-    email: string;
-    bio: string;
-    university?: University
-    universityId?: string
+
+export interface University {
+    _id: string,
+    name: string,
+    code: string,
+    faculties: Faculty[]
 }
 
 // Define the QuestionPaper interface
-interface QuestionPaper {
-    id: string;
+export interface Paper {
+    _id: string;
+    name: string;
     title: string;
-    description?: string
-    uploadDate: Date;
-    fileUrl: string;
-    program: Program;
-    year: number;
-    university: University;
-    programId: string;
-    universityId: string;
+    date: string;
+    course: string;
+    faculty: string;
+    department: string;
+    program: string;
+    year: string;
+    description: string;
+    url: string;
+    university: string;
+    internalExaminer: string;
+    externalExaminer: string;
+}
+
+export interface Student {
+    _id: string;
+    name: string;
+    password: string;
+    email: string;
+    bio: string;
+    image: string;
+    program: string;
+    university: string;
 }
