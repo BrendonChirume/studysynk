@@ -7,8 +7,8 @@ import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
-import SelectProgram from "@/components/addnewpaper/select-program";
-import SelectCourse from "@/components/addnewpaper/select-course";
+// import SelectProgram from "@/components/addnewpaper/select-program";
+// import SelectCourse from "@/components/addnewpaper/select-course";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
@@ -58,8 +58,8 @@ export default function AddProgram() {
                         <FormLabel htmlFor="name" id="label-name">Program name</FormLabel>
                         <Input name="name"/>
                     </FormControl>
-                    <SelectProgram setSelected={(token) => setProgram(token.program as string)}/>
-                    <SelectCourse setSelected={(token) => setProgram(token.course as string)}/>
+                    {/*<SelectProgram setSelected={(token) => setProgram(token.program as string)}/>*/}
+                    {/*<SelectCourse setSelected={(token) => setProgram(token.course as string)} courses={}/>*/}
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
                     <CardActions sx={{alignSelf: 'flex-end', pt: 2}}>

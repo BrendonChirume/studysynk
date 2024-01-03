@@ -9,10 +9,6 @@ import FolderPlusIcon from "@heroicons/react/24/outline/FolderPlusIcon";
 import {Paper} from "@/lib/types";
 import Typography from "@mui/joy/Typography";
 import Link from "next/link";
-import Card from "@mui/joy/Card";
-import AspectRatio from "@mui/joy/AspectRatio";
-import {Skeleton} from "@mui/joy";
-import Image from "next/image";
 
 export default function Papers() {
     const [papers, setPapers] = React.useState<Paper[] | []>([]);
@@ -33,26 +29,39 @@ export default function Papers() {
             <Box>
                 <FilterOptions/>
                 <Grid container spacing={3} columns={12}>
-                    <Card variant="outlined" sx={{ width: 230, height: 280, display: 'flex', gap: 2}}>
-                        <AspectRatio ratio="21/9">
-                            <Skeleton variant="overlay">
-                                <Image
-                                    src={'/data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}
-                                    width={280}
-                                    height={280}
-                                    style={{
-                                        objectPosition: 'top',
-                                    }}
-                                    alt="PDF Thumbnail"
-                                />
-                            </Skeleton>
-                        </AspectRatio>
-                        <Typography>
-                            <Skeleton>
-                                Lorem ipsum is placeholder.
-                            </Skeleton>
-                        </Typography>
-                    </Card>
+                    {
+                        papers.length === 0 ?
+                            (
+                                <Grid xs={12}
+                                      sx={{
+                                          display: "flex",
+                                          pt: 10,
+                                          justifyContent: "center",
+                                          height: 400,
+                                      }}>
+                                    <Link href={"/add-new-paper"}>
+                                        <Box sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                        }}>
+                                            <Box sx={{width: 120, height: 120}}>
+                                                <FolderPlusIcon className="ss-icon"/>
+                                            </Box>
+                                            <Typography>
+                                                Library empty! Click to upload.
+                                            </Typography>
+                                        </Box>
+                                    </Link>
+                                </Grid>
+                            ) :
+                            papers?.map((paper: Paper, index: number) => (
+                                <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                                    <PaperCard paper={paper}/>
+                                </Grid>
+                            ))
+                    }
                 </Grid>
             </Box>
         </Styled.Section>

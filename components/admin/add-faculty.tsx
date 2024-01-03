@@ -7,7 +7,7 @@ import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
-import SelectUniversity from "@/components/addnewpaper/select-university";
+// import SelectUniversity from "@/components/addnewpaper/select-university";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
@@ -57,7 +57,7 @@ export default function AddFaculty() {
                         <FormLabel htmlFor="name" id="label-name">Faculty name</FormLabel>
                         <Input name="name"/>
                     </FormControl>
-                    <SelectUniversity setSelected={(token) => setUniversity(token.university as string)}/>
+                    {/*<SelectUniversity setSelected={(token) => setUniversity(token.university as string)}/>*/}
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
                     <CardActions sx={{alignSelf: 'flex-end', pt: 2}}>

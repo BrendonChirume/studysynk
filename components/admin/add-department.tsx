@@ -11,7 +11,7 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import notify from "@/lib/utils/notify";
-import SelectFaculty from "@/components/addnewpaper/select-faculty";
+// import SelectFaculty from "@/components/addnewpaper/select-faculty";
 
 export default function AddDepartment() {
     const [loading, setLoading] = React.useState(false);
@@ -57,7 +57,7 @@ export default function AddDepartment() {
                         <FormLabel htmlFor="name" id="label-name">Department name</FormLabel>
                         <Input name="name"/>
                     </FormControl>
-                    <SelectFaculty setSelected={(token) => setDepartment(token.faculty as string)}/>
+                    {/*<SelectFaculty setSelected={(token) => setDepartment(token.faculty as string)}/>*/}
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
                     <CardActions sx={{alignSelf: 'flex-end', pt: 2}}>
