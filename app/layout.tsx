@@ -4,8 +4,10 @@ import type {Metadata} from 'next'
 import {ReactNode} from "react";
 import StudySynk from "@/providers/studysynk";
 import ThemeRegistry from "@/providers/themeRegistry";
-import PaperPreviewProvider from "@/context/viewPaperContext";
+import PaperPreviewProvider from "@/context/paperPreviewContext";
 import {Inter} from 'next/font/google';
+import {ErrorBoundary} from "@sentry/nextjs";
+import GlobalError from "@/components/global-error";
 
 const inter = Inter({subsets: ['latin']})
 export const metadata: Metadata = {
@@ -21,11 +23,13 @@ export default function RootLayout({children}: RootLayoutProps) {
     return (
         <html lang="en">
         <body className={inter.className}>
-        <ThemeRegistry options={{key: "ss"}}>
-            <PaperPreviewProvider>
-                <StudySynk>{children}</StudySynk>
-            </PaperPreviewProvider>
-        </ThemeRegistry>
+        <ErrorBoundary fallback={GlobalError}>
+            <ThemeRegistry options={{key: "ss"}}>
+                <PaperPreviewProvider>
+                    <StudySynk>{children}</StudySynk>
+                </PaperPreviewProvider>
+            </ThemeRegistry>
+        </ErrorBoundary>
         </body>
         </html>
     )

@@ -34,7 +34,6 @@ export interface University {
 // Define the QuestionPaper interface
 export interface Paper {
     _id: string;
-    name: string;
     title: string;
     date: string;
     course: string;

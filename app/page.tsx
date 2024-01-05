@@ -35,7 +35,8 @@ export default async function Home() {
                                 <Typography sx={{pl: 6, fontWeight: '500', fontSize: '18px'}}>
                                     Welcome back 👋
                                 </Typography>
-                                <Typography sx={{pl: 6, fontWeight: '500', fontSize: '24px'}}>
+                                <Typography
+                                    sx={{pl: 6, fontWeight: '500', fontSize: '24px', textTransform: 'capitalize'}}>
                                     {session?.user?.name}
                                 </Typography>
                                 <Typography level="body-md" sx={{pl: 6, pt: 1, pb: 0.5}}>

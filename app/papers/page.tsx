@@ -6,7 +6,7 @@ import Styled from "@/components/Styled";
 import Box from "@mui/joy/Box";
 import FilterOptions from "@/components/papers/filterOptions";
 import {Paper} from "@/lib/types";
-import {usePaperPreview} from "@/context/viewPaperContext";
+import {usePaperPreview} from "@/context/paperPreviewContext";
 
 export default function Papers() {
     const [papers, setPapers] = React.useState<Paper[] | []>([]);

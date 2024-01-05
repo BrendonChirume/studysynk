@@ -5,7 +5,7 @@ import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
 import Image from "next/image";
 import {Paper} from "@/lib/types";
-import {usePaperPreview} from "@/context/viewPaperContext";
+import {usePaperPreview} from "@/context/paperPreviewContext";
 
 interface FileCardProps {
     paper: Paper

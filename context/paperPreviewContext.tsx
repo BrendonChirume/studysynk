@@ -20,7 +20,6 @@ const PaperPreviewContext = React.createContext<PaperPreviewContextType>({
             externalExaminer: "",
             faculty: "",
             internalExaminer: "",
-            name: "",
             program: "",
             title: "",
             university: "",

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box, {BoxProps} from '@mui/joy/Box';
 import Sheet from '@mui/joy/Sheet';
-import {usePaperPreview} from "@/context/viewPaperContext";
+import {usePaperPreview} from "@/context/paperPreviewContext";
 
 function Root(props: BoxProps) {
     const {paper} = usePaperPreview();

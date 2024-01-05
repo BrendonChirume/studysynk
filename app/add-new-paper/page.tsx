@@ -183,6 +183,31 @@ export default function AddNewPage() {
                                         </Grid>
                                     </Grid>
                                 </Styled.Item>
+
+                                <Styled.Item sx={{p: {xs: 2, md: 3}, mt: 3}}>
+                                    <Grid container spacing={3}>
+                                        <Grid xs={6}>
+                                            <FormControl id="year" sx={{flexGrow: 1}}>
+                                                <FormLabel htmlFor="internalExaminer"
+                                                           id="paper-internal-examiner">Internal examiner</FormLabel>
+                                                <Input name={"internalExaminer"}/>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid xs={6}>
+                                            <FormControl id="year" sx={{flexGrow: 1}}>
+                                                <FormLabel htmlFor="externalExaminer"
+                                                           id="paper-external-examiner">External examiner</FormLabel>
+                                                <Input name={"externalExaminer"}/>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid xs={12}>
+
+                                        </Grid>
+                                        <Grid xs={12}>
+
+                                        </Grid>
+                                    </Grid>
+                                </Styled.Item>
                             </Grid>
 
                         </Grid>

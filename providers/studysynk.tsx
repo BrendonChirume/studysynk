@@ -8,7 +8,6 @@ import Navbar from "@/components/navbar";
 import EnhancedBreadcrumbs from "@/components/breadcrumbs";
 import {AuthProvider} from "@/providers/authProvider";
 import PaperPreview from "@/components/paperPreview";
-import {usePaperPreview} from "@/context/viewPaperContext";
 
 interface StudySynkProps {
     children: React.ReactNode;
@@ -17,8 +16,6 @@ interface StudySynkProps {
 export default function StudySynk({children}: StudySynkProps) {
     const currentRoute = usePathname();
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const {paper} = usePaperPreview();
-    const isOpen = Boolean(paper);
 
     return (
 

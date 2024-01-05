@@ -8,7 +8,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import DocumentArrowDownIcon from "@heroicons/react/24/outline/DocumentArrowDownIcon";
 import * as React from "react";
-import {usePaperPreview} from "@/context/viewPaperContext";
+import {usePaperPreview} from "@/context/paperPreviewContext";
 import Chip from "@mui/joy/Chip";
 
 export default function PaperPreview() {
@@ -25,7 +25,6 @@ export default function PaperPreview() {
             externalExaminer: "",
             faculty: "",
             internalExaminer: "",
-            name: "",
             program: "",
             title: "",
             university: "",
