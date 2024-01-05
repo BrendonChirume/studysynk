@@ -31,7 +31,7 @@ export default function Papers() {
                 <Grid container spacing={3} columns={12}>
                     {
                         papers?.map((paper: Paper, index: number) => (
-                            <Grid xs={12} sm={6} md={4} lg={isOpen ? 6 : 3} key={index}>
+                            <Grid xs={12} sm={6} md={4} lg={isOpen ? 4 : 3} key={index}>
                                 <PaperCard paper={paper}/>
                             </Grid>
                         ))

@@ -1,8 +1,12 @@
 import * as React from 'react';
 import Box, {BoxProps} from '@mui/joy/Box';
 import Sheet from '@mui/joy/Sheet';
+import {usePaperPreview} from "@/context/viewPaperContext";
 
 function Root(props: BoxProps) {
+    const {paper} = usePaperPreview();
+    const isOpen = Boolean(paper);
+
     return (
         <Box
             {...props}
@@ -11,8 +15,7 @@ function Root(props: BoxProps) {
                     display: 'grid',
                     gridTemplateColumns: {
                         xs: '1fr',
-                        sm: 'minmax(64px, 200px) minmax(450px, 1fr)',
-                        md: 'minmax(160px, 300px) minmax(300px, 500px) minmax(500px, 1fr)',
+                        sm: isOpen ? 'minmax(160px, 300px) minmax(600px, 1fr) minmax(280px, 320px)' : 'minmax(160px, 300px) minmax(450px, 1fr)',
                     },
                     gridTemplateRows: '64px 1fr',
                     minHeight: '100vh',

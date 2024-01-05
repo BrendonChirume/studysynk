@@ -32,10 +32,6 @@ export default function StudySynk({children}: StudySynkProps) {
                     )}
                     <Layout.Root
                         sx={{
-                            gridTemplateColumns: {
-                                xs: '1fr',
-                                sm: `minmax(160px, 300px) minmax(600px, 1fr) ${isOpen ? "minmax(350px, 420px)" : ""}`
-                            },
                             ...(drawerOpen && {
                                 height: '100vh',
                                 overflow: 'hidden',
@@ -56,6 +52,7 @@ export default function StudySynk({children}: StudySynkProps) {
                             <EnhancedBreadcrumbs pathname={currentRoute}/>
                             {children}
                         </Layout.Main>
+
                         <PaperPreview/>
 
                     </Layout.Root>
