@@ -54,16 +54,8 @@ export default function Sidebar({currentRoute}: SidebarProps) {
             '--ListItem-radius': '8px', '--List-gap': '4px',
         }}>
             <ListItem nested>
-                <ListSubheader id="expand-browse">
+                <ListSubheader id="expand-browse" sx={{ letterSpacing: '2px', fontWeight: '600' }}>
                     Browse
-                    <IconButton
-                        size="sm"
-                        variant="plain"
-                        color="primary"
-                        sx={{'--IconButton-size': '24px', ml: 'auto'}}
-                    >
-                        <ChevronDownIcon className="w-4 h-4 ss-icon"/>
-                    </IconButton>
                 </ListSubheader>
                 <List
                     aria-labelledby="nav-list-browse"

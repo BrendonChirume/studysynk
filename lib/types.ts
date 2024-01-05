@@ -44,9 +44,15 @@ export interface Paper {
     year: string;
     description: string;
     url: string;
+    author: {
+        id: string,
+        name: string
+    };
     university: string;
     internalExaminer: string;
     externalExaminer: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface Student {
@@ -55,6 +61,7 @@ export interface Student {
     password: string;
     email: string;
     bio: string;
+    streak: string;
     image: string;
     program: string;
     university: string;

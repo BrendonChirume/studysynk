@@ -4,8 +4,10 @@ import type {Metadata} from 'next'
 import {ReactNode} from "react";
 import StudySynk from "@/providers/studysynk";
 import ThemeRegistry from "@/providers/themeRegistry";
-import FilterProvider from "@/context/filterContext";
+import PaperPreviewProvider from "@/context/viewPaperContext";
+import {Inter} from 'next/font/google';
 
+const inter = Inter({subsets: ['latin']})
 export const metadata: Metadata = {
     title: 'StudySynk',
     description: 'An ultimate study resource for university students',
@@ -18,11 +20,11 @@ interface RootLayoutProps {
 export default function RootLayout({children}: RootLayoutProps) {
     return (
         <html lang="en">
-        <body>
+        <body className={inter.className}>
         <ThemeRegistry options={{key: "ss"}}>
-            <FilterProvider>
+            <PaperPreviewProvider>
                 <StudySynk>{children}</StudySynk>
-            </FilterProvider>
+            </PaperPreviewProvider>
         </ThemeRegistry>
         </body>
         </html>

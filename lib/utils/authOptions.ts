@@ -40,18 +40,6 @@ const authOptions: NextAuthOptions = {
             }
         }),
     ],
-    callbacks: {
-        async session({session, token}) {
-            const {email} = token
-            const student = await Student.findOne({email})
-
-            if (student) {
-                return {...session, user: {...session.user, ...student}}
-            }
-
-            return session
-        }
-    },
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt",

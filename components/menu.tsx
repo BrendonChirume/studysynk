@@ -1,70 +1,107 @@
 import * as React from 'react';
-import IconButton from '@mui/joy/IconButton';
+import PhoneIcon from "@heroicons/react/24/outline/PhoneIcon";
+import Cog6ToothIcon from "@heroicons/react/24/outline/Cog6ToothIcon";
 import Menu from '@mui/joy/Menu';
 import MenuItem from '@mui/joy/MenuItem';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListDivider from '@mui/joy/ListDivider';
 import MenuButton from '@mui/joy/MenuButton';
 import Dropdown from '@mui/joy/Dropdown';
-import UserIcon from "@heroicons/react/24/outline/UserIcon";
 import DocumentArrowUpIcon from "@heroicons/react/24/outline/DocumentArrowUpIcon";
 import ArrowRightOnRectangleIcon from "@heroicons/react/24/outline/ArrowRightOnRectangleIcon";
-import Link from "@mui/joy/Link";
+import Link from "next/link";
 import Avatar from "@mui/joy/Avatar";
-import Image from "next/image";
-import {signOut} from "next-auth/react";
+import {signOut, useSession} from "next-auth/react";
+import Box from "@mui/joy/Box";
+import Typography from "@mui/joy/Typography";
 
 export default function PositionedMenu() {
+    const {data: session} = useSession();
     return (
         <Dropdown>
             <MenuButton
-                slots={{root: IconButton}}
-                slotProps={{
-                    root: {
-                        variant: 'plain', color: 'neutral', sx: {
-                            '--IconButton-radius': '50%',
-                            height: 40,
-                            width: 40,
-                            overflow: 'hidden'
-                        },
-                    }
+                variant="plain"
+                size="sm"
+                sx={{maxWidth: '40px', maxHeight: '40px', borderRadius: '9999999px'}}
+            >
+                <Avatar
+                    src="https://i.pravatar.cc/40?img=2"
+                    srcSet="https://i.pravatar.cc/80?img=2"
+                    sx={{maxWidth: '38px', maxHeight: '38px'}}
+                />
+            </MenuButton>
+            <Menu
+                placement="bottom-end"
+                size="sm"
+                sx={{
+                    zIndex: '99999',
+                    p: 1,
+                    gap: 1,
+                    '--ListItem-radius': 'var(--joy-radius-sm)',
                 }}
             >
-                <Avatar variant="outlined">
-                    <Image src="/avatar.jpg" alt={'student avatar'} width={40} height={40}/>
-                </Avatar>
-            </MenuButton>
-            <Menu placement="bottom-end" sx={{
-                zIndex: 1501
-            }}>
-                <MenuItem
-                    underline="none"
-                    component={Link}
-                    href={"/profile/brendon chirume"}>
-                    <ListItemDecorator>
-                        <UserIcon className={"w-5 h-5 ss-icon"}/>
-                    </ListItemDecorator>{' '}
-                    Profile
+                <MenuItem component={Link}
+                          sx={{
+                              "&:hover": {
+                                  textDecoration: "none"
+                              }
+                          }}
+                          href={`/profile/${session?.user?.name}`}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Avatar
+                            src="https://i.pravatar.cc/40?img=2"
+                            srcSet="https://i.pravatar.cc/80?img=2"
+                            sx={{borderRadius: '50%'}}
+                        />
+                        <Box sx={{ml: 1.5, display: 'flex', flexDirection: 'column'}}>
+                            <Typography level="title-sm" textColor="text.primary">
+                                {session?.user?.name}
+                            </Typography>
+                            <Typography level="body-xs" textColor="text.tertiary">
+                                {session?.user?.email}
+                            </Typography>
+                        </Box>
+                    </Box>
                 </MenuItem>
-                <MenuItem sx={{
-                    "&:hover": {
-                        color: "primary"
-                    }
-                }}>
+                <ListDivider/>
+                <MenuItem>
                     <ListItemDecorator>
-                        <DocumentArrowUpIcon className={"w-5 h-5 ss-icon"}/>
+                        <PhoneIcon className={"w-6 h-6 ss-icon"}/>
+                    </ListItemDecorator>
+                    Contact us
+                </MenuItem>
+                <MenuItem>
+                    <ListItemDecorator>
+                        <Cog6ToothIcon className={"w-6 h-6 ss-icon"}/>
+                    </ListItemDecorator>
+                    Settings
+                </MenuItem>
+                <ListDivider/>
+                <MenuItem
+                    sx={{
+                        "&:hover": {
+                            textDecoration: "none"
+                        }
+                    }}
+                    component={Link} href={"/add-new-paper"}>
+                    <ListItemDecorator>
+                        <DocumentArrowUpIcon className={"w-6 h-6 ss-icon"}/>
                     </ListItemDecorator>{' '}
                     Add new paper
                 </MenuItem>
                 <ListDivider/>
-                <MenuItem onClick={()=>signOut()}>
+                <MenuItem onClick={() => signOut()}>
                     <ListItemDecorator sx={{color: 'inherit'}}>
-                        <ArrowRightOnRectangleIcon className={"w-5 h-5 ss-icon"}/>
+                        <ArrowRightOnRectangleIcon className={"w-6 h-6 ss-icon"}/>
                     </ListItemDecorator>
                     Sign out
                 </MenuItem>
             </Menu>
         </Dropdown>
     )
-        ;
 }

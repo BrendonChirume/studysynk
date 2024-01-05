@@ -2,7 +2,7 @@ import {extendTheme} from '@mui/joy/styles';
 import {Inter} from 'next/font/google';
 
 export const inter = Inter({
-    weight: '400',
+    weight: '500',
     subsets: ['latin'],
 })
 

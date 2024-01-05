@@ -3,21 +3,20 @@ import CardOverflow from "@mui/joy/CardOverflow";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
-import Link from "@mui/joy/Link";
 import Image from "next/image";
 import {Paper} from "@/lib/types";
+import {usePaperPreview} from "@/context/viewPaperContext";
 
 interface FileCardProps {
     paper: Paper
 }
 
 export default function PaperCard({paper}: FileCardProps) {
+    const {showPaperPreview} = usePaperPreview()
     return (
         <Card
             variant="outlined"
-            component={Link}
-            underline={"none"}
-            href={`/papers/${paper.title}`}
+            onClick={() => showPaperPreview(paper)}
             sx={{
                 p: 0,
                 boxShadow: 'none',
@@ -54,12 +53,20 @@ export default function PaperCard({paper}: FileCardProps) {
                 </AspectRatio>
             </CardOverflow>
             <Box sx={{display: 'flex', alignItems: 'start', width: '100%', px: 2}}>
-                <Box sx={{flex: 1, maxHeight: 54, pb: 2}}>
-                    <Typography level="title-sm" noWrap sx={{textTransform: 'capitalize'}}>
+                <Box sx={{flex: 1, maxHeight: 54, pb: 2, width: '100%'}}>
+                    <Typography level="title-sm"
+                                sx={{
+                                    textTransform: 'capitalize',
+                                    width: 196,
+                                    whiteSpace: "nowrap",
+                                    textOverflow: "ellipsis",
+                                    display: "inline-block",
+                                    overflow: "hidden"
+                                }}>
                         {paper.title}
                     </Typography><br/>
                     <Typography level="body-xs">
-                        Added 25 May {paper.year}
+                        Added {new Date(paper.createdAt).getDay()} May {new Date(paper.createdAt).getFullYear()}
                     </Typography>
                 </Box>
             </Box>

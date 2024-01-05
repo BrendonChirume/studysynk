@@ -37,8 +37,9 @@ const studentSchema = new Schema({
     },
     bio: String,
     image: String,
+    streak: String,
     program: String,
-    university:  String,
+    university: String,
 }, {timestamps: true});
 
 const paperSchema = new Schema({
@@ -51,6 +52,10 @@ const paperSchema = new Schema({
     program: String,
     year: String,
     description: String,
+    author: {
+        id: String,
+        name: String
+    },
     src: String,
     university: String,
     internalExaminer: String,

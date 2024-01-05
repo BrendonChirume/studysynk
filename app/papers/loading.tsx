@@ -14,18 +14,25 @@ const loading = () => {
             <Box>
                 <FilterOptions/>
                 <Grid container spacing={3} columns={12}>
-                    <Card variant="outlined" sx={{width: 230, height: 280, display: 'flex', gap: 2}}>
-                        <AspectRatio ratio={"21/9"}>
-                            <Skeleton variant="overlay">
-
-                            </Skeleton>
-                        </AspectRatio>
-                        <Typography>
-                            <Skeleton>
-                                Lorem ipsum is placeholder.
-                            </Skeleton>
-                        </Typography>
-                    </Card>
+                    {
+                        new Array(7).map((index) => (
+                            <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                                <Card variant="outlined"
+                                      sx={{width: 230, height: 280, display: 'flex', gap: 1, overflow: "hidden"}}>
+                                    <AspectRatio ratio={"1"}>
+                                        <Skeleton>
+                                            <Box sx={{height: 185, width: "100%"}}/>
+                                        </Skeleton>
+                                    </AspectRatio>
+                                    <Typography>
+                                        <Skeleton>
+                                            <Box sx={{height: 16, width: "100%"}}/>
+                                        </Skeleton>
+                                    </Typography>
+                                </Card>
+                            </Grid>
+                        ))
+                    }
                 </Grid>
             </Box>
         </Styled.Section>

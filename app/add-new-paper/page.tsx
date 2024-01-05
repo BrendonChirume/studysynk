@@ -24,9 +24,11 @@ import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import {Course, Department, Faculty, Program} from "@/lib/types";
 import SelectDepartment from "@/components/addnewpaper/select-department";
+import {useSession} from "next-auth/react";
 
 
 export default function AddNewPage() {
+    const {data: session} = useSession();
     const [faculties, setFaculties] = React.useState<Faculty[] | []>([]);
     const [departments, setDepartments] = React.useState<Department[] | []>([]);
     const [programs, setPrograms] = React.useState<Program[] | []>([]);
@@ -47,6 +49,7 @@ export default function AddNewPage() {
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
+
     // Handle form submit
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -55,18 +58,27 @@ export default function AddNewPage() {
         const formData = new FormData(event.currentTarget);
         const data = Object.fromEntries(formData);
 
+        const withAuthor = {
+            ...data,
+            author: {
+                id: session?.user?.email,
+                name: session?.user?.name
+            }
+        }
+
         await fetch('/api/papers', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(withAuthor),
         }).then((response) => {
             if (response.ok) {
                 notify("Submitted for verification!", "success");
                 (event.target as HTMLFormElement).reset();
             } else {
                 notify("An error occurred while submitting!", "error");
-                setIsLoading(false);
             }
-        })
+        }).finally(() => {
+            setIsLoading(false);
+        });
     };
 
     return (
