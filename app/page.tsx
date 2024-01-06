@@ -17,42 +17,43 @@ export default async function Home() {
     return (
         <Styled.Section sx={{pt: 4}}>
             <Grid container spacing={3}>
-                <Grid xs={8}>
+                <Grid xs={12} lg={8}>
                     <Card
                         variant="soft" color="primary" invertedColors
                         sx={{
                             boxShadow: 'none',
                             "--Card-radius": '15px',
+
                         }}>
-                        <Grid container>
-                            <Grid xs={7}>
-                                <Typography
-                                    sx={{pt: 2.5}}
-                                    startDecorator={<BoltIcon className={"w-8 h-8 ss-icon"}/>}
-                                    level={"h2"}>
-                                    15 days!
-                                </Typography>
-                                <Typography sx={{pl: 6, fontWeight: '500', fontSize: '18px'}}>
-                                    Welcome back 👋
-                                </Typography>
-                                <Typography
-                                    sx={{pl: 6, fontWeight: '500', fontSize: '24px', textTransform: 'capitalize'}}>
-                                    {session?.user?.name}
-                                </Typography>
-                                <Typography level="body-md" sx={{pl: 6, pt: 1, pb: 0.5}}>
-                                    Your&apos;e a learning machine!
-                                </Typography>
-                                <Typography level="body-sm" sx={{pl: 6}}>
-                                    Learning everyday, increases retention capacity!
-                                </Typography>
-                            </Grid>
-                            <Grid xs={5} sx={{display: 'flex', justifyContent: 'center'}}>
-                                <Image src={'/home-hero.svg'} alt={'home hero svg'} width={250} height={250}/>
-                            </Grid>
-                        </Grid>
+                        <Box sx={{
+                            background: {xs: 'none', md: "url('/home-hero.svg') no-repeat"},
+                            backgroundPositionX: {md: 'right'},
+                            backgroundSize: {md: 270},
+                            py: 2.5,
+                            height: 270,
+                        }}>
+                            <Typography
+                                startDecorator={<BoltIcon className={"w-8 h-8 ss-icon"}/>}
+                                level={"h2"}>
+                                15 days!
+                            </Typography>
+                            <Typography sx={{pl: 6, pt: 1.5,fontWeight: '500', fontSize: '18px'}}>
+                                Welcome back 👋
+                            </Typography>
+                            <Typography
+                                sx={{pl: 6, pt: 1, fontWeight: '500', fontSize: '24px', textTransform: 'capitalize'}}>
+                                {session?.user?.name}
+                            </Typography>
+                            <Typography level="body-md" sx={{pl: 6, pt: 2, pb: 0.5}}>
+                                Your&apos;e a learning machine!
+                            </Typography>
+                            <Typography level="body-sm" sx={{pl: 6}}>
+                                Learning everyday, increases retention capacity!
+                            </Typography>
+                        </Box>
                     </Card>
                 </Grid>
-                <Grid xs={4}>
+                <Grid xs={12} lg={4}>
                     <Card
                         variant="solid"
                         invertedColors
