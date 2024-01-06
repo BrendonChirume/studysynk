@@ -11,6 +11,7 @@ import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
 import notify from "@/lib/utils/notify";
+import FormHelperText from "@mui/joy/FormHelperText";
 
 export default function AddUniversity() {
     const [loading, setLoading] = React.useState(false);
@@ -62,8 +63,18 @@ export default function AddUniversity() {
                         <Input name="name"/>
                     </FormControl>
                     <FormControl id="code">
-                        <FormLabel htmlFor="code" id="label-code">Code (e.g NUST)</FormLabel>
-                        <Input name="code"/>
+                        <Stack direction="row" gap={1} alignItems="center">
+                            <FormLabel htmlFor="code" id="label-code">Code</FormLabel>
+                            <FormHelperText sx={{mb: 1}}>(e.g. NUST)</FormHelperText>
+                        </Stack>
+                        <Input name="code"
+                               slotProps={{
+                                   input: {
+                                       sx: {
+                                           textTransform: 'uppercase'
+                                       }
+                                   }
+                               }}/>
                     </FormControl>
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
