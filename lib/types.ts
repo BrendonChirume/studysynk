@@ -1,38 +1,38 @@
-// Define the University interface
-
-import {Schema} from "mongoose";
-
-export interface Course {
+export interface ICourse {
+    _id: string;
     name: string,
-    papers: [{ type: Schema.Types.ObjectId, ref: 'Paper' }]
+    papers: IPaper[]
 }
 
-export interface Program {
+export interface IProgram {
+    _id: string;
     name: string,
     level: string,
-    courses: Course[]
+    courses: ICourse[]
 }
 
-export interface Department {
+export interface IDepartment {
+    _id: string;
     name: string,
-    programs: Program[]
+    programs: IProgram[]
 }
 
-export interface Faculty {
+export interface IFaculty {
+    _id: string;
     name: string,
-    departments: Department[]
+    university: string,
+    departments: IDepartment[]
 }
 
 
-export interface University {
+export interface IUniversity {
     _id: string,
     name: string,
     code: string,
-    faculties: Faculty[]
+    faculties: IFaculty[]
 }
 
-// Define the QuestionPaper interface
-export interface Paper {
+export interface IPaper {
     _id: string;
     title: string;
     date: string;
@@ -54,7 +54,7 @@ export interface Paper {
     updatedAt: string;
 }
 
-export interface Student {
+export interface IStudent {
     _id: string;
     name: string;
     password: string;
