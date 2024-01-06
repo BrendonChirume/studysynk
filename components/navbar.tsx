@@ -7,6 +7,7 @@ import DocumentMagnifyingGlassIcon from "@heroicons/react/24/solid/DocumentMagni
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import ColorSchemeToggle from "@/components/colorSchemeToggle";
 import Search from "@/components/search";
+import Stack from "@mui/joy/Stack";
 
 export default function Navbar({setDrawerOpen}: { setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     return (
@@ -25,29 +26,34 @@ export default function Navbar({setDrawerOpen}: { setDrawerOpen: React.Dispatch<
                     size="sm"
                     onClick={() => setDrawerOpen(true)}
                     sx={{
-                        display: {md: 'none'},
+                        display: {sm: 'none'},
                         width: 35,
                         height: 35
                     }}
                 >
                     <Bars3Icon className={"w-5 h-5 ss-icon"}/>
                 </IconButton>
-                <IconButton
-                    size="sm"
-                    variant="soft"
-                    sx={{
-                        display: {xs: 'none', sm: 'inline-flex'}, width: 35,
-                        height: 35
-                    }}
-                >
-                    <DocumentMagnifyingGlassIcon className="w-6 h-6 ss-icon"/>
-                </IconButton>
-                <Typography component="h1" fontWeight="xl" sx={{mx: {xs: 'auto'}}}>
-                    StudySynk
-                </Typography>
+                <Stack direction={"row"} gap={1} justifyContent={"center"} sx={{flex: 1}}>
+                    <IconButton
+                        size="sm"
+                        variant="soft"
+                        sx={{
+                            width: 35,
+                            height: 35
+                        }}
+                    >
+                        <DocumentMagnifyingGlassIcon className="w-6 h-6 ss-icon"/>
+                    </IconButton>
+                    <Typography component="h1" fontWeight="xl" sx={{
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        StudySynk
+                    </Typography>
+                </Stack>
             </Box>
             <Search/>
-            <Box sx={{display: {xs: 'none', md: 'flex'}, flexDirection: 'row', gap: 1.5}}>
+            <Box sx={{display: 'flex', flexDirection: 'row', gap: 1.5}}>
                 <ColorSchemeToggle/>
                 <Menu/>
             </Box>
