@@ -67,7 +67,7 @@ export default function Signup() {
 
         await fetch('/api/students', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify({...data, university: '', program: ''}),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -198,7 +198,7 @@ export default function Signup() {
                                         <FormLabel htmlFor="password-wrapper" id="label-password">Password</FormLabel>
                                         <Input type="password" name="password" value={password.password}
                                                onChange={handleChange}/>
-                                        <FormHelperText sx={{display: error ? "block" : "none"}}>
+                                        <FormHelperText sx={{display: error ? "flex" : "none", alignItems: 'center'}}>
                                             <InformationCircleIcon className={"w-5 h-5 ss-icon"}/>
                                             &nbsp;Passwords do not match!
                                         </FormHelperText>
@@ -211,7 +211,7 @@ export default function Signup() {
                                         </FormLabel>
                                         <Input type="password" name="confirmPassword" value={password.confirmPassword}
                                                onChange={handleChange}/>
-                                        <FormHelperText sx={{display: error ? "block" : "none"}}>
+                                        <FormHelperText sx={{display: error ? "flex" : "none", alignItems: 'center'}}>
                                             <InformationCircleIcon className={"w-5 h-5 ss-icon"}/>
                                             &nbsp;Passwords do not match!
                                         </FormHelperText>
