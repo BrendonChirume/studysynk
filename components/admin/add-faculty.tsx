@@ -7,36 +7,40 @@ import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
-// import SelectUniversity from "@/components/addnewpaper/select-university";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import notify from "@/lib/utils/notify";
+import SelectUniversity from "@/components/addnewpaper/select-university";
+import {IUniversity} from "@/lib/types";
 
 export default function AddFaculty() {
     const [loading, setLoading] = React.useState(false);
-    const [university, setUniversity] = React.useState('');
+    const [university, setUniversity] = React.useState<IUniversity | null>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-
+        const data = {...Object.fromEntries(formData.entries()), university: university?.name, uniId: university?._id}
 
         await fetch("/api/faculties", {
             method: "POST",
-            body: JSON.stringify({...data, university}),
+            body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
             }
         }).then(async (response) => {
-            const res = await response.json();
             if (response.ok) {
-                notify(res.message, "success");
+                const res = await response.json();
+                if (res.message.includes("exists")) {
+                    return notify(res.message, "warning")
+                }
                 (event.target as HTMLFormElement).reset();
+                return notify(res.message, "success");
             } else {
-                notify("No faculties! Enquire with the admin", "error");
+                console.log(response)
+                return notify(response.statusText, "error");
             }
         }).finally(() => {
             setLoading(false);
@@ -52,12 +56,18 @@ export default function AddFaculty() {
                     </Typography>
                 </Box>
                 <Divider/>
-                <Stack spacing={1} sx={{py: 1}}>
+                <Stack spacing={3} sx={{py: 1}}>
+                    <SelectUniversity setSelected={(token) => setUniversity(token)}/>
                     <FormControl required id="name">
                         <FormLabel htmlFor="name" id="label-name">Faculty name</FormLabel>
-                        <Input name="name"/>
+                        <Input name="name" slotProps={{
+                            input: {
+                                sx: {
+                                    textTransform: 'capitalize'
+                                }
+                            }
+                        }}/>
                     </FormControl>
-                    {/*<SelectUniversity setSelected={(token) => setUniversity(token.university as string)}/>*/}
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
                     <CardActions sx={{alignSelf: 'flex-end', pt: 2}}>
