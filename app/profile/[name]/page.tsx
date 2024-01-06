@@ -11,20 +11,24 @@ import Textarea from '@mui/joy/Textarea';
 import DropZone from '@/components/dropZone';
 import EditorToolbar from '@/components/editorToolbar';
 import EnvelopeIcon from "@heroicons/react/24/outline/EnvelopeIcon";
-import BuildingOffice2Icon from "@heroicons/react/24/outline/BuildingOffice2Icon";
-import AcademicCapIcon from "@heroicons/react/24/outline/AcademicCapIcon";
-import CheckIcon from "@heroicons/react/24/outline/CheckIcon";
+import PaperAirplaneIcon from "@heroicons/react/24/outline/PaperAirplaneIcon";
 import {useSession} from "next-auth/react";
 import React from "react";
 import notify from "@/lib/utils/notify";
+import SelectUniversity from "@/components/addnewpaper/select-university";
+import {IProgram, IUniversity} from "@/lib/types";
+import SelectProgram from "@/components/addnewpaper/select-program";
+import Stack from "@mui/joy/Stack";
 
 export default function MyProfile() {
     const {data: session} = useSession();
     const [name, surname] = session?.user?.name?.split(" ") || ["", ""];
+    const [university, setUniversity] = React.useState<IUniversity | null>(null);
+    const [program, setProgram] = React.useState<IProgram | null>(null);
     const [bio, setBio] = React.useState(
         "I am a 🚀 SoftwareSorcerer who likes to play around with solutions✨"
     );
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [loading, setLoading] = React.useState<boolean>(false);
     const [wordCount, setWordCount] = React.useState(275 - bio.length)
 
     const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -35,27 +39,28 @@ export default function MyProfile() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setIsLoading(true);
+        setLoading(true);
 
         const formData = new FormData(event.currentTarget);
         const data = Object.fromEntries(formData);
 
-        await fetch(`/api/profile`, {
+        await fetch('/api/profile', {
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify({...data, university: university?.name, program: program?.name}),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(async (response) => {
             if (response.ok) {
                 const res = await response.json();
-                notify(res.message, "success");
                 (event.target as HTMLFormElement).reset();
+                return notify(res.message, 'success')
             } else {
-                notify(response.statusText, "error");
-                setIsLoading(false);
+                return notify(response.statusText, "error");
             }
-        })
+        }).finally(() => {
+            setLoading(false);
+        });
 
     }
 
@@ -149,24 +154,16 @@ export default function MyProfile() {
                 </FormHelperText>
             </Box>
             <Divider role="presentation"/>
+            <Box>
+                <FormLabel>College Details</FormLabel>
+                <FormHelperText>These details will be mainly used to reference paper you upload.</FormHelperText>
+            </Box>
+            <Stack gap={3}>
+                <SelectUniversity setSelected={(token) => setUniversity(token)}/>
 
-            <FormControl sx={{display: {sm: 'contents'}}}>
-                <FormLabel>University</FormLabel>
-                <Input
-                    startDecorator={<BuildingOffice2Icon className="w-6 h-6 ss-icon"/>}
-                    placeholder="university"
-                    name={"university"}
-                />
-            </FormControl>
+                <SelectProgram setSelected={(token) => setProgram(token)}/>
+            </Stack>
 
-            <FormControl sx={{display: {sm: 'contents'}}}>
-                <FormLabel>Program</FormLabel>
-                <Input
-                    startDecorator={<AcademicCapIcon className="w-6 h-6 ss-icon"/>}
-                    placeholder="Program"
-                    name="program"
-                />
-            </FormControl>
             <Divider role="presentation"/>
             <Box
                 sx={{
@@ -181,9 +178,9 @@ export default function MyProfile() {
                 </Button>
                 <Button
                     variant="soft" type="submit"
-                    loading={isLoading}
+                    loading={loading}
                     endDecorator={
-                        <CheckIcon className="w-5 h-5 ss-icon"/>
+                        <PaperAirplaneIcon className="w-5 h-5 ss-icon"/>
                     }>
                     Save
                 </Button>
