@@ -18,49 +18,52 @@ import PaperAirplaneIcon from "@heroicons/react/24/outline/PaperAirplaneIcon";
 import SelectFaculty from "@/components/addnewpaper/select-faculty";
 import SelectCourse from "@/components/addnewpaper/select-course";
 import SelectProgram from "@/components/addnewpaper/select-program";
-import notify from "@/lib/utils/notify";
 import {ToastContainer} from "react-toastify";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import SelectDepartment from "@/components/addnewpaper/select-department";
 import {useSession} from "next-auth/react";
+import {IDepartment, IFaculty, IProgram, IUniversity} from "@/lib/types";
+import {handleApiResponse} from "@/lib/utils/helper";
 
 
 export default function AddNewPage() {
     const {data: session} = useSession();
+    const [paperType, setPaperType] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [university, setUniversity] = React.useState<IUniversity | null>(null);
+    const [faculty, setFaculty] = React.useState<IFaculty | null>(null);
+    const [department, setDepartment] = React.useState<IDepartment | null>(null);
+    const [program, setProgram] = React.useState<IProgram | null>(null);
+
+    const handleChange = (
+        _event: React.SyntheticEvent | null,
+        newValue: string | null,
+    ) => setPaperType(newValue)
 
     // Handle form submit
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // setIsLoading(true);
+        setIsLoading(true);
 
         const formData = new FormData(event.currentTarget);
         const data = Object.fromEntries(formData);
 
         const withAuthor = {
             ...data,
+            paperType,
             author: {
                 id: session?.user?.email,
                 name: session?.user?.name
             }
         }
-        console.log(withAuthor)
 
-        //
-        // await fetch('/api/papers', {
-        //     method: 'POST',
-        //     body: JSON.stringify(withAuthor),
-        // }).then((response) => {
-        //     if (response.ok) {
-        //         notify("Submitted for verification!", "success");
-        //         (event.target as HTMLFormElement).reset();
-        //     } else {
-        //         notify("An error occurred while submitting!", "error");
-        //     }
-        // }).finally(() => {
-        //     setIsLoading(false);
-        // });
+        await fetch('/api/papers', {
+            method: 'POST',
+            body: JSON.stringify(withAuthor),
+        }).then(handleApiResponse(event)).finally(() => {
+            setIsLoading(false);
+        });
     };
 
     return (
@@ -99,23 +102,27 @@ export default function AddNewPage() {
                                 <Styled.Item sx={{p: {xs: 2, md: 3}, mt: {xs: 2, md: 0}}}>
                                     <Grid container spacing={3}>
                                         <Grid xs={12}>
-                                            <SelectUniversity/>
+                                            <SelectUniversity setSelected={(token) => setUniversity(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectFaculty/>
+                                            <SelectFaculty
+                                                university={university?.name}
+                                                setSelected={(token) => setFaculty(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectDepartment/>
+                                            <SelectDepartment
+                                                faculty={faculty?.name} setSelected={(token) => setDepartment(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectProgram/>
+                                            <SelectProgram department={department?.name}
+                                                           setSelected={(token) => setProgram(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectCourse/>
+                                            <SelectCourse program={program?.name}/>
                                         </Grid>
                                         <Grid xs={6}>
                                             <FormControl id="year" sx={{flexGrow: 1}}>
-                                                <FormLabel htmlFor="year" id="paper-year">Year</FormLabel>
+                                                <FormLabel htmlFor="year" id="paper-year">Paper year</FormLabel>
                                                 <Input name={"year"} type="number"
                                                        slotProps={{
                                                            input: {
@@ -130,9 +137,7 @@ export default function AddNewPage() {
                                         <Grid xs={6}>
                                             <FormControl id={"paper-type"} sx={{display: {sm: 'contents'}}}>
                                                 <FormLabel htmlFor="paper-type" id="paper-year">Paper type</FormLabel>
-                                                <Select
-                                                    defaultValue="1"
-                                                >
+                                                <Select defaultValue="1" onChange={handleChange}>
                                                     <Option value="1">
                                                         Exam paper
                                                     </Option>

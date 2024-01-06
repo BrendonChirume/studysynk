@@ -24,10 +24,10 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url)
-    const id = searchParams.get('id');
+    const department = searchParams.get('department');
     await connectMongoDB();
-    if (id) {
-        const data = await Department.findOne({id: id as string});
+    if (department) {
+        const data = await Department.find({department});
         return NextResponse.json(data);
     } else {
         const data = await Department.find({});

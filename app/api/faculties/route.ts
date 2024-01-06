@@ -11,7 +11,7 @@ export async function POST(request: Request) {
         return NextResponse.json({message: "Faculty already exists!"});
     }
     const faculty = await Faculty.create(rest);
-    const doc = await University.findOne({_id: uniId})
+    const doc = await University.findById(uniId);
 
     doc.faculties.push(faculty.id);
     await doc.save();

@@ -37,21 +37,21 @@ export interface IUniversity {
 export interface IPaper {
     _id: string;
     title: string;
-    date: string;
-    course: string;
+    university: string;
     faculty: string;
     department: string;
     program: string;
+    course: string;
     year: string;
-    description: string;
+    paperType: string;
+    internalExaminer: string;
+    externalExaminer: string;
     url: string;
+    description: string;
     author: {
         id: string,
         name: string
     };
-    university: string;
-    internalExaminer: string;
-    externalExaminer: string;
     createdAt: string;
     updatedAt: string;
 }

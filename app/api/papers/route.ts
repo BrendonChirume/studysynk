@@ -20,5 +20,5 @@ export async function POST(request: Request) {
     const res = await request.json();
     await connectMongoDB();
     await Paper.create(res);
-    return NextResponse.json(res);
+    return NextResponse.json({message: 'Paper submitted for verification!'});
 }

@@ -32,7 +32,6 @@ export default function AddCourse() {
         const formData = new FormData(event.currentTarget);
         const data = Object.fromEntries(formData.entries());
 
-
         await fetch("/api/courses", {
             method: "POST",
             body: JSON.stringify({
@@ -59,6 +58,10 @@ export default function AddCourse() {
                 <Divider/>
                 <Stack spacing={3} sx={{py: 1}}>
                     <SelectProgram setSelected={(token) => setProgram(token)}/>
+                    <FormControl required id="course-name">
+                        <FormLabel htmlFor="course-name" id="label-name">Course name</FormLabel>
+                        <Input name="name"/>
+                    </FormControl>
                     <FormControl id="course-level">
                         <FormLabel htmlFor="course-level" id="level">Course level</FormLabel>
                         <Select onChange={handleChange}>

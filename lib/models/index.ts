@@ -56,22 +56,24 @@ const studentSchema = new Schema({
 }, {timestamps: true});
 
 const paperSchema = new Schema({
-    name: String,
     title: String,
-    course: String,
+    university: String,
     faculty: String,
     department: String,
     program: String,
-    university: String,
-    date: String,
+    course: String,
+    year: String,
+    paperType: String,
+    internalExaminer: String,
+    externalExaminer: String,
+    url: String,
     description: String,
     author: {
         id: String,
-        name: String
+        name: String,
     },
-    src: String,
-    internalExaminer: String,
-    externalExaminer: String,
+    createdAt: String,
+    updatedAt: String,
 }, {timestamps: true});
 
 export const University = mongoose.models.University || mongoose.model<IUniversity>('University', universitySchema);

@@ -10,7 +10,6 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
-import notify from "@/lib/utils/notify";
 import SelectUniversity from "@/components/addnewpaper/select-university";
 import {IDepartment, IFaculty, IUniversity} from "@/lib/types";
 import SelectDepartment from "@/components/addnewpaper/select-department";
@@ -24,12 +23,17 @@ export default function AddProgram() {
     const [university, setUniversity] = React.useState<IUniversity | null>(null);
     const [faculty, setFaculty] = React.useState<IFaculty | null>(null);
     const [department, setDepartment] = React.useState<IDepartment | null>(null);
+    const [level, setLevel] = React.useState<string | null>(null);
+    const handleChange = (
+        _event: React.SyntheticEvent | null,
+        newValue: string | null,
+    ) => setLevel(newValue)
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = {...Object.fromEntries(formData.entries()), deptId: department?._id};
+        const data = {...Object.fromEntries(formData.entries()), level, deptId: department?._id};
 
 
         await fetch("/api/programs", {
@@ -54,11 +58,11 @@ export default function AddProgram() {
                 <Divider/>
                 <Stack spacing={3} sx={{py: 1}}>
                     <SelectUniversity setSelected={(token) => setUniversity(token)}/>
-                    <SelectFaculty setSelected={(token) => setFaculty(token)}/>
-                    <SelectDepartment setSelected={(token) => setDepartment(token)}/>
+                    <SelectFaculty university={university?.name} setSelected={(token) => setFaculty(token)}/>
+                    <SelectDepartment faculty={faculty?.name} setSelected={(token) => setDepartment(token)}/>
                     <FormControl id="program-level">
                         <FormLabel htmlFor="program-level" id="level">Program level</FormLabel>
-                        <Select>
+                        <Select onChange={handleChange}>
                             <Option value="Undergraduate">Undergraduate</Option>
                             <Option value="Masters">Masters</Option>
                         </Select>

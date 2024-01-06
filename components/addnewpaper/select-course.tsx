@@ -8,10 +8,11 @@ import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectCourseProps {
     setSelected?: (token: ICourse) => void;
+    program?: string;
 }
 
 export default function SelectCourse(props: SelectCourseProps) {
-    const {setSelected} = props;
+    const {setSelected, program} = props;
     const [options, setOptions] = React.useState<ICourse[] | []>([]);
     const [open, setOpen] = React.useState(false);
     const loading = open && options.length === 0;
@@ -25,13 +26,20 @@ export default function SelectCourse(props: SelectCourseProps) {
         }
 
         (async () => {
+            let courses;
+            if (program) {
+                courses = await fetch(`/api/courses?program=${program}`, {
+                    method: "GET",
+                }).then(res => res.json());
+                return setOptions(courses);
+            }
             const course = await fetch("/api/courses", {
                 method: "GET",
             }).then(res => res.json());
             setOptions(course);
         })();
 
-    }, [loading]);
+    }, [loading, program]);
 
     React.useEffect(() => {
         if (!open) {
