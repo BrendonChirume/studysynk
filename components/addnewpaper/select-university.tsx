@@ -7,7 +7,7 @@ import {IUniversity} from "@/lib/types";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectUniversityProps {
-    setSelected: (token: IUniversity) => void;
+    setSelected?: (token: IUniversity) => void;
 }
 
 export default function SelectUniversity(props: SelectUniversityProps) {
@@ -49,7 +49,7 @@ export default function SelectUniversity(props: SelectUniversityProps) {
                 value={value}
                 onChange={(_event, newValue) => {
                     setValue(newValue)
-                    if (newValue?.name) {
+                    if (newValue?.name && setSelected) {
                         setSelected(newValue)
                     }
                 }}

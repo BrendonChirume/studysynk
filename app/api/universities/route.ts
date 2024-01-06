@@ -5,8 +5,13 @@ import {NextResponse} from "next/server";
 export async function POST(request: Request) {
     const res = await request.json();
     await connectMongoDB();
+
+    const isExist = await University.findOne({name: res.name}).select("_id");
+    if (isExist) {
+        return NextResponse.json({message: "University already exists!"});
+    }
     await University.create(res);
-    return NextResponse.json(res);
+    return NextResponse.json({message: "University created successfully!"});
 }
 
 export async function GET(request: Request) {

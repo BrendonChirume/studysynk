@@ -14,6 +14,8 @@ export interface IProgram {
 export interface IDepartment {
     _id: string;
     name: string,
+    university: string,
+    faculty: string,
     programs: IProgram[]
 }
 

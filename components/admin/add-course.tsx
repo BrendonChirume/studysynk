@@ -10,23 +10,27 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
-import SelectUniversity from "@/components/addnewpaper/select-university";
-import {IUniversity} from "@/lib/types";
+import {IProgram} from "@/lib/types";
+import SelectProgram from "@/components/addnewpaper/select-program";
 import {handleApiResponse} from "@/lib/utils/helper";
 
-export default function AddFaculty() {
+export default function AddProgram() {
     const [loading, setLoading] = React.useState(false);
-    const [university, setUniversity] = React.useState<IUniversity | null>(null);
+    const [program, setProgram] = React.useState<IProgram | null>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = {...Object.fromEntries(formData.entries()), university: university?.name, uniId: university?._id}
+        const data = Object.fromEntries(formData.entries());
 
-        await fetch("/api/faculties", {
+
+        await fetch("/api/programs", {
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                ...data,
+                progId: program?._id,
+            }),
             headers: {
                 "Content-Type": "application/json",
             }
@@ -38,23 +42,17 @@ export default function AddFaculty() {
         <form onSubmit={handleSubmit}>
             <Card>
                 <Box sx={{mb: 1}}>
-                    <Typography level="title-md">Faculty</Typography>
+                    <Typography level="title-md">Course</Typography>
                     <Typography level="body-sm">
-                        Add new faculty
+                        Add new course
                     </Typography>
                 </Box>
                 <Divider/>
                 <Stack spacing={3} sx={{py: 1}}>
-                    <SelectUniversity setSelected={(token) => setUniversity(token)}/>
-                    <FormControl required id="name">
-                        <FormLabel htmlFor="name" id="label-name">Faculty name</FormLabel>
-                        <Input name="name" slotProps={{
-                            input: {
-                                sx: {
-                                    textTransform: 'capitalize'
-                                }
-                            }
-                        }}/>
+                    <SelectProgram setSelected={(token) => setProgram(token)}/>
+                    <FormControl required id="course">
+                        <FormLabel htmlFor="course" id="label-course">Program</FormLabel>
+                        <Input name="course"/>
                     </FormControl>
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>

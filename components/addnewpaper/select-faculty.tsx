@@ -7,7 +7,7 @@ import {IFaculty} from "@/lib/types";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectFacultyProps {
-    setSelected: (token: IFaculty) => void;
+    setSelected?: (token: IFaculty) => void;
     university?: string;
 }
 
@@ -21,7 +21,6 @@ export default function SelectFaculty(props: SelectFacultyProps) {
     const [inputValue, setInputValue] = React.useState('');
 
     React.useEffect(() => {
-        console.log(university)
         if (!loading) {
             return undefined;
         }
@@ -58,7 +57,7 @@ export default function SelectFaculty(props: SelectFacultyProps) {
                 value={value}
                 onChange={(_event, newValue) => {
                     setValue(newValue)
-                    if (newValue?.name) {
+                    if (newValue?.name && setSelected) {
                         setSelected(newValue)
                     }
                 }}

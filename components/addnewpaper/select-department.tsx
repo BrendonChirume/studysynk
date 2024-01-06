@@ -2,23 +2,45 @@ import * as React from 'react';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Autocomplete from '@mui/joy/Autocomplete';
-import {Department, Program} from "@/lib/types";
-import AutocompleteOption from "@mui/joy/AutocompleteOption/AutocompleteOption";
-
+import CircularProgress from '@mui/joy/CircularProgress';
+import {IDepartment} from "@/lib/types";
+import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectDepartmentProps {
-    departments: Department[] | [];
-    setPrograms: React.Dispatch<React.SetStateAction<Program[] | []>>;
-    setInputValue: React.Dispatch<React.SetStateAction<{ university: string, course: string, program: string, department: string, faculty: string }>>;
-    inputValue: {university: string, course: string, program: string, department: string, faculty: string};
+    setSelected?: (token: IDepartment) => void;
 }
 
 export default function SelectDepartment(props: SelectDepartmentProps) {
-    const {departments, setPrograms, inputValue, setInputValue} = props
-    const [value, setValue] = React.useState<Department | null>(null);
+    const {setSelected} = props;
+    const [options, setOptions] = React.useState<IDepartment[] | []>([]);
+    const [open, setOpen] = React.useState(false);
+    const loading = open && options.length === 0;
+
+    const [value, setValue] = React.useState<IDepartment | null>(null);
+    const [inputValue, setInputValue] = React.useState('');
+
+    React.useEffect(() => {
+        if (!loading) {
+            return undefined;
+        }
+
+        (async () => {
+            const departments = await fetch("/api/departments", {
+                method: "GET",
+            }).then(res => res.json());
+            setOptions(departments);
+        })();
+
+    }, [loading]);
+
+    React.useEffect(() => {
+        if (!open) {
+            setOptions([]);
+        }
+    }, [open]);
 
     return (
-        <FormControl id="select-department">
+        <FormControl sx={{flexGrow: 1}}>
             <FormLabel htmlFor={"department"} id="paper-department">Department</FormLabel>
             <Autocomplete
                 id="department"
@@ -26,31 +48,31 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
                 autoHighlight
                 value={value}
                 onChange={(_event, newValue) => {
-                    setValue(newValue);
-                    if (newValue) {
-                        setPrograms(newValue?.programs);
-                    } else {
-                        setPrograms([]);
+                    setValue(newValue)
+                    if (newValue?.name && setSelected) {
+                        setSelected(newValue)
                     }
                 }}
-                inputValue={inputValue.department}
+                inputValue={inputValue}
                 onInputChange={(_event, newInputValue) => {
-                    if (newInputValue === "") {
-                        setInputValue({
-                            ...inputValue,
-                            department: newInputValue,
-                            program: newInputValue,
-                            course: newInputValue,
-                        });
-                    } else {
-                        setInputValue({
-                            ...inputValue,
-                            department: newInputValue,
-                        });
-                    }
+                    setInputValue(newInputValue)
                 }}
-                options={departments}
+                open={open}
+                onOpen={() => {
+                    setOpen(true);
+                }}
+                onClose={() => {
+                    setOpen(false);
+                }}
+                isOptionEqualToValue={(option, value) => option._id === value._id}
                 getOptionLabel={(option) => option.name}
+                options={options}
+                loading={loading}
+                endDecorator={
+                    loading ? (
+                        <CircularProgress size="sm" sx={{bgcolor: 'background.surface'}}/>
+                    ) : null
+                }
                 renderOption={(props, option) => {
                     // @ts-ignore
                     const {key, id, ...rest} = props;
@@ -58,12 +80,11 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
                         <AutocompleteOption
                             sx={{px: 2, py: 0.5, cursor: "pointer"}}
                             key={id} {...rest}>
-                            {`${option.name}`}
+                            ${option.name}
                         </AutocompleteOption>
                     )
                 }}
             />
         </FormControl>
-
     );
 }

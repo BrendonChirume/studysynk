@@ -10,8 +10,8 @@ import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
-import notify from "@/lib/utils/notify";
 import FormHelperText from "@mui/joy/FormHelperText";
+import {handleApiResponse} from "@/lib/utils/helper";
 
 export default function AddUniversity() {
     const [loading, setLoading] = React.useState(false);
@@ -31,18 +31,7 @@ export default function AddUniversity() {
             next: {
                 revalidate: 30
             }
-        }).then(async (response) => {
-            if (response.ok) {
-                const res = await response.json();
-                if (res.message.includes("exists")) {
-                    return notify(res.message, "warning")
-                }
-                (event.target as HTMLFormElement).reset();
-                return notify(res.message, "success");
-            } else {
-                notify("Error creating university!", "error");
-            }
-        }).finally(() => {
+        }).then(handleApiResponse(event)).finally(() => {
             setLoading(false);
         });
     };
