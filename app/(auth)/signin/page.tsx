@@ -37,12 +37,14 @@ export default function SignIn() {
                 notify("An error occurred while trying to sign in!", "error")
                 return;
             }
-            if (res.error) {
-                notify("No internet access!", "error");
-                return setError(!!res);
-            }
             if (res.ok) {
                 return router.replace('/');
+            }
+            if (res.error) {
+                if (res.error.includes('CredentialsSignin')) {
+                    notify("Invalid sign in credentials!", "error");
+                }
+                return setError(!!res);
             }
         }).finally(() => {
             setLoading(false);
@@ -142,7 +144,7 @@ export default function SignIn() {
                             </Typography>
                         </div>
 
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} noValidate>
                             <FormControl required id="email-wrapper">
                                 <FormLabel htmlFor="email-wrapper" id="label-email">Email</FormLabel>
                                 <Input type="email" name="email" error={error}/>

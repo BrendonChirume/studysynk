@@ -15,6 +15,8 @@ const facultySchema = new Schema({
 
 const departmentSchema = new Schema({
     name: String,
+    university: String,
+    faculty: String,
     programs: [String]
 })
 
@@ -28,6 +30,7 @@ const courseSchema = new Schema({
     name: String,
     code: String,
     lecturer: String,
+    level: String,
     papers: [String]
 })
 

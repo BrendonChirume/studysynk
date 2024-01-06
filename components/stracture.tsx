@@ -5,7 +5,7 @@ import {usePaperPreview} from "@/context/paperPreviewContext";
 
 function Root(props: BoxProps) {
     const {paper} = usePaperPreview();
-    const isOpen = Boolean(paper);
+    const isOpen = !Boolean(paper?.title === paper?.createdAt);
 
     return (
         <Box
@@ -77,27 +77,6 @@ function SideNav(props: BoxProps) {
     );
 }
 
-function SidePane(props: BoxProps) {
-    return (
-        <Box
-            className="Inbox"
-            {...props}
-            sx={[
-                {
-                    bgcolor: 'background.surface',
-                    borderRight: '1px solid',
-                    borderColor: 'divider',
-                    display: {
-                        xs: 'none',
-                        md: 'initial',
-                    },
-                },
-                ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
-            ]}
-        />
-    );
-}
-
 function Main(props: BoxProps) {
     return (
         <Box
@@ -152,7 +131,6 @@ export {
     Root,
     Header,
     SideNav,
-    SidePane,
     SideDrawer,
     Main,
 }

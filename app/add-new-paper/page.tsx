@@ -22,38 +22,18 @@ import notify from "@/lib/utils/notify";
 import {ToastContainer} from "react-toastify";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
-import {Course, Department, Faculty, Program} from "@/lib/types";
 import SelectDepartment from "@/components/addnewpaper/select-department";
 import {useSession} from "next-auth/react";
 
 
 export default function AddNewPage() {
     const {data: session} = useSession();
-    const [faculties, setFaculties] = React.useState<Faculty[] | []>([]);
-    const [departments, setDepartments] = React.useState<Department[] | []>([]);
-    const [programs, setPrograms] = React.useState<Program[] | []>([]);
-    const [courses, setCourses] = React.useState<Course[] | []>([]);
-    const [inputValue, setInputValue] = React.useState<{
-        university: string,
-        faculty: string
-        department: string,
-        program: string,
-        course: string,
-    }>({
-        university: "",
-        faculty: "",
-        department: "",
-        program: "",
-        course: ""
-    });
-
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
 
     // Handle form submit
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setIsLoading(true);
+        // setIsLoading(true);
 
         const formData = new FormData(event.currentTarget);
         const data = Object.fromEntries(formData);
@@ -65,20 +45,22 @@ export default function AddNewPage() {
                 name: session?.user?.name
             }
         }
+        console.log(withAuthor)
 
-        await fetch('/api/papers', {
-            method: 'POST',
-            body: JSON.stringify(withAuthor),
-        }).then((response) => {
-            if (response.ok) {
-                notify("Submitted for verification!", "success");
-                (event.target as HTMLFormElement).reset();
-            } else {
-                notify("An error occurred while submitting!", "error");
-            }
-        }).finally(() => {
-            setIsLoading(false);
-        });
+        //
+        // await fetch('/api/papers', {
+        //     method: 'POST',
+        //     body: JSON.stringify(withAuthor),
+        // }).then((response) => {
+        //     if (response.ok) {
+        //         notify("Submitted for verification!", "success");
+        //         (event.target as HTMLFormElement).reset();
+        //     } else {
+        //         notify("An error occurred while submitting!", "error");
+        //     }
+        // }).finally(() => {
+        //     setIsLoading(false);
+        // });
     };
 
     return (
@@ -117,40 +99,19 @@ export default function AddNewPage() {
                                 <Styled.Item sx={{p: {xs: 2, md: 3}, mt: {xs: 2, md: 0}}}>
                                     <Grid container spacing={3}>
                                         <Grid xs={12}>
-                                            <SelectUniversity
-                                                inputValue={inputValue}
-                                                setInputValue={setInputValue}
-                                                setFaculties={setFaculties}/>
+                                            <SelectUniversity/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectFaculty
-                                                inputValue={inputValue}
-                                                setInputValue={setInputValue}
-                                                faculties={faculties}
-                                                setDepartments={setDepartments}
-                                            />
+                                            <SelectFaculty/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectDepartment
-                                                inputValue={inputValue}
-                                                setInputValue={setInputValue}
-                                                departments={departments}
-                                                setPrograms={setPrograms}
-                                            />
+                                            <SelectDepartment/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectProgram
-                                                inputValue={inputValue}
-                                                setInputValue={setInputValue}
-                                                programs={programs}
-                                                setCourses={setCourses}
-                                            />
+                                            <SelectProgram/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectCourse
-                                                inputValue={inputValue}
-                                                setInputValue={setInputValue}
-                                                courses={courses}/>
+                                            <SelectCourse/>
                                         </Grid>
                                         <Grid xs={6}>
                                             <FormControl id="year" sx={{flexGrow: 1}}>

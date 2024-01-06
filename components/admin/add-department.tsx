@@ -24,12 +24,11 @@ export default function AddDepartment() {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-
+        const data = {...Object.fromEntries(formData.entries()), facId: faculty?._id};
 
         await fetch("/api/departments", {
             method: "POST",
-            body: JSON.stringify({...data, university: university?.name, faculty: faculty?.name, facId: faculty?._id}),
+            body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
             }

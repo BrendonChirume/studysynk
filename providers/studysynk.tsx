@@ -1,5 +1,5 @@
 "use client";
-
+import {ToastContainer} from "react-toastify";
 import * as Layout from "@/components/stracture";
 import Sidebar from "@/components/sidebar";
 import * as React from "react";
@@ -53,6 +53,7 @@ export default function StudySynk({children}: StudySynkProps) {
                         <PaperPreview/>
 
                     </Layout.Root>
+                    <ToastContainer/>
                 </>
             )}
         </AuthProvider>

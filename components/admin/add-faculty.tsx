@@ -22,7 +22,7 @@ export default function AddFaculty() {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = {...Object.fromEntries(formData.entries()), university: university?.name, uniId: university?._id}
+        const data = {...Object.fromEntries(formData.entries()), uniId: university?._id}
 
         await fetch("/api/faculties", {
             method: "POST",

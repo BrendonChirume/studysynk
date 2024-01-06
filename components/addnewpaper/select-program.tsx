@@ -73,7 +73,7 @@ export default function SelectProgram(props: SelectProgramProps) {
                     setOpen(false);
                 }}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
-                getOptionLabel={(option) => option.name}
+                getOptionLabel={(option) => option.name || ''}
                 options={options}
                 loading={loading}
                 endDecorator={

@@ -16,6 +16,8 @@ import {IDepartment, IFaculty, IUniversity} from "@/lib/types";
 import SelectDepartment from "@/components/addnewpaper/select-department";
 import SelectFaculty from "@/components/addnewpaper/select-faculty";
 import {handleApiResponse} from "@/lib/utils/helper";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
 
 export default function AddProgram() {
     const [loading, setLoading] = React.useState(false);
@@ -27,15 +29,12 @@ export default function AddProgram() {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+        const data = {...Object.fromEntries(formData.entries()), deptId: department?._id};
 
 
         await fetch("/api/programs", {
             method: "POST",
-            body: JSON.stringify({
-                ...data,
-                progId: department?._id,
-            }),
+            body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
             }
@@ -57,9 +56,16 @@ export default function AddProgram() {
                     <SelectUniversity setSelected={(token) => setUniversity(token)}/>
                     <SelectFaculty setSelected={(token) => setFaculty(token)}/>
                     <SelectDepartment setSelected={(token) => setDepartment(token)}/>
+                    <FormControl id="program-level">
+                        <FormLabel htmlFor="program-level" id="level">Program level</FormLabel>
+                        <Select>
+                            <Option value="Undergraduate">Undergraduate</Option>
+                            <Option value="Masters">Masters</Option>
+                        </Select>
+                    </FormControl>
                     <FormControl required id="program">
                         <FormLabel htmlFor="program" id="label-program">Program name</FormLabel>
-                        <Input name="program"/>
+                        <Input name="name"/>
                     </FormControl>
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>

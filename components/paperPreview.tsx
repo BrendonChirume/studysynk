@@ -36,7 +36,8 @@ export default function PaperPreview() {
     }
 
     const {title, year, university, author, course, faculty, department, createdAt} = paper
-    const isOpen = Boolean(paper);
+    const isOpen = !Boolean(paper.title === paper.createdAt);
+    console.log(paper)
     return (
         <Sheet
             sx={{
@@ -116,7 +117,7 @@ export default function PaperPreview() {
             <Divider/>
             <Box sx={{py: 2, px: 1}}>
                 <Button variant="plain" size="sm" endDecorator={<DocumentArrowDownIcon className="ss-icon w-5 h-5"/>}>
-                  Download paper
+                    Download paper
                 </Button>
             </Box>
         </Sheet>

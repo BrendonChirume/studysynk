@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import {ToastContainer} from "react-toastify";
 import AddUniversity from "@/components/admin/add-university";
 import Stack from "@mui/joy/Stack";
 import AddFaculty from "@/components/admin/add-faculty";
 import AddProgram from "@/components/admin/add-program";
 import AddDepartment from "@/components/admin/add-department";
+import AddCourse from "@/components/admin/add-course";
 
 
 export default function Admin() {
@@ -31,7 +31,7 @@ export default function Admin() {
             <AddFaculty/>
             <AddDepartment/>
             <AddProgram/>
-            <ToastContainer/>
+            <AddCourse/>
         </Stack>
 
     )

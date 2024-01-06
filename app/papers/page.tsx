@@ -11,7 +11,7 @@ import {usePaperPreview} from "@/context/paperPreviewContext";
 export default function Papers() {
     const [papers, setPapers] = React.useState<IPaper[] | []>([]);
     const {paper} = usePaperPreview();
-    const isOpen = Boolean(paper);
+    const isOpen = !Boolean(paper?.title === paper?.createdAt);
 
     React.useEffect(() => {
 

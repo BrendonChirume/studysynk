@@ -3,7 +3,7 @@ import {Department, Program} from "@/lib/models";
 import {NextResponse} from "next/server";
 
 export async function POST(request: Request) {
-    const {progId, ...rest} = await request.json();
+    const {deptId, ...rest} = await request.json();
 
     await connectMongoDB();
 
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         return NextResponse.json({message: "Program already exists!"});
     }
     const program = await Program.create(rest);
-    const department = await Department.findById(progId)
+    const department = await Department.findById(deptId)
 
     department.programs.push(program.id);
     await department.save();
