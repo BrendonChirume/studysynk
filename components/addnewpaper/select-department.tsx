@@ -39,7 +39,7 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
             setOptions(departments);
         })();
 
-    }, [loading]);
+    }, [faculty, loading]);
 
     React.useEffect(() => {
         if (!open) {
