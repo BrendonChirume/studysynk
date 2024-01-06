@@ -4,11 +4,11 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
 import Image from "next/image";
-import {Paper} from "@/lib/types";
+import {IPaper} from "@/lib/types";
 import {usePaperPreview} from "@/context/paperPreviewContext";
 
 interface FileCardProps {
-    paper: Paper
+    paper: IPaper
 }
 
 export default function PaperCard({paper}: FileCardProps) {
