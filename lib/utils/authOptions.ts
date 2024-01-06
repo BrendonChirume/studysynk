@@ -6,7 +6,6 @@ import connectMongoDB from "@/lib/connectMongoDB";
 
 
 const authOptions: NextAuthOptions = {
-    debug: process.env.NODE_ENV === "development",
     pages: {
         signIn: '/signin'
     },
