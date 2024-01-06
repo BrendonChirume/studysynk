@@ -1,12 +1,12 @@
 "use client";
 
 import React from 'react';
-import {Paper} from "@/lib/types";
+import {IPaper} from "@/lib/types";
 import {usePathname} from "next/navigation";
 
 interface PaperPreviewContextType {
-    paper: Paper | null;
-    showPaperPreview: (paper: Paper | null) => void;
+    paper: IPaper | null;
+    showPaperPreview: (paper: IPaper | null) => void;
 }
 
 const PaperPreviewContext = React.createContext<PaperPreviewContextType>({
@@ -43,7 +43,7 @@ export default function PaperPreviewProvider(
     }) {
     const currentRoute = usePathname();
 
-    const [paper, setPaper] = React.useState<Paper | null>(null);
+    const [paper, setPaper] = React.useState<IPaper | null>(null);
 
     React.useEffect(() => {
         if (!currentRoute.includes("papers")) {
@@ -51,7 +51,7 @@ export default function PaperPreviewProvider(
         }
     }, [currentRoute])
 
-    const showPaperPreview = (paper: Paper | null) => setPaper(paper);
+    const showPaperPreview = (paper: IPaper | null) => setPaper(paper);
 
     return (
         <PaperPreviewContext.Provider value={{paper, showPaperPreview}}>
