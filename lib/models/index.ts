@@ -1,23 +1,35 @@
 import mongoose, {Schema} from "mongoose";
+import {ICourse, IDepartment, IFaculty, IPaper, IProgram, IStudent, IUniversity} from "@/lib/types";
 
 const universitySchema = new Schema({
     name: String,
     code: String,
-    faculties: [{
-        name: String,
-        departments: [{
-            name: String,
-            programs: [{
-                name: String,
-                level: String,
-                courses: [{
-                    name: String,
-                    papers: [{type: Schema.Types.ObjectId, ref: 'Paper'}]
-                }]
-            }]
-        }]
-    }]
+    faculties: [String]
 });
+
+const facultySchema = new Schema({
+    name: String,
+    university: String,
+    departments: [String]
+});
+
+const departmentSchema = new Schema({
+    name: String,
+    programs: [String]
+})
+
+const programSchema = new Schema({
+    name: String,
+    level: String,
+    courses: [String]
+})
+
+const courseSchema = new Schema({
+    name: String,
+    code: String,
+    lecturer: String,
+    papers: [String]
+})
 
 const studentSchema = new Schema({
     name: {
@@ -32,8 +44,6 @@ const studentSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        // Adjusted email validation regex
-        match: [/\S+@\S+\.\S+/, 'Please fill a valid email address']
     },
     bio: String,
     image: String,
@@ -45,23 +55,26 @@ const studentSchema = new Schema({
 const paperSchema = new Schema({
     name: String,
     title: String,
-    date: String,
     course: String,
     faculty: String,
     department: String,
     program: String,
-    year: String,
+    university: String,
+    date: String,
     description: String,
     author: {
         id: String,
         name: String
     },
     src: String,
-    university: String,
     internalExaminer: String,
     externalExaminer: String,
 }, {timestamps: true});
 
-export const University = mongoose.models.University || mongoose.model('University', universitySchema);
-export const Student = mongoose.models.Student || mongoose.model('Student', studentSchema);
-export const Paper = mongoose.models.Paper || mongoose.model('Paper', paperSchema);
+export const University = mongoose.models.University || mongoose.model<IUniversity>('University', universitySchema);
+export const Faculty = mongoose.models.Faculty || mongoose.model<IFaculty>('Faculty', facultySchema);
+export const Department = mongoose.models.Department || mongoose.model<IDepartment>('Department', departmentSchema);
+export const Program = mongoose.models.Program || mongoose.model<IProgram>('Program', programSchema);
+export const Course = mongoose.models.Course || mongoose.model<ICourse>('Course', courseSchema);
+export const Student = mongoose.models.Student || mongoose.model<IStudent>('Student', studentSchema);
+export const Paper = mongoose.models.Paper || mongoose.model<IPaper>('Paper', paperSchema);
