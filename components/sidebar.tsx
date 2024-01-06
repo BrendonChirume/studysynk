@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
 import List from '@mui/joy/List';
 import ListSubheader from '@mui/joy/ListSubheader';
 import ListItem from '@mui/joy/ListItem';
@@ -10,7 +8,6 @@ import ListItemContent from '@mui/joy/ListItemContent';
 
 // Icons import
 import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon';
-import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon';
 import DocumentArrowUpIcon from '@heroicons/react/24/outline/DocumentArrowUpIcon';
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 import Link from "next/link";
@@ -54,7 +51,7 @@ export default function Sidebar({currentRoute}: SidebarProps) {
             '--ListItem-radius': '8px', '--List-gap': '4px',
         }}>
             <ListItem nested>
-                <ListSubheader id="expand-browse" sx={{ letterSpacing: '2px', fontWeight: '600' }}>
+                <ListSubheader id="expand-browse" sx={{letterSpacing: '2px', fontWeight: '600'}}>
                     Browse
                 </ListSubheader>
                 <List
@@ -87,87 +84,7 @@ export default function Sidebar({currentRoute}: SidebarProps) {
                     }
                 </List>
             </ListItem>
-            <ListItem nested sx={{mt: 2}}>
-                <ListSubheader id="expand-tags">
-                    Tags
-                    <IconButton
-                        size="sm"
-                        variant="plain"
-                        color="primary"
-                        sx={{'--IconButton-size': '24px', ml: 'auto'}}
-                    >
-                        <ChevronDownIcon className="w-4 h-4 ss-icon"/>
-                    </IconButton>
-                </ListSubheader>
-                <List
-                    aria-labelledby="nav-list-tags"
-                    size="sm"
-                    sx={{
-                        '--ListItemDecorator-size': '32px',
-                    }}
-                >
-                    <ListItem>
-                        <ListItemButton>
-                            <ListItemDecorator>
-                                <Box
-                                    sx={{
-                                        width: '10px',
-                                        height: '10px',
-                                        borderRadius: '99px',
-                                        bgcolor: 'primary.300',
-                                    }}
-                                />
-                            </ListItemDecorator>
-                            <ListItemContent>Personal</ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton>
-                            <ListItemDecorator>
-                                <Box
-                                    sx={{
-                                        width: '10px',
-                                        height: '10px',
-                                        borderRadius: '99px',
-                                        bgcolor: 'danger.400',
-                                    }}
-                                />
-                            </ListItemDecorator>
-                            <ListItemContent>Work</ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton>
-                            <ListItemDecorator>
-                                <Box
-                                    sx={{
-                                        width: '10px',
-                                        height: '10px',
-                                        borderRadius: '99px',
-                                        bgcolor: 'warning.500',
-                                    }}
-                                />
-                            </ListItemDecorator>
-                            <ListItemContent>Travels</ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton>
-                            <ListItemDecorator>
-                                <Box
-                                    sx={{
-                                        width: '10px',
-                                        height: '10px',
-                                        borderRadius: '99px',
-                                        bgcolor: 'success.400',
-                                    }}
-                                />
-                            </ListItemDecorator>
-                            <ListItemContent>Concert tickets</ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-            </ListItem>
+
         </List>
     );
 }
