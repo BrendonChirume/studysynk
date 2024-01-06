@@ -5,11 +5,11 @@ import * as React from "react";
 import Styled from "@/components/Styled";
 import Box from "@mui/joy/Box";
 import FilterOptions from "@/components/papers/filterOptions";
-import {Paper} from "@/lib/types";
+import {IPaper} from "@/lib/types";
 import {usePaperPreview} from "@/context/paperPreviewContext";
 
 export default function Papers() {
-    const [papers, setPapers] = React.useState<Paper[] | []>([]);
+    const [papers, setPapers] = React.useState<IPaper[] | []>([]);
     const {paper} = usePaperPreview();
     const isOpen = Boolean(paper);
 
@@ -30,7 +30,7 @@ export default function Papers() {
                 <FilterOptions/>
                 <Grid container spacing={3} columns={12}>
                     {
-                        papers?.map((paper: Paper, index: number) => (
+                        papers?.map((paper: IPaper, index: number) => (
                             <Grid xs={12} sm={6} md={4} lg={isOpen ? 4 : 3} key={index}>
                                 <PaperCard paper={paper}/>
                             </Grid>
