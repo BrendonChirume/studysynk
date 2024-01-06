@@ -3,22 +3,21 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Autocomplete from '@mui/joy/Autocomplete';
 import CircularProgress from '@mui/joy/CircularProgress';
-import {Faculty, University} from "@/lib/types";
+import {IUniversity} from "@/lib/types";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectUniversityProps {
-    setFaculties: React.Dispatch<React.SetStateAction<Faculty[] | []>>;
-    setInputValue: React.Dispatch<React.SetStateAction<{ university: string, course: string, program: string, department: string, faculty: string }>>;
-    inputValue: { university: string, course: string, program: string, department: string, faculty: string }
+    setSelected: (token: IUniversity) => void;
 }
 
 export default function SelectUniversity(props: SelectUniversityProps) {
-    const {setFaculties, setInputValue, inputValue} = props;
-    const [options, setOptions] = React.useState<University[] | []>([]);
+    const {setSelected} = props;
+    const [options, setOptions] = React.useState<IUniversity[] | []>([]);
     const [open, setOpen] = React.useState(false);
     const loading = open && options.length === 0;
 
-    const [value, setValue] = React.useState<University | null>(null);
+    const [value, setValue] = React.useState<IUniversity | null>(null);
+    const [inputValue, setInputValue] = React.useState('');
 
     React.useEffect(() => {
         if (!loading) {
@@ -49,29 +48,14 @@ export default function SelectUniversity(props: SelectUniversityProps) {
                 autoHighlight
                 value={value}
                 onChange={(_event, newValue) => {
-                    setValue(newValue);
-                    if (newValue) {
-                        setFaculties(newValue?.faculties);
-                    } else {
-                        setFaculties([]);
+                    setValue(newValue)
+                    if (newValue?.name) {
+                        setSelected(newValue)
                     }
                 }}
-                inputValue={inputValue.university}
+                inputValue={inputValue}
                 onInputChange={(_event, newInputValue) => {
-                    if (newInputValue === "") {
-                        setInputValue({
-                            university: newInputValue,
-                            faculty: newInputValue,
-                            department: newInputValue,
-                            program: newInputValue,
-                            course: newInputValue,
-                        });
-                    }else {
-                        setInputValue({
-                            ...inputValue,
-                            university: newInputValue,
-                        });
-                    }
+                    setInputValue(newInputValue)
                 }}
                 open={open}
                 onOpen={() => {

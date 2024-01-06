@@ -19,20 +19,25 @@ export default function AddUniversity() {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
+        const data = Object.fromEntries(formData.entries());
 
         await fetch("/api/universities", {
             method: "POST",
-            body: JSON.stringify(Object.fromEntries(formData.entries())),
+            body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
             },
             next: {
                 revalidate: 30
             }
-        }).then((response) => {
+        }).then(async (response) => {
             if (response.ok) {
-                notify("University created successfully!", "success");
+                const res = await response.json();
+                if (res.message.includes("exists")) {
+                    return notify(res.message, "warning")
+                }
                 (event.target as HTMLFormElement).reset();
+                return notify(res.message, "success");
             } else {
                 notify("Error creating university!", "error");
             }
@@ -51,14 +56,14 @@ export default function AddUniversity() {
                     </Typography>
                 </Box>
                 <Divider/>
-                <Stack spacing={1} sx={{py: 1}}>
+                <Stack spacing={3} sx={{py: 1}}>
                     <FormControl required id="university">
                         <FormLabel htmlFor="university" id="label-university">University</FormLabel>
                         <Input name="name"/>
                     </FormControl>
-                    <FormControl id="acronym">
-                        <FormLabel htmlFor="acronym" id="label-acronym">Acronym</FormLabel>
-                        <Input name="acronym"/>
+                    <FormControl id="code">
+                        <FormLabel htmlFor="code" id="label-code">Code (e.g NUST)</FormLabel>
+                        <Input name="code"/>
                     </FormControl>
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
