@@ -75,7 +75,13 @@ export default function PositionedMenu() {
                     </ListItemDecorator>
                     Contact us
                 </MenuItem>
-                <MenuItem>
+                <MenuItem component={Link}
+                                   sx={{
+                                       "&:hover": {
+                                           textDecoration: "none"
+                                       }
+                                   }}
+                                   href={"/admin"}>
                     <ListItemDecorator>
                         <Cog6ToothIcon className={"w-6 h-6 ss-icon"}/>
                     </ListItemDecorator>
