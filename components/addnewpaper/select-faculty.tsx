@@ -77,6 +77,13 @@ export default function SelectFaculty(props: SelectFacultyProps) {
                 groupBy={(option) => option.university}
                 options={options}
                 loading={loading}
+                slotProps={{
+                    input: {
+                        sx: {
+                            textTransform: 'capitalize'
+                        }
+                    }
+                }}
                 endDecorator={
                     loading ? (
                         <CircularProgress size="sm" sx={{bgcolor: 'background.surface'}}/>
@@ -87,7 +94,7 @@ export default function SelectFaculty(props: SelectFacultyProps) {
                     const {key, id, ...rest} = props;
                     return (
                         <AutocompleteOption
-                            sx={{px: 2, py: 0.5, cursor: "pointer"}}
+                            sx={{px: 2, py: 0.5, cursor: "pointer", textTransform: "capitalize"}}
                             key={id} {...rest}>
                             {option.name}
                         </AutocompleteOption>

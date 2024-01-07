@@ -74,8 +74,16 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
                 }}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
                 getOptionLabel={(option) => option.name}
+                groupBy={(option) => option.faculty}
                 options={options}
                 loading={loading}
+                slotProps={{
+                    input: {
+                        sx: {
+                            textTransform: 'capitalize'
+                        }
+                    }
+                }}
                 endDecorator={
                     loading ? (
                         <CircularProgress size="sm" sx={{bgcolor: 'background.surface'}}/>
@@ -86,9 +94,9 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
                     const {key, id, ...rest} = props;
                     return (
                         <AutocompleteOption
-                            sx={{px: 2, py: 0.5, cursor: "pointer"}}
+                            sx={{px: 2, py: 0.5, cursor: "pointer", textTransform: "capitalize"}}
                             key={id} {...rest}>
-                            ${option.name}
+                            {option.name}
                         </AutocompleteOption>
                     )
                 }}

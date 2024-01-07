@@ -1,6 +1,7 @@
 import connectMongoDB from "@/lib/connectMongoDB";
 import {NextResponse} from "next/server";
 import {Department, Faculty} from "@/lib/models";
+import {lower} from "@/lib/utils/helper";
 
 export async function POST(request: Request) {
 
@@ -12,6 +13,7 @@ export async function POST(request: Request) {
     if (isExist) {
         return NextResponse.json({message: "Department already exists!"});
     }
+    await lower(rest);
     const department = await Department.create(rest);
     const addFaculty = await Faculty.findById(facId);
 
@@ -24,10 +26,10 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url)
-    const department = searchParams.get('department');
+    const faculty = searchParams.get('faculty');
     await connectMongoDB();
-    if (department) {
-        const data = await Department.find({department});
+    if (faculty) {
+        const data = await Department.find({faculty});
         return NextResponse.json(data);
     } else {
         const data = await Department.find({});

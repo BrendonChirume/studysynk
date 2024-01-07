@@ -51,7 +51,13 @@ export default function AddDepartment() {
                     <SelectFaculty university={university?.name} setSelected={(token) => setFaculty(token)}/>
                     <FormControl required id="name">
                         <FormLabel htmlFor="name" id="label-name">Department name</FormLabel>
-                        <Input name="name"/>
+                        <Input name="name" slotProps={{
+                            input: {
+                                sx: {
+                                    textTransform: 'capitalize'
+                                }
+                            }
+                        }}/>
                     </FormControl>
                 </Stack>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>

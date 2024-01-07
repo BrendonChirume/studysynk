@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';
-import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
@@ -15,6 +14,7 @@ import SelectProgram from "@/components/addnewpaper/select-program";
 import {handleApiResponse} from "@/lib/utils/helper";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
+import Grid from "@mui/joy/Grid";
 
 export default function AddCourse() {
     const [loading, setLoading] = React.useState(false);
@@ -56,38 +56,70 @@ export default function AddCourse() {
                     </Typography>
                 </Box>
                 <Divider/>
-                <Stack spacing={3} sx={{py: 1}}>
-                    <SelectProgram setSelected={(token) => setProgram(token)}/>
-                    <FormControl required id="course-name">
-                        <FormLabel htmlFor="course-name" id="label-name">Course name</FormLabel>
-                        <Input name="name"/>
-                    </FormControl>
-                    <FormControl id="course-level">
-                        <FormLabel htmlFor="course-level" id="level">Course level</FormLabel>
-                        <Select onChange={handleChange}>
-                            <Option value="1.1">1.1</Option>
-                            <Option value="1.2">1.2</Option>
-                            <Option value="2.1">2.1</Option>
-                            <Option value="2.2">2.2</Option>
-                            <Option value="3.0">3.0</Option>
-                            <Option value="3.1">3.1</Option>
-                            <Option value="3.2">3.2</Option>
-                            <Option value="4.1">4.1</Option>
-                            <Option value="4.2">4.2</Option>
-                            <Option value="5.1">5.1</Option>
-                            <Option value="5.2">5.2</Option>
-                            <Option value="5.2">5.2</Option>
-                            <Option value="6.1">6.1</Option>
-                            <Option value="6.2">6.2</Option>
-                            <Option value="7.1">7.1</Option>
-                            <Option value="7.2">7.2</Option>
-                        </Select>
-                    </FormControl>
-                    <FormControl required id="course-lecturer">
-                        <FormLabel htmlFor="course-lecturer" id="label-lecturer">Lecturer</FormLabel>
-                        <Input name="lecturer"/>
-                    </FormControl>
-                </Stack>
+                <Grid container spacing={3} sx={{py: 1}}>
+                    <Grid xs={12}>
+                        <SelectProgram setSelected={(token) => setProgram(token)}/>
+                    </Grid>
+                    <Grid xs={4}>
+                        <FormControl required id="course-code">
+                            <FormLabel htmlFor="course-code" id="label-code">Course code</FormLabel>
+                            <Input name="code" slotProps={{
+                                input: {
+                                    sx: {
+                                        textTransform: 'uppercase'
+                                    }
+                                }
+                            }}/>
+                        </FormControl>
+                    </Grid>
+                    <Grid xs={8}>
+                        <FormControl required id="course-name">
+                            <FormLabel htmlFor="course-name" id="label-name">Course name</FormLabel>
+                            <Input name="name" slotProps={{
+                                input: {
+                                    sx: {
+                                        textTransform: 'capitalize'
+                                    }
+                                }
+                            }}/>
+                        </FormControl>
+                    </Grid>
+                    <Grid xs={6}>
+                        <FormControl id="course-level">
+                            <FormLabel htmlFor="course-level" id="level">Course level</FormLabel>
+                            <Select onChange={handleChange} defaultValue={"1.1"}>
+                                <Option value="1.1">1.1</Option>
+                                <Option value="1.2">1.2</Option>
+                                <Option value="2.1">2.1</Option>
+                                <Option value="2.2">2.2</Option>
+                                <Option value="3.0">3.0</Option>
+                                <Option value="3.1">3.1</Option>
+                                <Option value="3.2">3.2</Option>
+                                <Option value="4.1">4.1</Option>
+                                <Option value="4.2">4.2</Option>
+                                <Option value="5.1">5.1</Option>
+                                <Option value="5.2">5.2</Option>
+                                <Option value="5.2">5.2</Option>
+                                <Option value="6.1">6.1</Option>
+                                <Option value="6.2">6.2</Option>
+                                <Option value="7.1">7.1</Option>
+                                <Option value="7.2">7.2</Option>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid xs={6}>
+                        <FormControl required id="course-lecturer">
+                            <FormLabel htmlFor="course-lecturer" id="label-lecturer">Lecturer</FormLabel>
+                            <Input name="lecturer" slotProps={{
+                                input: {
+                                    sx: {
+                                        textTransform: 'capitalize'
+                                    }
+                                }
+                            }}/>
+                        </FormControl>
+                    </Grid>
+                </Grid>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
                     <CardActions sx={{alignSelf: 'flex-end', pt: 2}}>
                         <Button size="sm" variant="soft" type={"submit"} loading={loading}>

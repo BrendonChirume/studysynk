@@ -49,7 +49,13 @@ export default function AddUniversity() {
                 <Stack spacing={3} sx={{py: 1}}>
                     <FormControl required id="university">
                         <FormLabel htmlFor="university" id="label-university">University</FormLabel>
-                        <Input name="name"/>
+                        <Input name="name" slotProps={{
+                            input: {
+                                sx: {
+                                    textTransform: 'capitalize'
+                                }
+                            }
+                        }}/>
                     </FormControl>
                     <FormControl id="code">
                         <Stack direction="row" gap={1} alignItems="center">

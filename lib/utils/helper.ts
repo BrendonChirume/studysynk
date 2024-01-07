@@ -1,5 +1,6 @@
 import notify from "@/lib/utils/notify";
 import React from "react";
+
 export const handleApiResponse = (event: React.FormEvent<HTMLFormElement>) => async (response: Response) => {
     if (response.ok) {
         const res = await response.json();
@@ -12,3 +13,20 @@ export const handleApiResponse = (event: React.FormEvent<HTMLFormElement>) => as
         return notify(response.statusText, "error");
     }
 }
+
+type Lower = { [key: string]: string | number | boolean | Lower };
+
+export async function lower<T extends Lower>(obj: T) {
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const property = obj[key];
+
+            if (typeof property === 'string') {
+                obj[key as keyof T] = property.toLowerCase().trim() as T[keyof T];
+            } else if (typeof property === 'object' && property !== null) {
+                await lower(property);
+            }
+        }
+    }
+}
+

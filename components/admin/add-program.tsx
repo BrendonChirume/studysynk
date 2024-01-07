@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';
-import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
@@ -17,6 +16,7 @@ import SelectFaculty from "@/components/addnewpaper/select-faculty";
 import {handleApiResponse} from "@/lib/utils/helper";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
+import Grid from "@mui/joy/Grid";
 
 export default function AddProgram() {
     const [loading, setLoading] = React.useState(false);
@@ -56,22 +56,38 @@ export default function AddProgram() {
                     </Typography>
                 </Box>
                 <Divider/>
-                <Stack spacing={3} sx={{py: 1}}>
-                    <SelectUniversity setSelected={(token) => setUniversity(token)}/>
-                    <SelectFaculty university={university?.name} setSelected={(token) => setFaculty(token)}/>
-                    <SelectDepartment faculty={faculty?.name} setSelected={(token) => setDepartment(token)}/>
-                    <FormControl id="program-level">
-                        <FormLabel htmlFor="program-level" id="level">Program level</FormLabel>
-                        <Select onChange={handleChange}>
-                            <Option value="Undergraduate">Undergraduate</Option>
-                            <Option value="Masters">Masters</Option>
-                        </Select>
-                    </FormControl>
-                    <FormControl required id="program">
-                        <FormLabel htmlFor="program" id="label-program">Program name</FormLabel>
-                        <Input name="name"/>
-                    </FormControl>
-                </Stack>
+                <Grid container spacing={3} sx={{py: 1}}>
+                    <Grid xs={12}>
+                        <SelectUniversity setSelected={(token) => setUniversity(token)}/>
+                    </Grid>
+                    <Grid xs={12}>
+                        <SelectFaculty university={university?.name} setSelected={(token) => setFaculty(token)}/>
+                    </Grid>
+                    <Grid xs={12}>
+                        <SelectDepartment faculty={faculty?.name} setSelected={(token) => setDepartment(token)}/>
+                    </Grid>
+                    <Grid xs={4}>
+                        <FormControl id="program-level">
+                            <FormLabel htmlFor="program-level" id="level">Program level</FormLabel>
+                            <Select onChange={handleChange} defaultValue="Undergraduate">
+                                <Option value="Undergraduate">Undergraduate</Option>
+                                <Option value="Masters">Masters</Option>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid xs={8}>
+                        <FormControl required id="program">
+                            <FormLabel htmlFor="program" id="label-program">Program name</FormLabel>
+                            <Input name="name" slotProps={{
+                                input: {
+                                    sx: {
+                                        textTransform: 'capitalize'
+                                    }
+                                }
+                            }}/>
+                        </FormControl>
+                    </Grid>
+                </Grid>
                 <CardOverflow sx={{borderTop: '1px solid', borderColor: 'divider'}}>
                     <CardActions sx={{alignSelf: 'flex-end', pt: 2}}>
                         <Button size="sm" variant="soft" type={"submit"} loading={loading}>

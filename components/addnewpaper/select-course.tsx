@@ -76,6 +76,13 @@ export default function SelectCourse(props: SelectCourseProps) {
                 getOptionLabel={(option) => option.name}
                 options={options}
                 loading={loading}
+                slotProps={{
+                    input: {
+                        sx: {
+                            textTransform: 'capitalize'
+                        }
+                    }
+                }}
                 endDecorator={
                     loading ? (
                         <CircularProgress size="sm" sx={{bgcolor: 'background.surface'}}/>
@@ -86,7 +93,7 @@ export default function SelectCourse(props: SelectCourseProps) {
                     const {key, id, ...rest} = props;
                     return (
                         <AutocompleteOption
-                            sx={{px: 2, py: 0.5, cursor: "pointer"}}
+                            sx={{px: 2, py: 0.5, cursor: "pointer", textTransform: "capitalize"}}
                             key={id} {...rest}>
                             {option.name}
                         </AutocompleteOption>
