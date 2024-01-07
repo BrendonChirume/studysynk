@@ -32,6 +32,7 @@ const joyTheme = extendTheme({
         dark: {
             palette: {
                 background: {
+                    surface: 'rgb(14 14 16)',
                     scrollbarThumb: '#636b74',
                     scrollbarTrack: '#23272b',
                 }

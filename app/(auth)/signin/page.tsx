@@ -70,7 +70,7 @@ export default function SignIn() {
                     backdropFilter: 'blur(4px)',
                     backgroundColor: 'rgba(255 255 255 / 0.6)',
                     [theme.getColorSchemeSelector('dark')]: {
-                        backgroundColor: 'rgba(19 19 24 / 0.4)',
+                        backgroundColor: 'rgb(14 14 16)',
                     },
                 })}
             >
@@ -213,7 +213,7 @@ export default function SignIn() {
                 </Box>
             </Box>
             <Box
-                sx={() => ({
+                sx={(theme) => ({
                     height: '100%',
                     position: 'fixed',
                     right: 0,
@@ -223,11 +223,14 @@ export default function SignIn() {
                     transition:
                         'background-image var(--Transition-duration), left var(--Transition-duration) !important',
                     transitionDelay: 'calc(var(--Transition-duration) + 0.1s)',
-                    backgroundColor: 'background.level1',
+                    backgroundColor: 'transparent',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
-                    backgroundImage: 'url("/3394878.jpg")',
+                    backgroundImage: 'url("/signup-hero-1.jpg")',
+                    [theme.getColorSchemeSelector('dark')]: {
+                        backgroundImage: 'url("/signup-hero-2.svg")',
+                    },
                 })}
             />
             <ToastContainer/>
