@@ -15,29 +15,12 @@ export default function PaperPreview() {
     let {paper, showPaperPreview} = usePaperPreview();
 
     if (!paper) {
-        paper = {
-            _id: "",
-            author: {id: "", name: ""},
-            course: "",
-            date: "",
-            department: "",
-            description: "",
-            externalExaminer: "",
-            faculty: "",
-            internalExaminer: "",
-            program: "",
-            title: "",
-            university: "",
-            url: "",
-            year: "",
-            createdAt: "",
-            updatedAt: ""
-        }
+        return <Box>No paper selected</Box>
     }
+    const {title, year, university, author, course, faculty, department, createdAt} = paper;
 
-    const {title, year, university, author, course, faculty, department, createdAt} = paper
-    const isOpen = !Boolean(paper.title === paper.createdAt);
-    console.log(paper)
+    const isOpen = !Boolean(paper?.title === paper?.createdAt);
+
     return (
         <Sheet
             sx={{
