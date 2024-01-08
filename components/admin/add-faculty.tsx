@@ -11,7 +11,7 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import SelectUniversity from "@/components/addnewpaper/select-university";
-import {IUniversity} from "@/lib/types";
+import {IFaculty, IUniversity} from "@/lib/types";
 import {handleApiResponse} from "@/lib/utils/helper";
 
 export default function AddFaculty() {
@@ -22,7 +22,12 @@ export default function AddFaculty() {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = {...Object.fromEntries(formData.entries()), uniId: university?._id}
+        const data = {
+            ...Object.fromEntries(formData.entries()), university: {
+                name: university?.name,
+                id: university?._id
+            }
+        } as unknown as IFaculty;
 
         await fetch("/api/faculties", {
             method: "POST",

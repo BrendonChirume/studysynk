@@ -1,6 +1,10 @@
 export interface ICourse {
     _id: string;
     name: string,
+    university: string,
+    faculty: string,
+    department: string,
+    program: string,
     papers: IPaper[]
 }
 
@@ -8,6 +12,9 @@ export interface IProgram {
     _id: string;
     name: string,
     level: string,
+    university: string,
+    faculty: string,
+    department: string,
     courses: ICourse[]
 }
 
@@ -22,7 +29,10 @@ export interface IDepartment {
 export interface IFaculty {
     _id: string;
     name: string,
-    university: string,
+    university: {
+        name: string,
+        id: string
+    }
     departments: IDepartment[]
 }
 
@@ -64,6 +74,20 @@ export interface IStudent {
     bio: string;
     streak: string;
     image: string;
-    program: string;
-    university: string;
+    university: {
+        name: string;
+        id: string;
+    },
+    faculty: {
+        name: string;
+        id: string;
+    },
+    department: {
+        name: string;
+        id: string;
+    },
+    program: {
+        name: string;
+        id: string;
+    },
 }

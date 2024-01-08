@@ -77,7 +77,6 @@ export default function AddUniversity() {
                         <Button size="sm" variant="soft" type={"submit"} loading={loading}>
                             Save
                         </Button>
-
                     </CardActions>
                 </CardOverflow>
             </Card>
