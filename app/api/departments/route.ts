@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     const facultyId = searchParams.get('facultyId');
     await connectMongoDB();
     if (facultyId) {
-        const data = await Department.find({facultyId});
+        const data = await Department.find({'faculty.id': facultyId});
         return NextResponse.json(data);
     } else {
         const data = await Department.find({});
