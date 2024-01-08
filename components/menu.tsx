@@ -24,11 +24,13 @@ export default function PositionedMenu() {
                 size="sm"
                 sx={{maxWidth: '40px', maxHeight: '40px', borderRadius: '9999999px'}}
             >
+                {/*TODO: set up next Image*/}
                 <Avatar
-                    src="https://i.pravatar.cc/40?img=2"
-                    srcSet="https://i.pravatar.cc/80?img=2"
+                    src={session?.user?.image || undefined}
                     sx={{maxWidth: '38px', maxHeight: '38px'}}
-                />
+                >
+                    {session?.user?.name?.match(/(\b\S)?/g)?.join("")}
+                </Avatar>
             </MenuButton>
             <Menu
                 placement="bottom-end"
@@ -76,12 +78,12 @@ export default function PositionedMenu() {
                     Contact us
                 </MenuItem>
                 <MenuItem component={Link}
-                                   sx={{
-                                       "&:hover": {
-                                           textDecoration: "none"
-                                       }
-                                   }}
-                                   href={"/admin"}>
+                          sx={{
+                              "&:hover": {
+                                  textDecoration: "none"
+                              }
+                          }}
+                          href={"/admin"}>
                     <ListItemDecorator>
                         <Cog6ToothIcon className={"w-6 h-6 ss-icon"}/>
                     </ListItemDecorator>
