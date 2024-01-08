@@ -11,13 +11,11 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import SelectFaculty from "@/components/addnewpaper/select-faculty";
-import {IFaculty, IUniversity} from "@/lib/types";
-import SelectUniversity from "@/components/addnewpaper/select-university";
+import {IFaculty} from "@/lib/types";
 import {handleApiResponse} from "@/lib/utils/helper";
 
 export default function AddDepartment() {
     const [loading, setLoading] = React.useState(false);
-    const [university, setUniversity] = React.useState<IUniversity | null>(null);
     const [faculty, setFaculty] = React.useState<IFaculty | null>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
