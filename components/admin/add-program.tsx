@@ -9,32 +9,35 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
-import SelectUniversity from "@/components/addnewpaper/select-university";
-import {IDepartment, IFaculty, IUniversity} from "@/lib/types";
+import {IDepartment, IProgram} from "@/lib/types";
 import SelectDepartment from "@/components/addnewpaper/select-department";
-import SelectFaculty from "@/components/addnewpaper/select-faculty";
-import {handleApiResponse} from "@/lib/utils/helper";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Grid from "@mui/joy/Grid";
+import {handleApiResponse} from "@/lib/utils/helper";
 
 export default function AddProgram() {
     const [loading, setLoading] = React.useState(false);
-    const [university, setUniversity] = React.useState<IUniversity | null>(null);
-    const [faculty, setFaculty] = React.useState<IFaculty | null>(null);
     const [department, setDepartment] = React.useState<IDepartment | null>(null);
-    const [level, setLevel] = React.useState<string | null>(null);
+    const [level, setLevel] = React.useState<string>("Undergraduate");
     const handleChange = (
         _event: React.SyntheticEvent | null,
         newValue: string | null,
-    ) => setLevel(newValue)
+    ) => newValue && setLevel(newValue)
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = {...Object.fromEntries(formData.entries()), level, deptId: department?._id};
-
+        const data = {
+            ...Object.fromEntries(formData.entries()), level,
+            faculty: department?.faculty,
+            university: department?.university,
+            department: {
+                name: department?.name,
+                id: department?._id
+            }
+        } as unknown as IProgram;
 
         await fetch("/api/programs", {
             method: "POST",
@@ -58,18 +61,12 @@ export default function AddProgram() {
                 <Divider/>
                 <Grid container spacing={3} sx={{py: 1}}>
                     <Grid xs={12}>
-                        <SelectUniversity setSelected={(token) => setUniversity(token)}/>
-                    </Grid>
-                    <Grid xs={12}>
-                        <SelectFaculty university={university?.name} setSelected={(token) => setFaculty(token)}/>
-                    </Grid>
-                    <Grid xs={12}>
-                        <SelectDepartment faculty={faculty?.name} setSelected={(token) => setDepartment(token)}/>
+                        <SelectDepartment setSelected={(token) => setDepartment(token)}/>
                     </Grid>
                     <Grid xs={4}>
                         <FormControl id="program-level">
                             <FormLabel htmlFor="program-level" id="level">Program level</FormLabel>
-                            <Select onChange={handleChange} defaultValue="Undergraduate">
+                            <Select onChange={handleChange} value={level}>
                                 <Option value="Undergraduate">Undergraduate</Option>
                                 <Option value="Masters">Masters</Option>
                             </Select>

@@ -8,11 +8,11 @@ import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectProgramProps {
     setSelected?: (token: IProgram) => void;
-    department?: string;
+    departmentId?: string;
 }
 
 export default function SelectProgram(props: SelectProgramProps) {
-    const {setSelected, department} = props;
+    const {setSelected, departmentId} = props;
     const [options, setOptions] = React.useState<IProgram[] | []>([]);
     const [open, setOpen] = React.useState(false);
     const loading = open && options.length === 0;
@@ -27,8 +27,8 @@ export default function SelectProgram(props: SelectProgramProps) {
 
         (async () => {
             let programs;
-            if (department) {
-                programs = await fetch(`/api/programs?department=${department}`, {
+            if (departmentId) {
+                programs = await fetch(`/api/programs?departmentId=${departmentId}`, {
                     method: "GET",
                 }).then(res => res.json());
                 return setOptions(programs);
@@ -39,7 +39,7 @@ export default function SelectProgram(props: SelectProgramProps) {
             setOptions(programs);
         })();
 
-    }, [loading, department]);
+    }, [loading, departmentId]);
 
     React.useEffect(() => {
         if (!open) {
@@ -73,7 +73,8 @@ export default function SelectProgram(props: SelectProgramProps) {
                     setOpen(false);
                 }}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
-                getOptionLabel={(option) => option.name || ''}
+                getOptionLabel={(option) => option.name ?? ''}
+                groupBy={(option) => option.department.name}
                 options={options}
                 loading={loading}
                 slotProps={{

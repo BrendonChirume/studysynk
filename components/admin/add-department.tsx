@@ -11,7 +11,7 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import SelectFaculty from "@/components/addnewpaper/select-faculty";
-import {IFaculty} from "@/lib/types";
+import {IDepartment, IFaculty} from "@/lib/types";
 import {handleApiResponse} from "@/lib/utils/helper";
 
 export default function AddDepartment() {
@@ -32,7 +32,7 @@ export default function AddDepartment() {
                 id: faculty?._id,
                 name: faculty?.name
             }
-        };
+        } as unknown as IDepartment;
 
         await fetch("/api/departments", {
             method: "POST",

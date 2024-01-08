@@ -74,7 +74,7 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
                 }}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
                 getOptionLabel={(option) => option.name}
-                groupBy={(option) => option.faculty}
+                groupBy={(option) => option.faculty.name}
                 options={options}
                 loading={loading}
                 slotProps={{

@@ -4,17 +4,22 @@ import {NextResponse} from "next/server";
 import {lower} from "@/lib/utils/helper";
 
 export async function POST(request: Request) {
-    const {deptId, ...rest} = await request.json();
+    const res = await request.json();
+    await lower(res, 'departmentId');
 
     await connectMongoDB();
 
-    const isExist = await Program.findOne({name: rest.name}).select("_id");
+    // check if Program exists
+    const isExist = await Program.findOne({name: res.name}).select("_id");
     if (isExist) {
         return NextResponse.json({message: "Program already exists!"});
     }
-    await lower(rest);
-    const program = await Program.create(rest);
-    const department = await Department.findById(deptId)
+
+    // create Program to database
+    const program = await Program.create(res);
+
+    // add Program to Department document
+    const department = await Department.findById(res.department.id)
 
     department.programs.push(program.id);
     await department.save();
@@ -24,10 +29,10 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url)
-    const program = searchParams.get('program');
+    const departmentId = searchParams.get('departmentId');
     await connectMongoDB();
-    if (program) {
-        const data = await Program.find({program});
+    if (departmentId) {
+        const data = await Program.find({'department.id': departmentId});
         return NextResponse.json(data);
     }
     const data = await Program.find({});

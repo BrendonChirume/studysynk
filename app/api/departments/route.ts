@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     await connectMongoDB();
 
-    // check if faculty exists
+    // check if Department exists
     const isExist = await Department.findOne({name: res.name}).select("_id");
     if (isExist) {
         return NextResponse.json({message: "Department already exists!"});

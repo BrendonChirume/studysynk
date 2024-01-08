@@ -109,7 +109,7 @@ const courseSchema = new Schema({
             unique: true,
         }
     },
-    program: {
+    program: [{
         name: String,
         id: {
             type: Schema.Types.ObjectId,
@@ -117,44 +117,9 @@ const courseSchema = new Schema({
             required: true,
             unique: true,
         }
-    },
+    }],
     papers: [{type: Schema.Types.ObjectId, ref: 'Paper'}],
 })
-
-const studentSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    bio: String,
-    image: String,
-    streak: String,
-    university: {
-        name: String,
-        id: String,
-    },
-    faculty: {
-        name: String,
-        id: String,
-    },
-    department: {
-        name: String,
-        id: String,
-    },
-    program: {
-        name: String,
-        id: String,
-    },
-}, {timestamps: true});
 
 const paperSchema = new Schema({
     title: String,
@@ -213,9 +178,44 @@ const paperSchema = new Schema({
         id: String,
         name: String,
     },
-    createdAt: String,
-    updatedAt: String,
 }, {timestamps: true});
+
+
+const studentSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    bio: String,
+    image: String,
+    streak: String,
+    university: {
+        name: String,
+        id: String,
+    },
+    faculty: {
+        name: String,
+        id: String,
+    },
+    department: {
+        name: String,
+        id: String,
+    },
+    program: {
+        name: String,
+        id: String,
+    },
+}, {timestamps: true});
+
 
 export const University = mongoose.models.University || mongoose.model<IUniversity>('University', universitySchema);
 export const Faculty = mongoose.models.Faculty || mongoose.model<IFaculty>('Faculty', facultySchema);

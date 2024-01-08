@@ -12,6 +12,7 @@ import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
 import FormHelperText from "@mui/joy/FormHelperText";
 import {handleApiResponse} from "@/lib/utils/helper";
+import {IUniversity} from "@/lib/types";
 
 export default function AddUniversity() {
     const [loading, setLoading] = React.useState(false);
@@ -20,7 +21,7 @@ export default function AddUniversity() {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+        const data = Object.fromEntries(formData.entries()) as unknown as IUniversity;
 
         await fetch("/api/universities", {
             method: "POST",

@@ -1,57 +1,101 @@
-export interface ICourse {
+export interface IUniversity {
     _id: string;
-    name: string,
-    university: string,
-    faculty: string,
-    department: string,
-    program: string,
-    papers: IPaper[]
-}
-
-export interface IProgram {
-    _id: string;
-    name: string,
-    level: string,
-    university: string,
-    faculty: string,
-    department: string,
-    courses: ICourse[]
-}
-
-export interface IDepartment {
-    _id: string;
-    name: string,
-    university: string,
-    faculty: string,
-    programs: IProgram[]
+    name: string;
+    code: string;
+    faculties: IFaculty['_id'][]
 }
 
 export interface IFaculty {
     _id: string;
-    name: string,
+    name: string;
     university: {
-        name: string,
-        id: string
+        name: IUniversity['name'];
+        id:  IUniversity['_id'];
     }
-    departments: IDepartment[]
+    departments: IDepartment['_id'][]
 }
 
+export interface IDepartment {
+    _id: string;
+    name: string;
+    university: {
+        name: IUniversity['name'];
+        id: IUniversity['_id'];
+    };
+    faculty: {
+        name: IFaculty['name'];
+        id: IFaculty['_id'];
+    };
+    programs: IProgram['_id'][]
+}
 
-export interface IUniversity {
-    _id: string,
-    name: string,
-    code: string,
-    faculties: IFaculty[]
+export interface IProgram {
+    _id: string;
+    name: string;
+    level: string;
+    university: {
+        name: IUniversity['name'];
+        id: IUniversity['_id'];
+    };
+    faculty: {
+        name: IFaculty['name'];
+        id: IFaculty['_id'];
+    };
+    department: {
+        name: IDepartment['name'];
+        id: IDepartment['_id'];
+    };
+    courses: ICourse['_id'][]
+}
+
+export interface ICourse {
+    _id: string;
+    name: string[];
+    code: string[];
+    lecturers: string[];
+    level: string;
+    university: {
+        name: IUniversity['name'];
+        id: IUniversity['_id'];
+    };
+    faculty: {
+        name: IFaculty['name'];
+        id: IFaculty['_id'];
+    };
+    department: {
+        name: IDepartment['name'];
+        id: IDepartment['_id'];
+    };
+    program: {
+        name: IProgram['name'];
+        id: IProgram['_id'];
+    };
+    papers: IPaper['_id'][]
 }
 
 export interface IPaper {
     _id: string;
     title: string;
-    university: string;
-    faculty: string;
-    department: string;
-    program: string;
-    course: string;
+    university: {
+        name: IUniversity['name'];
+        id: IUniversity['_id'];
+    };
+    faculty: {
+        name: IFaculty['name'];
+        id: IFaculty['_id'];
+    };
+    department: {
+        name: IDepartment['name'];
+        id: IDepartment['_id'];
+    };
+    program: {
+        name: IProgram['name'];
+        id: IProgram['_id'];
+    };
+    course:  {
+        name: ICourse['name'];
+        id: ICourse['_id'];
+    };
     year: string;
     paperType: string;
     internalExaminer: string;
@@ -59,7 +103,7 @@ export interface IPaper {
     url: string;
     description: string;
     author: {
-        id: string,
+        id: string;
         name: string
     };
     createdAt: string;
@@ -72,22 +116,22 @@ export interface IStudent {
     password: string;
     email: string;
     bio: string;
-    streak: string;
     image: string;
+    streak: string;
     university: {
-        name: string;
-        id: string;
-    },
+        name: IUniversity['name'];
+        id: IUniversity['_id'];
+    };
     faculty: {
-        name: string;
-        id: string;
-    },
+        name: IFaculty['name'];
+        id: IFaculty['_id'];
+    };
     department: {
-        name: string;
-        id: string;
-    },
+        name: IDepartment['name'];
+        id: IDepartment['_id'];
+    };
     program: {
-        name: string;
-        id: string;
-    },
+        name: IProgram['name'];
+        id: IProgram['_id'];
+    };
 }
