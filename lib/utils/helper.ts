@@ -16,15 +16,16 @@ export const handleApiResponse = (event: React.FormEvent<HTMLFormElement>) => as
 
 type Lower = { [key: string]: string | number | boolean | Lower };
 
-export async function lower<T extends Lower>(obj: T) {
+export async function lower<T extends Lower>(obj: T, exclude?: string[] | string) {
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
             const property = obj[key];
 
-            if (typeof property === 'string') {
+            if (exclude && exclude.indexOf(key) > -1) {
+            } else if (typeof property === 'string') {
                 obj[key as keyof T] = property.toLowerCase().trim() as T[keyof T];
             } else if (typeof property === 'object' && property !== null) {
-                await lower(property);
+                await lower(property, exclude);
             }
         }
     }
