@@ -5,20 +5,20 @@ import {lower} from "@/lib/utils/helper";
 
 export async function POST(request: Request) {
     const res = await request.json();
-    await lower(res, 'universityId');
+    await lower(res, 'id');
 
     await connectMongoDB();
 
-    // check if faculty exists
+    // check if Faculty exists
     const isExist = await Faculty.findOne({name: res.name}).select("_id");
     if (isExist) {
         return NextResponse.json({message: "Faculty already exists!"});
     }
 
-    // create faculty to database
+    // create Faculty to database
     const faculty = await Faculty.create(res);
 
-    // add faculty to university document
+    // add Faculty to University document
     const university = await University.findById(res.university.id);
 
     university.faculties.push(faculty.id);
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     console.log(universityId);
     await connectMongoDB();
     if (universityId) {
-        const data = await Faculty.find({universityId});
+        const data = await Faculty.find({'university.id': universityId});
         return NextResponse.json(data);
     }
     const data = await Faculty.find({});

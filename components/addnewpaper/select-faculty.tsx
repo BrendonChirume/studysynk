@@ -8,11 +8,11 @@ import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectFacultyProps {
     setSelected?: (token: IFaculty) => void;
-    university?: string;
+    universityId?: string;
 }
 
 export default function SelectFaculty(props: SelectFacultyProps) {
-    const {setSelected, university} = props;
+    const {setSelected, universityId} = props;
     const [options, setOptions] = React.useState<IFaculty[] | []>([]);
     const [open, setOpen] = React.useState(false);
     const loading = open && options.length === 0;
@@ -27,8 +27,8 @@ export default function SelectFaculty(props: SelectFacultyProps) {
 
         (async () => {
             let faculties;
-            if (university) {
-                faculties = await fetch(`/api/faculties?university=${university}`, {
+            if (universityId) {
+                faculties = await fetch(`/api/faculties?universityId=${universityId}`, {
                     method: "GET",
                 }).then(res => res.json());
                 return setOptions(faculties);
@@ -39,7 +39,7 @@ export default function SelectFaculty(props: SelectFacultyProps) {
             setOptions(faculties);
         })();
 
-    }, [loading, university]);
+    }, [loading, universityId]);
 
     React.useEffect(() => {
         if (!open) {
@@ -74,7 +74,7 @@ export default function SelectFaculty(props: SelectFacultyProps) {
                 }}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
                 getOptionLabel={(option) => option.name}
-                groupBy={(option) => option.university}
+                groupBy={(option) => option.university.name}
                 options={options}
                 loading={loading}
                 slotProps={{

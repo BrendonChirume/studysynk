@@ -24,7 +24,17 @@ export default function AddDepartment() {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = {...Object.fromEntries(formData.entries()), facId: faculty?._id};
+        const data = {
+            ...Object.fromEntries(formData.entries()),
+            university: {
+                id: faculty?.university.id,
+                name: faculty?.university.name,
+            },
+            faculty: {
+                id: faculty?._id,
+                name: faculty?.name
+            }
+        };
 
         await fetch("/api/departments", {
             method: "POST",
@@ -47,8 +57,7 @@ export default function AddDepartment() {
                 </Box>
                 <Divider/>
                 <Stack spacing={3} sx={{py: 1}}>
-                    <SelectUniversity setSelected={(token) => setUniversity(token)}/>
-                    <SelectFaculty university={university?.name} setSelected={(token) => setFaculty(token)}/>
+                    <SelectFaculty setSelected={(token) => setFaculty(token)}/>
                     <FormControl required id="name">
                         <FormLabel htmlFor="name" id="label-name">Department name</FormLabel>
                         <Input name="name" slotProps={{

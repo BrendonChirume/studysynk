@@ -8,11 +8,11 @@ import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectDepartmentProps {
     setSelected?: (token: IDepartment) => void;
-    faculty?: string;
+    facultyId?: string;
 }
 
 export default function SelectDepartment(props: SelectDepartmentProps) {
-    const {setSelected, faculty} = props;
+    const {setSelected, facultyId} = props;
     const [options, setOptions] = React.useState<IDepartment[] | []>([]);
     const [open, setOpen] = React.useState(false);
     const loading = open && options.length === 0;
@@ -27,8 +27,8 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
 
         (async () => {
             let departments;
-            if (faculty) {
-                departments = await fetch(`/api/departments?faculty=${faculty}`, {
+            if (facultyId) {
+                departments = await fetch(`/api/departments?facultyId=${facultyId}`, {
                     method: "GET",
                 }).then(res => res.json());
                 return setOptions(departments);
@@ -39,7 +39,7 @@ export default function SelectDepartment(props: SelectDepartmentProps) {
             setOptions(departments);
         })();
 
-    }, [faculty, loading]);
+    }, [facultyId, loading]);
 
     React.useEffect(() => {
         if (!open) {

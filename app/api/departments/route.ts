@@ -4,21 +4,25 @@ import {Department, Faculty} from "@/lib/models";
 import {lower} from "@/lib/utils/helper";
 
 export async function POST(request: Request) {
-
-    const {facId, ...rest} = await request.json();
+    const res = await request.json();
+    await lower(res, 'id');
 
     await connectMongoDB();
 
-    const isExist = await Department.findOne({name: rest.name}).select("_id");
+    // check if faculty exists
+    const isExist = await Department.findOne({name: res.name}).select("_id");
     if (isExist) {
         return NextResponse.json({message: "Department already exists!"});
     }
-    await lower(rest);
-    const department = await Department.create(rest);
-    const addFaculty = await Faculty.findById(facId);
 
-    addFaculty.departments.push(department.id);
-    await addFaculty.save();
+    // create Department to database
+    const department = await Department.create(res);
+
+    // add Department to Faculty document
+    const faculty = await Faculty.findById(res.faculty.id);
+
+    faculty.departments.push(department.id);
+    await faculty.save();
 
     return NextResponse.json({message: "Department created successfully!"});
 
@@ -26,10 +30,10 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url)
-    const faculty = searchParams.get('faculty');
+    const facultyId = searchParams.get('facultyId');
     await connectMongoDB();
-    if (faculty) {
-        const data = await Department.find({faculty});
+    if (facultyId) {
+        const data = await Department.find({facultyId});
         return NextResponse.json(data);
     } else {
         const data = await Department.find({});
