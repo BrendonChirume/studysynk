@@ -73,22 +73,22 @@ export default function PaperPreview() {
 
                 <Typography level="body-sm">University</Typography>
                 <Typography level="body-sm" textColor="text.primary">
-                    {university}
+                    {university.name}
                 </Typography>
 
                 <Typography level="body-sm">Faculty</Typography>
                 <Typography level="body-sm" textColor="text.primary">
-                    {faculty}
+                    {faculty.name}
                 </Typography>
 
                 <Typography level="body-sm">Department</Typography>
                 <Typography level="body-sm" textColor="text.primary">
-                    {department}
+                    {department.name}
                 </Typography>
 
                 <Typography level="body-sm">Course</Typography>
                 <Typography level="body-sm" textColor="text.primary">
-                    {course}
+                    {course.name}
                 </Typography>
 
                 <Typography level="body-sm">Created</Typography>
