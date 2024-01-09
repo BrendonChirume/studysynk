@@ -8,11 +8,11 @@ import AutocompleteOption from "@mui/joy/AutocompleteOption";
 
 interface SelectCourseProps {
     setSelected?: (token: ICourse) => void;
-    program?: string;
+    programId?: string;
 }
 
 export default function SelectCourse(props: SelectCourseProps) {
-    const {setSelected, program} = props;
+    const {setSelected, programId} = props;
     const [options, setOptions] = React.useState<ICourse[] | []>([]);
     const [open, setOpen] = React.useState(false);
     const loading = open && options.length === 0;
@@ -26,20 +26,14 @@ export default function SelectCourse(props: SelectCourseProps) {
         }
 
         (async () => {
-            let courses;
-            if (program) {
-                courses = await fetch(`/api/courses?program=${program}`, {
-                    method: "GET",
-                }).then(res => res.json());
-                return setOptions(courses);
-            }
-            const course = await fetch("/api/courses", {
+            const courses = await fetch("/api/courses", {
                 method: "GET",
             }).then(res => res.json());
-            setOptions(course);
+            console.log(courses)
+            setOptions(courses);
         })();
 
-    }, [loading, program]);
+    }, [loading, programId]);
 
     React.useEffect(() => {
         if (!open) {
@@ -57,7 +51,7 @@ export default function SelectCourse(props: SelectCourseProps) {
                 value={value}
                 onChange={(_event, newValue) => {
                     setValue(newValue)
-                    if (newValue?.name && setSelected) {
+                    if (newValue?.names && setSelected) {
                         setSelected(newValue)
                     }
                 }}
@@ -73,7 +67,7 @@ export default function SelectCourse(props: SelectCourseProps) {
                     setOpen(false);
                 }}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
-                getOptionLabel={(option) => option.name}
+                getOptionLabel={(option) => option.names[0]}
                 options={options}
                 loading={loading}
                 slotProps={{
@@ -95,7 +89,7 @@ export default function SelectCourse(props: SelectCourseProps) {
                         <AutocompleteOption
                             sx={{px: 2, py: 0.5, cursor: "pointer", textTransform: "capitalize"}}
                             key={id} {...rest}>
-                            {option.name}
+                            {option.names[0]}
                         </AutocompleteOption>
                     )
                 }}

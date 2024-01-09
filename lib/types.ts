@@ -50,8 +50,8 @@ export interface IProgram {
 
 export interface ICourse {
     _id: string;
-    name: string[];
-    code: string[];
+    names: string[];
+    codes: string[];
     lecturers: string[];
     level: string;
     university: {
@@ -66,10 +66,10 @@ export interface ICourse {
         name: IDepartment['name'];
         id: IDepartment['_id'];
     };
-    program: {
+    programs: [{
         name: IProgram['name'];
-        id: IProgram['_id'];
-    };
+        programId: IProgram['_id'];
+    }];
     papers: IPaper['_id'][]
 }
 
@@ -93,7 +93,7 @@ export interface IPaper {
         id: IProgram['_id'];
     };
     course:  {
-        name: ICourse['name'];
+        name: ICourse['names'];
         id: ICourse['_id'];
     };
     year: string;

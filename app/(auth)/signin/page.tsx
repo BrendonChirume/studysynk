@@ -70,10 +70,12 @@ export default function SignIn() {
                     backdropFilter: 'blur(4px)',
                     backgroundColor: 'rgba(255 255 255 / 0.6)',
                     [theme.getColorSchemeSelector('dark')]: {
-                        backgroundColor: 'rgb(14 14 16)',
+                        backgroundColor: {
+                            xs: 'rgb(14 14 16 / 0.7)',
+                            md: 'rgb(14 14 16)'
+                        },
                     },
-                })}
-            >
+                })}>
                 <Box
                     sx={{
                         display: 'flex',

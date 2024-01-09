@@ -106,19 +106,20 @@ export default function AddNewPage() {
                                         </Grid>
                                         <Grid xs={12}>
                                             <SelectFaculty
-                                                university={university?.name}
+                                                universityId={university?._id}
                                                 setSelected={(token) => setFaculty(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
                                             <SelectDepartment
-                                                faculty={faculty?.name} setSelected={(token) => setDepartment(token)}/>
+                                                facultyId={faculty?._id} setSelected={(token) => setDepartment(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectProgram department={department?.name}
-                                                           setSelected={(token) => setProgram(token)}/>
+                                            <SelectProgram
+                                                departmentId={department?._id}
+                                                setSelected={(token) => setProgram(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectCourse program={program?.name}/>
+                                            <SelectCourse programId={program?._id}/>
                                         </Grid>
                                         <Grid xs={6}>
                                             <FormControl id="year" sx={{flexGrow: 1}}>

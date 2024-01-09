@@ -9,36 +9,151 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
-import {IProgram} from "@/lib/types";
+import {ICourse, IProgram} from "@/lib/types";
 import SelectProgram from "@/components/addnewpaper/select-program";
 import {handleApiResponse} from "@/lib/utils/helper";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Grid from "@mui/joy/Grid";
+import IconButton from "@mui/joy/IconButton";
+import Stack from "@mui/joy/Stack";
+import PlusCircleIcon from "@heroicons/react/24/solid/PlusCircleIcon"
+import MinusCircleIcon from "@heroicons/react/24/solid/MinusCircleIcon"
+
+interface RepeatInput {
+    item: 'names' | 'codes' | 'lecturers';
+}
+
+interface AugmentedObject {
+    [key: string]: string | number | boolean | string[] | number[] | boolean[];
+}
+
+const AddRepeatInput = ({item}: RepeatInput) => {
+    const [selected, setSelected] = React.useState<readonly number[]>([0]);
+
+    const handleClick = (id: number) => {
+        const selectedIndex = selected.indexOf(id);
+        let newSelected: readonly number[] = [];
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, id);
+        } else if (selectedIndex > selected.length - 1) {
+            newSelected = newSelected.concat(selected, id + 1);
+        } else if (selectedIndex === 0 && selected.length !== 1) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+        setSelected(newSelected);
+    };
+
+
+    return (
+        <Grid xs={12}>
+            <Typography component="label" htmlFor={`course-${item}`} id={`label-${item}`}>
+                Course {item}
+            </Typography>
+            <Stack direction={"row"} alignItems={"flex-end"} gap={2} sx={{mt: 0.5}}>
+                <Grid container spacing={3} sx={{flex: 1}}>
+                    {
+                        selected.map((index) => (
+                            <Grid xs={12} md={selected.length === 1 ? 12 : 6} key={index}>
+                                <Input name={`${item}-${index}`}
+                                       id={`course-${item}-${index}`}
+                                       {
+                                           ...(selected.length !== 1 && {
+                                               endDecorator: (
+                                                   <IconButton
+                                                       onClick={() => handleClick(index)}>
+                                                       <MinusCircleIcon className={"ss-icon w-6 h-6"}/>
+                                                   </IconButton>
+                                               )
+                                           })
+                                       }
+                                       slotProps={{
+                                           input: {
+                                               sx: {
+                                                   textTransform: 'capitalize'
+                                               }
+                                           }
+                                       }}/>
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+
+                <IconButton onClick={() => handleClick(selected.length + selected[selected.length - 1])}>
+                    <PlusCircleIcon className={"ss-icon w-6 h-6"}/>
+                </IconButton>
+            </Stack>
+        </Grid>
+    )
+}
 
 export default function AddCourse() {
     const [loading, setLoading] = React.useState(false);
-    const [level, setLevel] = React.useState<string | null>(null);
+    const [level, setLevel] = React.useState<string | null>('1.1');
     const [program, setProgram] = React.useState<IProgram | null>(null);
 
     const handleChange = (
         _event: React.SyntheticEvent | null,
         newValue: string | null,
-    ) => setLevel(newValue)
+    ) => setLevel(newValue);
+
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
         const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+        const course = Object.fromEntries(formData);
+
+
+        function augmentKeys(obj: AugmentedObject): AugmentedObject {
+            const result: AugmentedObject = {};
+
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    const splitKey = key.split('-');
+                    if (splitKey.length > 1) {
+                        const newKey = splitKey[0];
+                        const value = obj[key];
+
+                        if (!result[newKey]) {
+                            result[newKey] = [];
+                        }
+
+                        if (value !== "") {
+                            (result[newKey] as Array<string | number | boolean>).push(value as string);
+                        }
+                    } else {
+                        result[key] = obj[key];
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        const data = {
+            level,
+            ...augmentKeys(course as AugmentedObject),
+            university: program?.university,
+            faculty: program?.faculty,
+            department: program?.department,
+            programs: [{
+                name: program?.name,
+                programId: program?._id
+            }]
+        } as unknown as ICourse;
 
         await fetch("/api/courses", {
             method: "POST",
-            body: JSON.stringify({
-                ...data,
-                level,
-                progId: program?._id,
-            }),
+            body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
             }
@@ -46,6 +161,7 @@ export default function AddCourse() {
             setLoading(false);
         });
     };
+
     return (
         <form onSubmit={handleSubmit}>
             <Card>
@@ -60,34 +176,22 @@ export default function AddCourse() {
                     <Grid xs={12}>
                         <SelectProgram setSelected={(token) => setProgram(token)}/>
                     </Grid>
-                    <Grid xs={4}>
-                        <FormControl required id="course-code">
-                            <FormLabel htmlFor="course-code" id="label-code">Course code</FormLabel>
-                            <Input name="code" slotProps={{
-                                input: {
-                                    sx: {
-                                        textTransform: 'uppercase'
-                                    }
-                                }
-                            }}/>
-                        </FormControl>
-                    </Grid>
-                    <Grid xs={8}>
-                        <FormControl required id="course-name">
-                            <FormLabel htmlFor="course-name" id="label-name">Course name</FormLabel>
-                            <Input name="name" slotProps={{
-                                input: {
-                                    sx: {
-                                        textTransform: 'capitalize'
-                                    }
-                                }
-                            }}/>
-                        </FormControl>
-                    </Grid>
-                    <Grid xs={6}>
+
+                    {
+                        ['names', 'codes', 'lecturers'].map((item) => {
+                            return (
+                                <AddRepeatInput
+                                    key={item}
+                                    item={item as "names" | "codes" | "lecturers"}
+                                />
+                            )
+                        })
+                    }
+
+                    <Grid xs={12}>
                         <FormControl id="course-level">
                             <FormLabel htmlFor="course-level" id="level">Course level</FormLabel>
-                            <Select onChange={handleChange} defaultValue={"1.1"}>
+                            <Select onChange={handleChange} value={level}>
                                 <Option value="1.1">1.1</Option>
                                 <Option value="1.2">1.2</Option>
                                 <Option value="2.1">2.1</Option>
@@ -105,18 +209,6 @@ export default function AddCourse() {
                                 <Option value="7.1">7.1</Option>
                                 <Option value="7.2">7.2</Option>
                             </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid xs={6}>
-                        <FormControl required id="course-lecturer">
-                            <FormLabel htmlFor="course-lecturer" id="label-lecturer">Lecturer</FormLabel>
-                            <Input name="lecturer" slotProps={{
-                                input: {
-                                    sx: {
-                                        textTransform: 'capitalize'
-                                    }
-                                }
-                            }}/>
                         </FormControl>
                     </Grid>
                 </Grid>

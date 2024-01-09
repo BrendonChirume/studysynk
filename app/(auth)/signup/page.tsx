@@ -22,6 +22,7 @@ import UserIcon from "@heroicons/react/24/solid/UserIcon"
 import FormHelperText from "@mui/joy/FormHelperText";
 import {ToastContainer} from "react-toastify";
 import notify from "@/lib/utils/notify";
+import {IStudent} from "@/lib/types";
 
 function isEmpty(obj: FormDataEntryValue) {
     return Object.keys(obj).length === 0;
@@ -51,10 +52,10 @@ export default function Signup() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setLoading(true)
+        // setLoading(true)
 
         const formData = new FormData(event.currentTarget);
-        let data = Object.fromEntries(formData);
+        let data = Object.fromEntries(formData) as unknown as IStudent & { confirmPassword?: string };
         if (data.password !== data.confirmPassword) {
             setLoading(false)
             return;
@@ -65,9 +66,20 @@ export default function Signup() {
             data.image = imageSrc;
         }
 
+        data = {
+            ...data,
+            streak: '',
+            image: 'https://i.pravatar.cc/40?img=2',
+            bio: '',
+            university: {name: '', id: ''},
+            faculty: {name: '', id: ''},
+            department: {name: '', id: ''},
+            program: {name: '', id: ''},
+        }
+
         await fetch('/api/students', {
             method: 'POST',
-            body: JSON.stringify({...data, university: '', program: ''}),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }

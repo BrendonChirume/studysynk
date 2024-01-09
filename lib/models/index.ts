@@ -1,13 +1,13 @@
 import mongoose, {Schema} from "mongoose";
 import {ICourse, IDepartment, IFaculty, IPaper, IProgram, IStudent, IUniversity} from "@/lib/types";
 
-const universitySchema = new Schema({
+const universitySchema = new Schema<IUniversity>({
     name: String,
     code: String,
     faculties: [{type: Schema.Types.ObjectId, ref: 'Faculty'}]
 });
 
-const facultySchema = new Schema({
+const facultySchema = new Schema<IFaculty>({
     name: String,
     university: {
         name: String,
@@ -21,7 +21,7 @@ const facultySchema = new Schema({
     departments: [{type: Schema.Types.ObjectId, ref: 'Department'}]
 });
 
-const departmentSchema = new Schema({
+const departmentSchema = new Schema<IDepartment>({
     name: String,
     university: {
         name: String,
@@ -29,7 +29,6 @@ const departmentSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'University',
             required: true,
-            unique: true,
         }
     },
     faculty: {
@@ -38,13 +37,12 @@ const departmentSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Faculty',
             required: true,
-            unique: true,
         }
     },
     programs: [{type: Schema.Types.ObjectId, ref: 'Program'}]
 })
 
-const programSchema = new Schema({
+const programSchema = new Schema<IProgram>({
     name: String,
     level: String,
     university: {
@@ -53,7 +51,6 @@ const programSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'University',
             required: true,
-            unique: true,
         }
     },
     faculty: {
@@ -62,7 +59,6 @@ const programSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Faculty',
             required: true,
-            unique: true,
         }
     },
     department: {
@@ -71,15 +67,14 @@ const programSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Department',
             required: true,
-            unique: true,
         }
     },
     courses: [{type: Schema.Types.ObjectId, ref: 'Course'}]
 })
 
-const courseSchema = new Schema({
-    name: [String],
-    code: [String],
+const courseSchema = new Schema<ICourse>({
+    names: [String],
+    codes: [String],
     lecturers: [String],
     level: String,
     university: {
@@ -88,7 +83,6 @@ const courseSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'University',
             required: true,
-            unique: true,
         }
     },
     faculty: {
@@ -97,7 +91,6 @@ const courseSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Faculty',
             required: true,
-            unique: true,
         }
     },
     department: {
@@ -106,22 +99,20 @@ const courseSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Department',
             required: true,
-            unique: true,
         }
     },
-    program: [{
+    programs: [{
         name: String,
-        id: {
+        programId: {
             type: Schema.Types.ObjectId,
             ref: 'Program',
             required: true,
-            unique: true,
         }
     }],
     papers: [{type: Schema.Types.ObjectId, ref: 'Paper'}],
 })
 
-const paperSchema = new Schema({
+const paperSchema = new Schema<IPaper>({
     title: String,
     university: {
         name: String,
@@ -129,7 +120,6 @@ const paperSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'University',
             required: true,
-            unique: true,
         }
     },
     faculty: {
@@ -138,7 +128,6 @@ const paperSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Faculty',
             required: true,
-            unique: true,
         }
     },
     department: {
@@ -147,7 +136,6 @@ const paperSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Department',
             required: true,
-            unique: true,
         }
     },
     program: {
@@ -156,7 +144,6 @@ const paperSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Program',
             required: true,
-            unique: true,
         }
     },
     course: {
@@ -165,7 +152,6 @@ const paperSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Course',
             required: true,
-            unique: true,
         }
     },
     year: String,
@@ -180,8 +166,7 @@ const paperSchema = new Schema({
     },
 }, {timestamps: true});
 
-
-const studentSchema = new Schema({
+const studentSchema = new Schema<IStudent>({
     name: {
         type: String,
         required: true
@@ -215,7 +200,6 @@ const studentSchema = new Schema({
         id: String,
     },
 }, {timestamps: true});
-
 
 export const University = mongoose.models.University || mongoose.model<IUniversity>('University', universitySchema);
 export const Faculty = mongoose.models.Faculty || mongoose.model<IFaculty>('Faculty', facultySchema);
