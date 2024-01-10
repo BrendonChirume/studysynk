@@ -117,7 +117,8 @@ export interface IStudent {
     email: string;
     bio: string;
     image: string;
-    streak: string;
+    streak: number;
+    lastLogin: Date;
     university: {
         name: IUniversity['name'];
         id: IUniversity['_id'];

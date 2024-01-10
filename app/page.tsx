@@ -10,9 +10,10 @@ import BoltIcon from "@heroicons/react/24/outline/BoltIcon";
 import {getServerSession} from "next-auth";
 import RecentTable from "@/components/home/RecentTable";
 import Square3Stack3DIcon from "@heroicons/react/24/outline/Square3Stack3DIcon";
+import authOptions from "@/lib/utils/authOptions";
 
 export default async function Home() {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     return (
         <Styled.Section sx={{pt: 4}}>
@@ -30,14 +31,15 @@ export default async function Home() {
                             backgroundPositionX: {md: 'right'},
                             backgroundSize: {md: 270},
                             py: 2.5,
-                            height: 270,
+                            height: 250,
                         }}>
                             <Typography
+                                sx={{color: '#198aca'}}
                                 startDecorator={<BoltIcon className={"w-8 h-8 ss-icon"}/>}
                                 level={"h2"}>
-                                15 days!
+                                {session?.user?.streak} day{session?.user?.streak !== 1 && 's'} streak!
                             </Typography>
-                            <Typography sx={{pl: 6, pt: 1.5,fontWeight: '500', fontSize: '18px'}}>
+                            <Typography sx={{pl: 6, pt: 1.5, fontWeight: '500', fontSize: '18px'}}>
                                 Welcome back 👋
                             </Typography>
                             <Typography

@@ -23,19 +23,20 @@ import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import SelectDepartment from "@/components/addnewpaper/select-department";
 import {useSession} from "next-auth/react";
-import {IDepartment, IFaculty, IProgram, IUniversity} from "@/lib/types";
+import {ICourse, IDepartment, IFaculty, IPaper, IProgram, IUniversity} from "@/lib/types";
 import {handleApiResponse} from "@/lib/utils/helper";
 
 
 export default function AddNewPage() {
     const {data: session} = useSession();
-    const [paperType, setPaperType] = React.useState<string | null>(null);
+    const [paperType, setPaperType] = React.useState<string | null>('Exam paper');
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [university, setUniversity] = React.useState<IUniversity | null>(null);
     const [faculty, setFaculty] = React.useState<IFaculty | null>(null);
     const [department, setDepartment] = React.useState<IDepartment | null>(null);
     const [program, setProgram] = React.useState<IProgram | null>(null);
-
+    const [course, setCourse] = React.useState<ICourse | null>(null);
+    console.log("AddNewPage session: ", session)
     const handleChange = (
         _event: React.SyntheticEvent | null,
         newValue: string | null,
@@ -47,23 +48,47 @@ export default function AddNewPage() {
         setIsLoading(true);
 
         const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData);
 
-        const withAuthor = {
-            ...data,
+        const data = {
+            ...Object.fromEntries(formData),
             paperType,
+            url: 'http://localhost:8080',
+            university: {
+                name: university?.name,
+                id: university?._id
+            },
+            faculty: {
+                name: faculty?.name,
+                id: faculty?._id
+            },
+            department: {
+                name: department?.name,
+                id: department?._id
+            },
+            program: {
+                name: program?.name,
+                id: program?._id
+            },
+            course: {
+                name: course?.names.join('/'),
+                id: course?._id
+            },
             author: {
                 id: session?.user?.email,
                 name: session?.user?.name
             }
-        }
+        } as unknown as IPaper;
 
-        await fetch('/api/papers', {
-            method: 'POST',
-            body: JSON.stringify(withAuthor),
-        }).then(handleApiResponse(event)).finally(() => {
-            setIsLoading(false);
-        });
+        console.log(data)
+
+        // await fetch('/api/papers', {
+        //     method: 'POST',
+        //     body: JSON.stringify(data),
+        // }).then(handleApiResponse(event))
+        //     .catch((error) => console.error(error))
+        //     .finally(() => {
+        //         setIsLoading(false);
+        //     });
     };
 
     return (
@@ -119,7 +144,8 @@ export default function AddNewPage() {
                                                 setSelected={(token) => setProgram(token)}/>
                                         </Grid>
                                         <Grid xs={12}>
-                                            <SelectCourse programId={program?._id}/>
+                                            <SelectCourse programId={course?._id}
+                                                          setSelected={(token) => setCourse(token)}/>
                                         </Grid>
                                         <Grid xs={6}>
                                             <FormControl id="year" sx={{flexGrow: 1}}>
@@ -138,11 +164,11 @@ export default function AddNewPage() {
                                         <Grid xs={6}>
                                             <FormControl id={"paper-type"} sx={{display: {sm: 'contents'}}}>
                                                 <FormLabel htmlFor="paper-type" id="paper-year">Paper type</FormLabel>
-                                                <Select defaultValue="1" onChange={handleChange}>
-                                                    <Option value="1">
+                                                <Select value={paperType} onChange={handleChange}>
+                                                    <Option value="Exam paper">
                                                         Exam paper
                                                     </Option>
-                                                    <Option value="2">
+                                                    <Option value="Question paper">
                                                         Question paper
                                                     </Option>
                                                 </Select>
@@ -166,12 +192,6 @@ export default function AddNewPage() {
                                                            id="paper-external-examiner">External examiner</FormLabel>
                                                 <Input name={"externalExaminer"}/>
                                             </FormControl>
-                                        </Grid>
-                                        <Grid xs={12}>
-
-                                        </Grid>
-                                        <Grid xs={12}>
-
                                         </Grid>
                                     </Grid>
                                 </Styled.Item>
@@ -206,7 +226,7 @@ export default function AddNewPage() {
                                         <Textarea
                                             name="description"
                                             slotProps={{textarea: {id: "description"}}}
-                                            placeholder="Try to put text longer than 4 lines."
+                                            placeholder={`e.g. The instructions!\n\t1. Answer any five (5) questions.\n\t2. Each question carries 20 marks.\n\t3. Use of calculators is permissible.`}
                                             minRows={3}
                                             maxRows={7}
                                         />

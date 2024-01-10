@@ -13,14 +13,17 @@ export async function POST(request: Request) {
     if (isExist) {
         return NextResponse.json({message: "Course already exists!"});
     }
-    const course = await Course.create(res);
 
-    (res.programs as ICourse['programs']).map(async (p) => {
-        const program = await Program.findById(p.programId);
+    await Course.create(res).then((course) => {
+        (res.programs as ICourse['programs']).map(async (p) => {
+            const program = await Program.findById(p.programId);
 
-        program.programs.push(course.id);
-        await program.save();
+            program.programs.push(course.id);
+            await program.save();
+        })
+
     })
+
 
     return NextResponse.json({message: "Course created successfully!"});
 }

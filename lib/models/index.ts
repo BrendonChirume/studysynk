@@ -2,13 +2,21 @@ import mongoose, {Schema} from "mongoose";
 import {ICourse, IDepartment, IFaculty, IPaper, IProgram, IStudent, IUniversity} from "@/lib/types";
 
 const universitySchema = new Schema<IUniversity>({
-    name: String,
-    code: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    code: {type: String, unique: true},
     faculties: [{type: Schema.Types.ObjectId, ref: 'Faculty'}]
 });
 
 const facultySchema = new Schema<IFaculty>({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
     university: {
         name: String,
         id: {
@@ -22,7 +30,11 @@ const facultySchema = new Schema<IFaculty>({
 });
 
 const departmentSchema = new Schema<IDepartment>({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
     university: {
         name: String,
         id: {
@@ -43,7 +55,11 @@ const departmentSchema = new Schema<IDepartment>({
 })
 
 const programSchema = new Schema<IProgram>({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
     level: String,
     university: {
         name: String,
@@ -73,10 +89,10 @@ const programSchema = new Schema<IProgram>({
 })
 
 const courseSchema = new Schema<ICourse>({
-    names: [String],
-    codes: [String],
-    lecturers: [String],
-    level: String,
+    names: [{type: String, unique: true, required: true}],
+    codes: [{type: String, unique: true, required: true}],
+    lecturers: [{type: String, unique: true}],
+    level: {type: String, required: true},
     university: {
         name: String,
         id: {
@@ -113,7 +129,10 @@ const courseSchema = new Schema<ICourse>({
 })
 
 const paperSchema = new Schema<IPaper>({
-    title: String,
+    title: {
+        type: String,
+        required: true,
+    },
     university: {
         name: String,
         id: {
@@ -158,10 +177,14 @@ const paperSchema = new Schema<IPaper>({
     paperType: String,
     internalExaminer: String,
     externalExaminer: String,
-    url: String,
+    url: {
+        type: String,
+        required: true,
+        unique: true
+    },
     description: String,
     author: {
-        id: String,
+        id: {type: Schema.Types.ObjectId, ref: 'Student'},
         name: String,
     },
 }, {timestamps: true});
@@ -182,7 +205,8 @@ const studentSchema = new Schema<IStudent>({
     },
     bio: String,
     image: String,
-    streak: String,
+    streak: {type: Number, default: 0},
+    lastLogin: {type: Date, default: new Date()},
     university: {
         name: String,
         id: String,
@@ -200,6 +224,38 @@ const studentSchema = new Schema<IStudent>({
         id: String,
     },
 }, {timestamps: true});
+
+studentSchema.methods.checkStreak = async function (this) {
+    try {
+        const now = new Date();
+        const lastLoginDate = new Date(this.lastLogin);
+
+        // Check if it's the same day:
+        const sameDay = now.getDate() === lastLoginDate.getDate();
+
+        if (sameDay) {
+            // Don't increment streak if already logged in today:
+            console.log('User already logged in today, streak remains unchanged.');
+        } else {
+            // Check for streak reset:
+            const daysSinceLastLogin = (now.valueOf() - lastLoginDate.valueOf()) / (1000 * 3600 * 24);
+            if (daysSinceLastLogin >= 2) {
+                this.streak = 1;
+            } else {
+                // Continue streak if it's the next day:
+                this.streak += 1;
+            }
+        }
+
+        this.lastLoginDate = now;
+        return this.save();
+    } catch (error) {
+        console.error('Error in checkStreak:', error);
+        throw error; // Re-throw the error to be handled by the calling function
+    }
+
+};
+
 
 export const University = mongoose.models.University || mongoose.model<IUniversity>('University', universitySchema);
 export const Faculty = mongoose.models.Faculty || mongoose.model<IFaculty>('Faculty', facultySchema);

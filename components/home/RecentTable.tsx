@@ -1,45 +1,43 @@
 import * as React from 'react';
 import Table from '@mui/joy/Table';
+import {IPaper} from "@/lib/types";
+import Chip from "@mui/joy/Chip";
+import connectMongoDB from "@/lib/connectMongoDB";
+import {Paper} from "@/lib/models";
 
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-) {
-    return {name, calories, fat, carbs, protein};
+const getCourses = async (): Promise<IPaper[]> => {
+    await connectMongoDB();
+    const papers = Paper.find({})
+
+    if (papers) {
+        return papers
+    }
+    return [];
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+export default async function RecentTable() {
+    const papers = await getCourses();
 
-export default function RecentTable() {
     return (
         <Table variant="outlined"
                sx={{'& tr > *:not(:first-child)': {textAlign: 'right'}, borderRadius: 8, overflow: "hidden", mt: 2}}>
             <thead>
             <tr>
-                <th style={{width: '40%'}}>Column width (40%)</th>
-                <th>Calories</th>
-                <th>Fat&nbsp;(g)</th>
-                <th>Carbs&nbsp;(g)</th>
-                <th>Protein&nbsp;(g)</th>
+                <th>Title</th>
+                <th>Program</th>
+                <th>Paper type</th>
+                <th>Year</th>
+                <th>Shared by</th>
             </tr>
             </thead>
             <tbody>
-            {rows.map((row) => (
-                <tr key={row.name}>
-                    <td>{row.name}</td>
-                    <td>{row.calories}</td>
-                    <td>{row.fat}</td>
-                    <td>{row.carbs}</td>
-                    <td>{row.protein}</td>
+            {papers.map((paper) => (
+                <tr key={paper._id}>
+                    <td>{paper.title}</td>
+                    <td>{paper.program.name}</td>
+                    <td>{paper.paperType}</td>
+                    <td>{paper.year}</td>
+                    <td><Chip>{paper.author.name}</Chip></td>
                 </tr>
             ))}
             </tbody>

@@ -12,7 +12,7 @@ import GlobalError from "@/components/global-error";
 const inter = Inter({subsets: ['latin']})
 export const metadata: Metadata = {
     title: 'StudySynk',
-    description: 'An ultimate study resource for university students',
+    description: 'An ultimate study resource for university signup',
 }
 
 interface RootLayoutProps {

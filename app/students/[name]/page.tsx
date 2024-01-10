@@ -16,7 +16,7 @@ import {useSession} from "next-auth/react";
 import React from "react";
 import notify from "@/lib/utils/notify";
 import SelectUniversity from "@/components/addnewpaper/select-university";
-import {IProgram, IUniversity} from "@/lib/types";
+import {IProgram, IStudent, IUniversity} from "@/lib/types";
 import SelectProgram from "@/components/addnewpaper/select-program";
 import Stack from "@mui/joy/Stack";
 
@@ -42,11 +42,29 @@ export default function MyProfile() {
         setLoading(true);
 
         const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData);
+        const data = {
+            ...Object.fromEntries(formData),
+            university: {
+                id: university?._id,
+                name: university?.name
+            },
+            faculty: {
+                id: program?.faculty.id,
+                name: program?.faculty.name
+            },
+            department: {
+                id: program?.department.id,
+                name: program?.department.name,
+            },
+            program: {
+                id: program?._id,
+                name: program?.name,
+            },
+        } as unknown as IStudent;
 
-        await fetch('/api/profile', {
+        await fetch('/api/students', {
             method: "POST",
-            body: JSON.stringify({...data, university: university?.name, program: program?.name}),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -103,7 +121,7 @@ export default function MyProfile() {
                     startDecorator={<EnvelopeIcon className="w-6 h-6 ss-icon"/>}
                     placeholder="email"
                     name="email"
-                    defaultValue={session?.user?.email || ""}
+                    defaultValue={session?.user?.email ?? ""}
                 />
             </FormControl>
 
@@ -123,7 +141,7 @@ export default function MyProfile() {
             >
                 <Avatar
                     size="lg"
-                    src="/avatar.jpg"
+                    src={session?.user?.image ?? ''}
                     sx={{'--Avatar-size': '64px'}}
                 />
                 <DropZone accept={"image/*"} inputId={"image"}/>
@@ -142,11 +160,11 @@ export default function MyProfile() {
                     sx={{mt: 1.5}}
                     slotProps={{
                         textarea: {
-                            maxLength: 275
+                            maxLength: 275,
+                            name: 'bio'
                         }
                     }}
                     value={bio}
-                    name={"bio"}
                     onChange={handleBioChange}
                 />
                 <FormHelperText sx={{mt: 0.75, fontSize: 'xs'}}>
@@ -173,9 +191,6 @@ export default function MyProfile() {
                     gap: 1,
                 }}
             >
-                <Button variant="outlined" color="neutral">
-                    Cancel
-                </Button>
                 <Button
                     variant="soft" type="submit"
                     loading={loading}

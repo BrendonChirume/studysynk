@@ -62,37 +62,37 @@ export default function PaperPreview() {
                 }}
             >
                 <Typography level="body-sm">Title</Typography>
-                <Typography level="body-sm" textColor="text.primary">
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {title}
                 </Typography>
 
                 <Typography level="body-sm">Year</Typography>
-                <Typography level="body-sm" textColor="text.primary">
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {year}
                 </Typography>
 
                 <Typography level="body-sm">University</Typography>
-                <Typography level="body-sm" textColor="text.primary">
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {university.name}
                 </Typography>
 
                 <Typography level="body-sm">Faculty</Typography>
-                <Typography level="body-sm" textColor="text.primary">
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {faculty.name}
                 </Typography>
 
                 <Typography level="body-sm">Department</Typography>
-                <Typography level="body-sm" textColor="text.primary">
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {department.name}
                 </Typography>
 
                 <Typography level="body-sm">Course</Typography>
-                <Typography level="body-sm" textColor="text.primary">
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {course.name}
                 </Typography>
 
                 <Typography level="body-sm">Created</Typography>
-                <Typography level="body-sm" textColor="text.primary">
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {new Date(createdAt).toString().slice(4, 15)}
                 </Typography>
 

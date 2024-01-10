@@ -67,7 +67,7 @@ export default function SelectCourse(props: SelectCourseProps) {
                     setOpen(false);
                 }}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
-                getOptionLabel={(option) => option.names[0]}
+                getOptionLabel={(option) => option.names.join(' / ')}
                 options={options}
                 loading={loading}
                 slotProps={{
@@ -89,7 +89,7 @@ export default function SelectCourse(props: SelectCourseProps) {
                         <AutocompleteOption
                             sx={{px: 2, py: 0.5, cursor: "pointer", textTransform: "capitalize"}}
                             key={id} {...rest}>
-                            {option.names[0]}
+                            {`${option.names.join(' / ') ?? ''}`}
                         </AutocompleteOption>
                     )
                 }}

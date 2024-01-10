@@ -68,7 +68,7 @@ export default function Signup() {
 
         data = {
             ...data,
-            streak: '',
+            streak: 1,
             image: 'https://i.pravatar.cc/40?img=2',
             bio: '',
             university: {name: '', id: ''},
@@ -77,7 +77,7 @@ export default function Signup() {
             program: {name: '', id: ''},
         }
 
-        await fetch('/api/students', {
+        await fetch('/api/signup', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -94,6 +94,8 @@ export default function Signup() {
             } else {
                 return notify(response.statusText, "error");
             }
+        }).catch((error) => {
+            console.error('Error signing up:', error);
         }).finally(() => setLoading(false))
 
     }
@@ -142,7 +144,7 @@ export default function Signup() {
                                 >
                                     {
                                         imageSrc.length > 0 ?
-                                            <Image alt={"profile image"} width={108} height={108}
+                                            <Image alt={"students image"} width={108} height={108}
                                                    src={imageSrc as string}/> :
                                             <UserIcon className={"ss-icon"} style={{padding: 12}}/>
                                     }

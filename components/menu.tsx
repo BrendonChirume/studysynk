@@ -48,7 +48,7 @@ export default function PositionedMenu() {
                                   textDecoration: "none"
                               }
                           }}
-                          href={`/profile/${session?.user?.name}`}>
+                          href={`/students/${session?.user?.name}`}>
                     <Box
                         sx={{
                             display: 'flex',

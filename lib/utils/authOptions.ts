@@ -3,6 +3,7 @@ import {NextAuthOptions} from "next-auth";
 import bcrypt from "bcrypt";
 import {Student} from "@/lib/models";
 import connectMongoDB from "@/lib/connectMongoDB";
+import {IStudent} from "@/lib/types";
 
 
 const authOptions: NextAuthOptions = {
@@ -23,7 +24,7 @@ const authOptions: NextAuthOptions = {
                 }
                 const {email, password} = credentials;
                 await connectMongoDB();
-                const student = await Student.findOne({email})
+                const student = await Student.findOne({email});
                 if (!student) {
                     return null;
                 }
@@ -36,7 +37,7 @@ const authOptions: NextAuthOptions = {
                 }
 
                 return student;
-            }
+            },
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
@@ -44,6 +45,31 @@ const authOptions: NextAuthOptions = {
         strategy: "jwt",
         maxAge: 60 * 60, // 1 hour
     },
+    callbacks: {
+        async session({session}) {
+            await connectMongoDB();
+            const student = await Student.findOne({email: session.user?.email}) as IStudent & {
+                checkStreak: () => Promise<void>
+            };
+
+            if (student) {
+                try {
+                    await student.checkStreak();
+                } catch (error) {
+                    console.error('Error checking login streak:', error);
+                }
+                session.user = {
+                    ...session.user,
+                    streak: student.streak,
+                    university: student.university,
+                    program: student.program,
+                    department: student.department,
+                };
+            }
+
+            return session
+        }
+    }
 }
 
 export default authOptions

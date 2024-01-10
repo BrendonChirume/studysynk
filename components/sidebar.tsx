@@ -11,6 +11,7 @@ import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon';
 import DocumentArrowUpIcon from '@heroicons/react/24/outline/DocumentArrowUpIcon';
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 import Link from "next/link";
+import Box from "@mui/joy/Box";
 
 interface Options {
     name: string;
@@ -49,6 +50,7 @@ export default function Sidebar({currentRoute}: SidebarProps) {
     return (
         <List size="sm" sx={{
             '--ListItem-radius': '8px', '--List-gap': '4px',
+            height: 'fit-content'
         }}>
             <ListItem nested>
                 <ListSubheader id="expand-browse" sx={{letterSpacing: '2px', fontWeight: '600'}}>
@@ -84,7 +86,79 @@ export default function Sidebar({currentRoute}: SidebarProps) {
                     }
                 </List>
             </ListItem>
-
+            <ListItem nested sx={{mt: 2}}>
+                <ListSubheader id="expand-tags">
+                    Tags
+                </ListSubheader>
+                <List
+                    aria-labelledby="nav-list-tags"
+                    size="sm"
+                    sx={{
+                        '--ListItemDecorator-size': '32px',
+                    }}
+                >
+                    <ListItem>
+                        <ListItemButton>
+                            <ListItemDecorator>
+                                <Box
+                                    sx={{
+                                        width: '10px',
+                                        height: '10px',
+                                        borderRadius: '99px',
+                                        bgcolor: 'primary.300',
+                                    }}
+                                />
+                            </ListItemDecorator>
+                            <ListItemContent>Courses</ListItemContent>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemButton>
+                            <ListItemDecorator>
+                                <Box
+                                    sx={{
+                                        width: '10px',
+                                        height: '10px',
+                                        borderRadius: '99px',
+                                        bgcolor: 'danger.400',
+                                    }}
+                                />
+                            </ListItemDecorator>
+                            <ListItemContent>Work</ListItemContent>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemButton>
+                            <ListItemDecorator>
+                                <Box
+                                    sx={{
+                                        width: '10px',
+                                        height: '10px',
+                                        borderRadius: '99px',
+                                        bgcolor: 'warning.500',
+                                    }}
+                                />
+                            </ListItemDecorator>
+                            <ListItemContent>Travels</ListItemContent>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemButton>
+                            <ListItemDecorator>
+                                <Box
+                                    sx={{
+                                        width: '10px',
+                                        height: '10px',
+                                        borderRadius: '99px',
+                                        bgcolor: 'success.400',
+                                    }}
+                                />
+                            </ListItemDecorator>
+                            <ListItemContent>Concert tickets</ListItemContent>
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            </ListItem>
         </List>
     );
 }

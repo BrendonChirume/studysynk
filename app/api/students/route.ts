@@ -1,18 +1,24 @@
-import {NextResponse} from "next/server";
-import bcrypt from "bcrypt";
 import connectMongoDB from "@/lib/connectMongoDB";
+import {NextResponse} from "next/server";
 import {Student} from "@/lib/models";
 
 export async function POST(request: Request) {
-    let {password, email, ...rest} = await request.json();
+    const res = await request.json();
     await connectMongoDB();
-    const student = await Student.findOne({email}).select("_id");
+    let student = await Student.findOne({email: res.email});
 
-    if (student) {
-        return NextResponse.json({message: "Account already exists!"});
-    }
+    student.bio = res.bio;
+    student.university = res.university;
+    student.faculty = res.faculty;
+    student.department = res.department;
+    student.program = res.program;
+    student.save();
 
-    password = await bcrypt.hash(password, 10);
-    await Student.create({password, email, ...rest});
+    return NextResponse.json({message: "Profile updated successfully!"});
+}
+
+export async function GET(request: Request) {
+    const res = await request.json();
+    console.log(res);
     return NextResponse.json({message: "Sign up successful!"});
 }
