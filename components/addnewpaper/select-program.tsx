@@ -49,7 +49,7 @@ export default function SelectProgram(props: SelectProgramProps) {
 
     return (
         <FormControl sx={{flexGrow: 1}}>
-            <FormLabel htmlFor={"program"} id="paper-program">Programs</FormLabel>
+            <FormLabel htmlFor={"program"} id="paper-program">Program</FormLabel>
             <Autocomplete
                 id="program"
                 name="program"
