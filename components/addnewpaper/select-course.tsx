@@ -29,7 +29,6 @@ export default function SelectCourse(props: SelectCourseProps) {
             const courses = await fetch("/api/courses", {
                 method: "GET",
             }).then(res => res.json());
-            console.log(courses)
             setOptions(courses);
         })();
 
