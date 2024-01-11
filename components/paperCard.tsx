@@ -6,13 +6,15 @@ import Box from "@mui/joy/Box";
 import Image from "next/image";
 import {IPaper} from "@/lib/types";
 import {usePaperPreview} from "@/context/paperPreviewContext";
+import {getMonth} from "@/lib/utils/helper";
 
 interface FileCardProps {
     paper: IPaper
 }
 
 export default function PaperCard({paper}: FileCardProps) {
-    const {showPaperPreview} = usePaperPreview()
+    const {showPaperPreview} = usePaperPreview();
+    const {createdAt} = paper;
     return (
         <Card
             variant="outlined"
@@ -22,8 +24,9 @@ export default function PaperCard({paper}: FileCardProps) {
                 boxShadow: 'none',
                 cursor: 'pointer',
                 overflow: 'hidden',
-                width: 230,
-                height: 280,
+                minWidth: 230,
+                maxWidth: 270,
+                minHeight: 280,
                 mx: 'auto',
             }}
         >
@@ -66,7 +69,7 @@ export default function PaperCard({paper}: FileCardProps) {
                         {paper.title}
                     </Typography><br/>
                     <Typography level="body-xs">
-                        Added {new Date(paper.createdAt).getDay()} May {new Date(paper.createdAt).getFullYear()}
+                        Added {new Date(createdAt).getDate()} {getMonth(new Date(createdAt).getMonth(), 'short')} {new Date(createdAt).getFullYear()}
                     </Typography>
                 </Box>
             </Box>
