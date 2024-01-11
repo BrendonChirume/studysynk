@@ -78,6 +78,7 @@ export interface IPaper {
     title: string;
     university: {
         name: IUniversity['name'];
+        code: IUniversity['code'];
         id: IUniversity['_id'];
     };
     faculty: {
@@ -95,6 +96,7 @@ export interface IPaper {
     course:  {
         name: ICourse['names'];
         id: ICourse['_id'];
+        code: ICourse['codes'];
     };
     year: string;
     paperType: string;

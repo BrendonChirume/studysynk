@@ -135,6 +135,7 @@ const paperSchema = new Schema<IPaper>({
     },
     university: {
         name: String,
+        code: String,
         id: {
             type: Schema.Types.ObjectId,
             ref: 'University',
@@ -167,6 +168,7 @@ const paperSchema = new Schema<IPaper>({
     },
     course: {
         name: String,
+        code: String,
         id: {
             type: Schema.Types.ObjectId,
             ref: 'Course',
@@ -247,7 +249,7 @@ studentSchema.methods.checkStreak = async function (this) {
             }
         }
 
-        this.lastLoginDate = now;
+        this.lastLogin = now;
         return this.save();
     } catch (error) {
         console.error('Error in checkStreak:', error);
