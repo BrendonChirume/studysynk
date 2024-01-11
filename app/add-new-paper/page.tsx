@@ -36,7 +36,7 @@ export default function AddNewPage() {
     const [department, setDepartment] = React.useState<IDepartment | null>(null);
     const [program, setProgram] = React.useState<IProgram | null>(null);
     const [course, setCourse] = React.useState<ICourse | null>(null);
-    console.log("AddNewPage session: ", session)
+
     const handleChange = (
         _event: React.SyntheticEvent | null,
         newValue: string | null,
@@ -55,6 +55,7 @@ export default function AddNewPage() {
             url: 'http://localhost:8080',
             university: {
                 name: university?.name,
+                code: university?.code,
                 id: university?._id
             },
             faculty: {
@@ -71,24 +72,25 @@ export default function AddNewPage() {
             },
             course: {
                 name: course?.names.join('/'),
-                id: course?._id
+                id: course?._id,
+                code: course?.codes.join('/')
             },
             author: {
-                id: session?.user?.email,
+                id: session?.user?._id,
                 name: session?.user?.name
             }
         } as unknown as IPaper;
 
         console.log(data)
 
-        // await fetch('/api/papers', {
-        //     method: 'POST',
-        //     body: JSON.stringify(data),
-        // }).then(handleApiResponse(event))
-        //     .catch((error) => console.error(error))
-        //     .finally(() => {
-        //         setIsLoading(false);
-        //     });
+        await fetch('/api/papers', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }).then(handleApiResponse(event))
+            .catch((error) => console.error(error))
+            .finally(() => {
+                setIsLoading(false);
+            });
     };
 
     return (
