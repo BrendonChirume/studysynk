@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         (res.programs as ICourse['programs']).map(async (p) => {
             const program = await Program.findById(p.programId);
 
-            program.programs.push(course.id);
+            program.courses.push(course.id);
             await program.save();
         })
 
