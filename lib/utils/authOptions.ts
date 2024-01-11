@@ -60,6 +60,7 @@ const authOptions: NextAuthOptions = {
                 }
                 session.user = {
                     ...session.user,
+                    _id: student._id,
                     streak: student.streak,
                     university: student.university,
                     program: student.program,
