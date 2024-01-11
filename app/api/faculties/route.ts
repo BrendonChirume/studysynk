@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url)
     const universityId = searchParams.get('universityId');
-    console.log(universityId);
+
     await connectMongoDB();
     if (universityId) {
         const data = await Faculty.find({'university.id': universityId});

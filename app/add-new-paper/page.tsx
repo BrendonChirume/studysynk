@@ -81,8 +81,6 @@ export default function AddNewPage() {
             }
         } as unknown as IPaper;
 
-        console.log(data)
-
         await fetch('/api/papers', {
             method: 'POST',
             body: JSON.stringify(data),

@@ -236,8 +236,6 @@ studentSchema.methods.checkStreak = async function (this) {
         const sameDay = now.getDate() === lastLoginDate.getDate();
 
         if (sameDay) {
-            // Don't increment streak if already logged in today:
-            console.log('User already logged in today, streak remains unchanged.');
         } else {
             // Check for streak reset:
             const daysSinceLastLogin = (now.valueOf() - lastLoginDate.valueOf()) / (1000 * 3600 * 24);
