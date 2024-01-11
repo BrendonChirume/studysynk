@@ -41,3 +41,51 @@ export async function lower<T extends Lower>(obj: T, exclude?: string[] | string
         }
     }
 }
+
+export const getMonth = (month: number, length: 'long' | 'short'): string => {
+    const monthNames = [
+        {
+            long: 'January',
+            short: 'Jan'
+        }, {
+            long: 'February',
+            short: 'Feb'
+        }, {
+            long: 'March',
+            short: 'Mar'
+        }, {
+            long: 'April',
+            short: 'Apr'
+        }, {
+            long: 'May',
+            short: 'May'
+        }, {
+            long: 'June',
+            short: 'Jun'
+        }, {
+            long: 'July',
+            short: 'Jul'
+        }, {
+            long: 'August',
+            short: 'Aug'
+        }, {
+            long: 'September',
+            short: 'Sep'
+        }, {
+            long: 'October',
+            short: 'Oct'
+        }, {
+            long: 'November',
+            short: 'Nov'
+        }, {
+            long: 'December',
+            short: 'Dec'
+        }
+    ];
+    return monthNames[month][length]
+}
+
+export const trimProgram = (program: string): string => {
+
+    return program.replace('bachelor of science honours degree', 'BSc (hons)')
+}
