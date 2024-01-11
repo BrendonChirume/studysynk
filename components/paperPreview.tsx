@@ -1,3 +1,4 @@
+import * as React from "react";
 import Sheet from "@mui/joy/Sheet";
 import Box from "@mui/joy/Box";
 import Typography from "@mui/joy/Typography";
@@ -7,17 +8,40 @@ import Divider from "@mui/joy/Divider";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import DocumentArrowDownIcon from "@heroicons/react/24/outline/DocumentArrowDownIcon";
-import * as React from "react";
 import {usePaperPreview} from "@/context/paperPreviewContext";
 import Chip from "@mui/joy/Chip";
+import ShareIcon from "@heroicons/react/24/outline/ShareIcon";
+import {getMonth, trimProgram} from "@/lib/utils/helper";
 
 export default function PaperPreview() {
-    let {paper, showPaperPreview} = usePaperPreview();
+    const {paper, showPaperPreview} = usePaperPreview();
+    const links = process.env.NEXT_PUBLIC_URL;
+    const [isCopied, setIsCopied] = React.useState(false);
+
+    const copyLink = () => {
+        try {
+            navigator.clipboard.writeText(links ?? '').then(() => {
+                setIsCopied(true)
+            })
+        } catch (error) {
+            console.error('Error copying to clipboard:', error);
+        }
+    }
+
+    React.useEffect(() => {
+        if (isCopied) {
+            const resetCopiedState = setTimeout(() => {
+                setIsCopied(false);
+            }, 1500);
+
+            return () => clearTimeout(resetCopiedState);
+        }
+    }, [isCopied]);
 
     if (!paper) {
         return <Box>No paper selected</Box>
     }
-    const {title, year, university, author, course, faculty, department, createdAt} = paper;
+    const {title, year, university, program, author, course, faculty, department, createdAt} = paper;
 
     const isOpen = !Boolean(paper?.title === paper?.createdAt);
 
@@ -52,6 +76,29 @@ export default function PaperPreview() {
                 <Chip>{author?.name}</Chip>
             </Box>
             <Divider/>
+            <Box sx={{px: 2, py: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <Typography level="body-sm">
+                    Share
+                </Typography>
+                <Box sx={{position: 'relative'}}>
+                    <Chip
+                        color={"primary"}
+                        variant={"solid"}
+                        size={"sm"} sx={{
+                        position: 'absolute',
+                        opacity: isCopied ? 1 : 0,
+                        left: '50%',
+                        transform: isCopied ? 'translate(-50%, -28px)' : 'translate(-50%, -10px)',
+                        transition: 'opacity 0.2s ease, transform 0.2s ease'
+                    }}>
+                        Copied!
+                    </Chip>
+                    <IconButton onClick={copyLink}>
+                        <ShareIcon className={"ss-icon w-5 h-5"}/>
+                    </IconButton>
+                </Box>
+            </Box>
+            <Divider/>
             <Box
                 sx={{
                     gap: 2,
@@ -72,8 +119,8 @@ export default function PaperPreview() {
                 </Typography>
 
                 <Typography level="body-sm">University</Typography>
-                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
-                    {university.name}
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'uppercase'}}>
+                    {university.code}
                 </Typography>
 
                 <Typography level="body-sm">Faculty</Typography>
@@ -86,6 +133,11 @@ export default function PaperPreview() {
                     {department.name}
                 </Typography>
 
+                <Typography level="body-sm">Program</Typography>
+                <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
+                    {trimProgram(program.name)}
+                </Typography>
+
                 <Typography level="body-sm">Course</Typography>
                 <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
                     {course.name}
@@ -93,7 +145,7 @@ export default function PaperPreview() {
 
                 <Typography level="body-sm">Created</Typography>
                 <Typography level="body-sm" textColor="text.primary" sx={{textTransform: 'capitalize'}}>
-                    {new Date(createdAt).toString().slice(4, 15)}
+                    {new Date(createdAt).getDate()} {getMonth(new Date(createdAt).getMonth(), 'short')} {new Date(createdAt).getFullYear()}
                 </Typography>
 
             </Box>
