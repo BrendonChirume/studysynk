@@ -10,8 +10,9 @@ import {usePaperPreview} from "@/context/paperPreviewContext";
 
 export default function Papers() {
     const [papers, setPapers] = React.useState<IPaper[] | []>([]);
-    const {paper} = usePaperPreview();
+    const {paper, showPaperPreview} = usePaperPreview();
     const isOpen = !Boolean(paper?.title === paper?.createdAt);
+    const containerRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useEffect(() => {
 
@@ -24,11 +25,27 @@ export default function Papers() {
 
     }, []);
 
+    const handlePaperViewClose = () => {
+        showPaperPreview(null)
+    }
+
+    React.useEffect(() => {
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener('click', handlePaperViewClose)
+        }
+        return () => {
+            if (container) {
+                container.removeEventListener('click', handlePaperViewClose)
+            }
+        }
+    });
+
     return (
         <Styled.Section>
             <Box>
                 <FilterOptions/>
-                <Grid container spacing={3} columns={12}>
+                <Grid ref={containerRef} container spacing={3} columns={12}>
                     {
                         papers?.map((paper: IPaper, index: number) => (
                             <Grid xs={12} sm={6} md={4} lg={isOpen ? 4 : 3} key={index}>
