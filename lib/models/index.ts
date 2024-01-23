@@ -22,8 +22,7 @@ const facultySchema = new Schema<IFaculty>({
         id: {
             type: Schema.Types.ObjectId,
             ref: 'University',
-            required: true,
-            unique: true,
+            required: true
         }
     },
     departments: [{type: Schema.Types.ObjectId, ref: 'Department'}]
@@ -40,7 +39,6 @@ const departmentSchema = new Schema<IDepartment>({
         id: {
             type: Schema.Types.ObjectId,
             ref: 'University',
-            required: true,
         }
     },
     faculty: {
@@ -82,7 +80,6 @@ const programSchema = new Schema<IProgram>({
         id: {
             type: Schema.Types.ObjectId,
             ref: 'Department',
-            required: true,
         }
     },
     courses: [{type: Schema.Types.ObjectId, ref: 'Course'}]
@@ -114,7 +111,6 @@ const courseSchema = new Schema<ICourse>({
         id: {
             type: Schema.Types.ObjectId,
             ref: 'Department',
-            required: true,
         }
     },
     programs: [{
@@ -122,7 +118,6 @@ const courseSchema = new Schema<ICourse>({
         programId: {
             type: Schema.Types.ObjectId,
             ref: 'Program',
-            required: true,
         }
     }],
     papers: [{type: Schema.Types.ObjectId, ref: 'Paper'}],
@@ -155,7 +150,6 @@ const paperSchema = new Schema<IPaper>({
         id: {
             type: Schema.Types.ObjectId,
             ref: 'Department',
-            required: true,
         }
     },
     program: {

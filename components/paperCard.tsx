@@ -3,10 +3,11 @@ import CardOverflow from "@mui/joy/CardOverflow";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
-import Image from "next/image";
 import {IPaper} from "@/lib/types";
 import {usePaperPreview} from "@/context/paperPreviewContext";
-import {getMonth} from "@/lib/utils/helper";
+import {getMonth, useThumbnail} from "@/lib/utils/helper";
+import * as React from "react";
+
 
 interface FileCardProps {
     paper: IPaper
@@ -14,7 +15,10 @@ interface FileCardProps {
 
 export default function PaperCard({paper}: FileCardProps) {
     const {showPaperPreview} = usePaperPreview();
+    const canvasContainer = React.useRef<HTMLDivElement | null>(null);
     const {createdAt} = paper;
+    useThumbnail(canvasContainer, '/sample.pdf');
+
     return (
         <Card
             variant="outlined"
@@ -25,7 +29,7 @@ export default function PaperCard({paper}: FileCardProps) {
                 cursor: 'pointer',
                 overflow: 'hidden',
                 minWidth: 230,
-                maxWidth: 270,
+                maxWidth: 310,
                 minHeight: 280,
                 mx: 'auto',
             }}
@@ -38,21 +42,15 @@ export default function PaperCard({paper}: FileCardProps) {
                 }}
             >
                 <AspectRatio
+                    ref={canvasContainer}
                     sx={{
                         borderRadius: 0,
                         overflow: 'hidden',
+                        position: 'relative',
+                        height: 230,
+                        width: 'auto',
+                    }} color="neutral">
 
-                    }}
-                    ratio="10/9" color="neutral">
-                    <Image
-                        src={'/thumbnail3.png'}
-                        width={280}
-                        height={280}
-                        style={{
-                            objectPosition: 'top',
-                        }}
-                        alt="PDF Thumbnail"
-                    />
                 </AspectRatio>
             </CardOverflow>
             <Box sx={{display: 'flex', alignItems: 'start', width: '100%', px: 2}}>
@@ -60,7 +58,7 @@ export default function PaperCard({paper}: FileCardProps) {
                     <Typography level="title-sm"
                                 sx={{
                                     textTransform: 'capitalize',
-                                    width: 196,
+                                    width: '100%',
                                     whiteSpace: "nowrap",
                                     textOverflow: "ellipsis",
                                     display: "inline-block",

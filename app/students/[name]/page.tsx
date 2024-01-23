@@ -88,6 +88,7 @@ export default function MyProfile() {
             onSubmit={handleSubmit}
             sx={{
                 pt: 4,
+                pb: {xs:10},
                 display: 'grid',
                 gridTemplateColumns: {
                     xs: '100%',

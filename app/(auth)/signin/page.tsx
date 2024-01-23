@@ -103,7 +103,7 @@ export default function SignIn() {
                                     size="sm"
                                     variant="soft"
                                     sx={{
-                                        display: {xs: 'none', sm: 'inline-flex'}, width: 35,
+                                        display: 'inline-flex', width: 35,
                                         height: 35
                                     }}
                                 >
@@ -117,7 +117,7 @@ export default function SignIn() {
                     <Box
                         component="main"
                         sx={{
-                            my: 'auto',
+                            my: {xs: 4, md: 'auto'},
                             py: 2,
                             pb: 5,
                             display: 'flex',
@@ -181,6 +181,7 @@ export default function SignIn() {
                             variant="outlined"
                             color="neutral"
                             fullWidth
+                            onClick={() => signIn('google')}
                             startDecorator={
                                 <SvgIcon fontSize="xl">
                                     <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">

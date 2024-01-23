@@ -5,7 +5,6 @@ import {usePaperPreview} from "@/context/paperPreviewContext";
 
 function Root(props: BoxProps) {
     const {paper} = usePaperPreview();
-    const isOpen = !Boolean(paper?.title === paper?.createdAt);
 
     return (
         <Box
@@ -15,7 +14,7 @@ function Root(props: BoxProps) {
                     display: 'grid',
                     gridTemplateColumns: {
                         xs: '1fr',
-                        sm: `minmax(200px, 300px) minmax(450px, 1fr) ${isOpen ? 'minmax(200px, 300px)' : 'minmax(0px, 0px)'}`,
+                        sm: `minmax(200px, 300px) minmax(450px, 1fr) ${paper ? 'minmax(200px, 300px)' : 'minmax(0px, 0px)'}`,
                     },
                     gridTemplateRows: '64px 1fr',
                     minHeight: '100vh',

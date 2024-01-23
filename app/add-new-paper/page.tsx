@@ -92,7 +92,7 @@ export default function AddNewPage() {
     };
 
     return (
-        <Styled.Section>
+        <Styled.Section sx={{pb: {xs: 10, sm: 0}}}>
             <Box sx={{pt: 4}}>
                 <Typography level="h5">Add New Paper</Typography>
                 <Typography level="body-sm" sx={{mt: 1}}>The credibility of this information is at your

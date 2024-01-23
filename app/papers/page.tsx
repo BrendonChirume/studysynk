@@ -11,7 +11,6 @@ import {usePaperPreview} from "@/context/paperPreviewContext";
 export default function Papers() {
     const [papers, setPapers] = React.useState<IPaper[] | []>([]);
     const {paper, showPaperPreview} = usePaperPreview();
-    const isOpen = !Boolean(paper?.title === paper?.createdAt);
     const containerRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useEffect(() => {
@@ -42,13 +41,13 @@ export default function Papers() {
     });
 
     return (
-        <Styled.Section>
+        <Styled.Section sx={{pb: {xs: 10}}}>
             <Box>
                 <FilterOptions/>
                 <Grid ref={containerRef} container spacing={3} columns={12}>
                     {
                         papers?.map((paper: IPaper, index: number) => (
-                            <Grid xs={12} sm={6} md={4} lg={isOpen ? 4 : 3} key={index}>
+                            <Grid xs={12} sm={6} md={4} key={index}>
                                 <PaperCard paper={paper}/>
                             </Grid>
                         ))

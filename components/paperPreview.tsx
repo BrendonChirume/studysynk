@@ -39,7 +39,7 @@ export default function PaperPreview() {
     }, [isCopied]);
 
     if (!paper) {
-        return <Box>No paper selected</Box>
+        return null
     }
     const {title, year, university, program, author, course, faculty, department, createdAt} = paper;
 

@@ -23,6 +23,7 @@ import FormHelperText from "@mui/joy/FormHelperText";
 import {ToastContainer} from "react-toastify";
 import notify from "@/lib/utils/notify";
 import {IStudent} from "@/lib/types";
+import {useSession} from "next-auth/react";
 
 function isEmpty(obj: FormDataEntryValue) {
     return Object.keys(obj).length === 0;
@@ -30,6 +31,7 @@ function isEmpty(obj: FormDataEntryValue) {
 
 export default function Signup() {
     const router = useRouter();
+    const session = useSession();
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [imageSrc, setImageSrc] = React.useState<string>('');
@@ -98,6 +100,11 @@ export default function Signup() {
             console.error('Error signing up:', error);
         }).finally(() => setLoading(false))
 
+    }
+
+
+    if (session.status === "authenticated") {
+        router?.push("/");
     }
 
     return (

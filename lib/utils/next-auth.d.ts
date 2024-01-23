@@ -5,4 +5,8 @@ declare module 'next-auth' {
     interface Session {
         user: DefaultSession['user'] & IStudent
     }
+
+    interface Profile {
+        email_verified: boolean;
+    }
 }
